@@ -20,11 +20,11 @@ classdef SawtoothOscillator < Module
             
         end
         
-        function doUpdate(this)
+        function doUpdate(this, N)
            
-            freq = this.frequencyInput.read();
-            sync = makeLengthEqualTo( this.syncInput.read(), freq );
-            phaseshift = makeLengthEqualTo( this.phaseshiftInput.read(), freq );
+            freq = this.frequencyInput.read(N);
+            sync = this.syncInput.read(N);
+            phaseshift = this.phaseshiftInput.read(N);
             
             oldSync = 0;
             phase = 0;
@@ -32,7 +32,7 @@ classdef SawtoothOscillator < Module
             y = zeros(size(freq));
 
             
-            for( n = 1:length(freq) )
+            for( n = 1:N )
                 
                 if( sync(n) > 0 && oldSync <= 0 )
                     phase = 0;

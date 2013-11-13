@@ -3,14 +3,11 @@ clear classes;
 clc;
 close all;
 fs = 44100;
-T = 5;
+T = 0.1;
 t = (0:T*fs-1)/fs;
 
-mainModule = DummyModule;
+mainModule = EmptyModule;
 mainModule.name = 'MainModule';
-
-sourceModule = DummyModule;
-sourceModule.name = 'SourceModule';
 
 osc = SawtoothOscillator(fs);
 osc.name = 'Oscillator';
@@ -18,23 +15,24 @@ osc.name = 'Oscillator';
 vcf = MoogFilter(4);
 vcf.name = 'Filter';
 
-mainModule.addSubModule( osc );
+freq = Constant( 100 );
+freq.name = 'Frequency input';
+cutoff = Constant( 0.1 );
+cutoff.name = 'Cutoff input';
+resonance = Constant( 0.5 );
+resonance.name = 'Resonance input';
+
 mainModule.addSubModule( vcf );
-mainModule.addSubModule( sourceModule );
+mainModule.addSubModule( freq );
+mainModule.addSubModule( cutoff );
+mainModule.addSubModule( resonance );
+mainModule.addSubModule( osc );
 
-freq = sourceModule.createOutputPort();
-cutoff = sourceModule.createOutputPort();
-resonance = sourceModule.createOutputPort();
-
-osc.frequencyInput.connect( freq );
+osc.frequencyInput.connect( freq.output );
 vcf.signalInput.connect( osc.waveformOutput );
-vcf.cutoffFrequencyInput.connect( cutoff );
-vcf.resonanceInput.connect( resonance );
+vcf.cutoffFrequencyInput.connect( cutoff.output );
+vcf.resonanceInput.connect( resonance.output );
 
-freq.write( 100*(sin(2*pi*1*t)+1) + 1 );
-cutoff.write( 0.1 );
-resonance.write( 0.5 );
+mainModule.update( length(t) );
 
-mainModule.update();
-
-plot( t, vcf.signalOutput.read() );
+plot( t, vcf.signalOutput.read( length(t) ) );

@@ -28,11 +28,11 @@ classdef MoogFilter < Module
             
         end;
         
-        function doUpdate(this)
+        function doUpdate(this, N)
             
-            x = this.signalInput.read();
-            FcN = makeLengthEqualTo( this.cutoffFrequencyInput.read(), x );
-            r = makeLengthEqualTo( this.resonanceInput.read(), x );
+            x = this.signalInput.read(N);
+            FcN = this.cutoffFrequencyInput.read(N);
+            r = this.resonanceInput.read(N);
             
             Vt = this.temperatureConstant;
             noStages = this.numberOfStages;
@@ -41,7 +41,7 @@ classdef MoogFilter < Module
 
             y = zeros(size(x));      % Filter output;
 
-            for( n = 1:length(x) )
+            for( n = 1:N )
 
                 g = 1 - exp(-2*pi*FcN(n)/2);
 

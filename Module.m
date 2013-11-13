@@ -23,7 +23,7 @@ classdef Module < handle & matlab.mixin.Heterogeneous
         
             this.inputPorts = InputPort.empty;
             this.outputPorts = OutputPort.empty;
-            this.subModules = DummyModule.empty;
+            this.subModules = EmptyModule.empty;
             this.isUpdated = false;
             this.name = 'Unknown';
         end
@@ -48,9 +48,7 @@ classdef Module < handle & matlab.mixin.Heterogeneous
             
             for( n = 1:length( this.inputPorts ) )
                 
-                connection = this.inputPorts(n).connection;
-                
-                connection.owner.update(N);
+                this.inputPorts(n).update(N);
                 
             end;
             

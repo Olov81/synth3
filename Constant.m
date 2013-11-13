@@ -5,7 +5,8 @@ classdef Constant < Module
     end
   
     properties
-        outputPort
+        
+        output
     end
     
     methods
@@ -13,13 +14,15 @@ classdef Constant < Module
         function this = Constant(value)
             
             this.value = value;
-            this.outputPort = createOutputPort();
+            this.output = this.createOutputPort();
             
         end;
         
-        function doUpdate(this)
+        function doUpdate(this, N)
         
-            this.outputPort.write( this.value );
+            this.output.write( this.value*ones(N,1) );
             
         end;
+        
+    end
 end

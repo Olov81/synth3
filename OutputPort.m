@@ -1,6 +1,6 @@
 classdef OutputPort < handle
 
-    properties (SetAccess = private)
+    properties (Access = private)
     
         data
         owner
@@ -12,6 +12,13 @@ classdef OutputPort < handle
             
             this.data = 0;
             this.owner = owner;
+            
+        end;
+        
+        function update(this, N)
+        
+            this.owner.update( N );
+            
         end;
         
         function write(this, data)
@@ -22,7 +29,13 @@ classdef OutputPort < handle
         
         function y = read(this, N)
             
-            y = this.data;
+            datalen = length(this.data);
+            
+            if( datalen < N )
+                y = [this.data; zeros(N-datalen,1)];
+            else
+                y = this.data(1:N);
+            end;
             
         end;
     end

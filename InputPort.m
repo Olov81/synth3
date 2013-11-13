@@ -10,7 +10,13 @@ classdef InputPort < handle
        
         function this = InputPort()
         
-            this.connection = NoOutput;
+            this.connection = NoConnection;
+            
+        end;
+        
+        function update(this, N)
+        
+            this.connection.update(N);
             
         end;
         
