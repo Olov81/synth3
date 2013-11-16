@@ -16,16 +16,20 @@ classdef EnvelopeGenerator < Module
     
     methods
         
-        function this = EnvelopeGenerator(fs)
+        function this = EnvelopeGenerator(name, fs)
+            
+            this = this@Module(name);
             
             this.fs = fs;
             this.rate = log(0.7);
             
-            this.attackInput = CreateInputPort;
-            this.decayInput = CreateInputPort;
-            this.sustainInput = CreateInputPort;
-            this.releaseInput = CreateInputPort;
+            this.gateInput = this.createInputPort();
+            this.attackInput = this.createInputPort();
+            this.decayInput = this.createInputPort();
+            this.sustainInput = this.createInputPort();
+            this.releaseInput = this.createInputPort();
            
+            this.output = this.createOutputPort();
         end
         
         function doUpdate(this, N)
@@ -55,7 +59,7 @@ classdef EnvelopeGenerator < Module
                     state = 1;
                     % We want to restart from the current value, not from zero,
                     % to avoid clicks
-                    t = A(n)*log(1-currentValue/(1-exp(k)))/k;
+                    t = A(n)*log(1-currentValue*(1-exp(k)))/k;
                 elseif( state == 1 && slope < -thresh) % negative slope, release phase
                     state = 0;
                     yR = y(n-1);    % Output value at start of release phase
