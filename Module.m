@@ -72,9 +72,13 @@ classdef Module < handle & matlab.mixin.Heterogeneous
             
         end;
             
-        function port = createInputPort(this)
+        function port = createInputPort(this, initialValue)
 
-            port = InputPort;
+            if( nargin > 1 )
+                port = InputPort( initialValue );
+            else
+                port = InputPort;
+            end;
             
             this.inputPorts(end+1)= port;
             

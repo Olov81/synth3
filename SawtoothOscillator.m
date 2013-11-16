@@ -5,7 +5,7 @@ classdef SawtoothOscillator < Module
         frequencyInput
         syncInput
         phaseshiftInput
-        waveformOutput
+        output
     end
     
     methods
@@ -17,7 +17,7 @@ classdef SawtoothOscillator < Module
             this.frequencyInput = this.createInputPort();
             this.syncInput = this.createInputPort();
             this.phaseshiftInput = this.createInputPort();
-            this.waveformOutput = this.createOutputPort();
+            this.output = this.createOutputPort();
             
         end
         
@@ -46,7 +46,7 @@ classdef SawtoothOscillator < Module
                 
             end;
         
-            this.waveformOutput.write( y );
+            this.output.write( y );
             
         end;
         

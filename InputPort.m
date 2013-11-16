@@ -6,11 +6,25 @@ classdef InputPort < handle
         
     end
     
+    properties(Access=private)
+        
+        constant
+        
+    end
+    
     methods
        
-        function this = InputPort()
-        
-            this.connection = NoConnection;
+        function this = InputPort(initialValue)
+            
+            v = 0;
+            
+            if( nargin > 0 )
+                v = initialValue;
+            end;
+            
+            this.constant = Constant( 'Constant', v );
+            
+            this.connection = this.constant.output;
             
         end;
         
@@ -24,6 +38,13 @@ classdef InputPort < handle
             
             this.connection = outputPort;
             
+        end;
+        
+        function set(this, value)
+        
+            this.constant.value = value;
+            this.connection = this.constant.output;
+                
         end;
         
         function y = read(this, N)

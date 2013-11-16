@@ -21,9 +21,9 @@ classdef MoogFilter < Module
             this.numberOfStages = numberOfStages;
             this.temperatureConstant = 1;
                         
-            this.cutoffFrequencyInput = this.createInputPort;
+            this.cutoffFrequencyInput = this.createInputPort( 0.5 );
             this.input = this.createInputPort;
-            this.resonanceInput = this.createInputPort;
+            this.resonanceInput = this.createInputPort( 0.1 );
 
             this.output = this.createOutputPort();
             

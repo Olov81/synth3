@@ -1,10 +1,10 @@
 classdef Constant < Module
 
-    properties (Access = private)
+    properties
         value
     end
   
-    properties
+    properties(SetAccess = private)
         
         output
     end

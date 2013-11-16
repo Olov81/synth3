@@ -10,11 +10,16 @@ classdef Gain < Module
     
     methods
         
-        function this = Gain(name)
+        function this = Gain(name, initialGain)
            
             this = this@Module(name);
             
-            this.gainInput = this.createInputPort();
+            g = 1;
+            if( nargin > 1 )
+                g = initialGain;
+            end;
+            
+            this.gainInput = this.createInputPort( g );    
             this.input = this.createInputPort();
             this.output = this.createOutputPort();
             

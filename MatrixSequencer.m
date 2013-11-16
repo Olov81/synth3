@@ -30,7 +30,7 @@ classdef MatrixSequencer < Module
             this.shuffle = 0;
             this.resolution = 16;
             this.tuning = 440;
-            this.pattern = [0 0 12 12  0 0 12 12  0 0 12 12  0 0 12 12;
+            this.pattern = [[0 0 12 12  0 0 12 12  0 0 12 12  0 0 12 12] - 36;
                             1 1  1  1  1 1  1  1  1 1  1  1  1 1  1  1;
                             [1 1  1  1  1 1  1  1  1 1  1  1  1 1  1  1]/2];
                         
