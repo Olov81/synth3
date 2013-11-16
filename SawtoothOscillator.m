@@ -10,8 +10,9 @@ classdef SawtoothOscillator < Module
     
     methods
         
-        function this = SawtoothOscillator(fs)
+        function this = SawtoothOscillator(name, fs)
             
+            this = this@Module(name);
             this.fs = fs;
             this.frequencyInput = this.createInputPort();
             this.syncInput = this.createInputPort();

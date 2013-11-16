@@ -3,36 +3,40 @@ clear classes;
 clc;
 close all;
 fs = 44100;
-T = 0.1;
+T = 1;
 t = (0:T*fs-1)/fs;
 
-mainModule = EmptyModule;
-mainModule.name = 'MainModule';
+% Audio signal chain
+mainModule = EmptyModule('MainModule');
+seq = MatrixSequencer('Sequencer',fs);
+osc = SawtoothOscillator('Oscillator',fs);
+vcf = MoogFilter('Filter',4);
+amp = Gain('Amplifier');
 
-osc = SawtoothOscillator(fs);
-osc.name = 'Oscillator';
+% Modulation chain
+ampLfo = SineWaveOscillator('Amp LFO', fs);
+ampLfoFreq = Constant( 'Amp LFO freq', 5 );
+cutoff = Constant( 'Filter cutoff', 0.1 );
+resonance = Constant( 'Filter resonance', 0.5 );
 
-vcf = MoogFilter(4);
-vcf.name = 'Filter';
-
-freq = Constant( 100 );
-freq.name = 'Frequency input';
-cutoff = Constant( 0.1 );
-cutoff.name = 'Cutoff input';
-resonance = Constant( 0.5 );
-resonance.name = 'Resonance input';
-
+mainModule.addSubModule( seq );
+mainModule.addSubModule( osc );
 mainModule.addSubModule( vcf );
-mainModule.addSubModule( freq );
+mainModule.addSubModule( amp );
+
 mainModule.addSubModule( cutoff );
 mainModule.addSubModule( resonance );
-mainModule.addSubModule( osc );
+mainModule.addSubModule( ampLfo );
+mainModule.addSubModule( ampLfoFreq );
 
-osc.frequencyInput.connect( freq.output );
-vcf.signalInput.connect( osc.waveformOutput );
+osc.frequencyInput.connect( seq.cvOutput );
+vcf.input.connect( osc.waveformOutput );
 vcf.cutoffFrequencyInput.connect( cutoff.output );
 vcf.resonanceInput.connect( resonance.output );
+amp.input.connect( vcf.output );
+amp.gainInput.connect( ampLfo.output );
+ampLfo.frequencyInput.connect( ampLfoFreq.output );
 
 mainModule.update( length(t) );
 
-plot( t, vcf.signalOutput.read( length(t) ) );
+plot( t, amp.output.read( length(t) ) );

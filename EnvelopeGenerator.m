@@ -47,7 +47,7 @@ classdef EnvelopeGenerator < Module
             k = this.rate;
             gate = this.gateInput.read(N);
             
-            for n = 1:length(gate)
+            for n = 1:N
 
                 slope = (gate(n) - oldGate)*Ts;
 

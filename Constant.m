@@ -11,7 +11,9 @@ classdef Constant < Module
     
     methods
         
-        function this = Constant(value)
+        function this = Constant(name, value)
+            
+            this = this@Module(name);
             
             this.value = value;
             this.output = this.createOutputPort();

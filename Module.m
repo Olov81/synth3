@@ -19,13 +19,13 @@ classdef Module < handle & matlab.mixin.Heterogeneous
     
     methods
         
-        function this = Module()
+        function this = Module(name)
         
             this.inputPorts = InputPort.empty;
             this.outputPorts = OutputPort.empty;
             this.subModules = EmptyModule.empty;
             this.isUpdated = false;
-            this.name = 'Unknown';
+            this.name = name;
         end
         
         function resetUpdateStatus(this)

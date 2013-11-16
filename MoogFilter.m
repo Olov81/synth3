@@ -5,32 +5,33 @@ classdef MoogFilter < Module
         numberOfStages
         temperatureConstant
         
-        signalInput
+        input
         cutoffFrequencyInput
         resonanceInput
         
-        signalOutput
+        output
         
     end
     
     methods
         
-        function this = MoogFilter(numberOfStages)
+        function this = MoogFilter(name, numberOfStages)
     
+            this = this@Module(name);
             this.numberOfStages = numberOfStages;
             this.temperatureConstant = 1;
                         
             this.cutoffFrequencyInput = this.createInputPort;
-            this.signalInput = this.createInputPort;
+            this.input = this.createInputPort;
             this.resonanceInput = this.createInputPort;
 
-            this.signalOutput = this.createOutputPort();
+            this.output = this.createOutputPort();
             
         end;
         
         function doUpdate(this, N)
             
-            x = this.signalInput.read(N);
+            x = this.input.read(N);
             FcN = this.cutoffFrequencyInput.read(N);
             r = this.resonanceInput.read(N);
             
@@ -59,7 +60,7 @@ classdef MoogFilter < Module
 
             end;
             
-            this.signalOutput.write( y );
+            this.output.write( y );
             
         end;
         

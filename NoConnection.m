@@ -1,4 +1,4 @@
-classdef NoConnection
+classdef NoConnection < handle
     
     methods
         
