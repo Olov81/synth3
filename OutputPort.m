@@ -38,5 +38,12 @@ classdef OutputPort < handle
             end;
             
         end;
+        
+        function resetUpdateStatus(this)
+        
+            this.owner.resetUpdateStatus();
+            
+        end;
+        
     end
 end

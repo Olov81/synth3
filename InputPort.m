@@ -52,5 +52,12 @@ classdef InputPort < handle
             y = this.connection.read( N );
             
         end;
+        
+        function resetUpdateStatus(this)
+        
+            this.connection.resetUpdateStatus();
+            
+        end;
+        
     end
 end

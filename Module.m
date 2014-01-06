@@ -30,6 +30,12 @@ classdef Module < handle & matlab.mixin.Heterogeneous
         
         function resetUpdateStatus(this)
         
+            for( n = 1:length( this.inputPorts ) )
+                
+                this.inputPorts(n).resetUpdateStatus();
+                
+            end;
+            
             for( n = 1:length(this.subModules) )
                 
                 this.subModules(n).resetUpdateStatus();
