@@ -32,7 +32,7 @@ classdef OutputPort < handle
             datalen = length(this.data);
             
             if( datalen < N )
-                y = [this.data; 0*ones(N-datalen,1)];
+                y = [this.data; this.data(datalen)*ones(N-datalen,1)];
             else
                 y = this.data(1:N);
             end;
