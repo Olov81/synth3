@@ -8,6 +8,7 @@ classdef MatrixSequencer < Module
         shuffle
         resolution
         tuning
+        transpose
         
         gateOutput
         cvOutput
@@ -30,6 +31,7 @@ classdef MatrixSequencer < Module
             this.shuffle = 0;
             this.resolution = 16;
             this.tuning = 440;
+            this.transpose = 0;
             this.pattern = [[0 0 12 12  0 0 12 12  0 0 12 12  0 0 12 12] - 36;
                             1 1  1  1  1 1  1  1  1 1  1  1  1 1  1  1;
                             [1 1  1  1  1 1  1  1  1 1  1  1  1 1  1  1]/2];
@@ -53,7 +55,7 @@ classdef MatrixSequencer < Module
             noteLength = round((beatvalue/resolution)*60/bpm*this.fs);
             T = noteLength*patternlength*resolution;
 
-            pitch = this.pattern(1,:);
+            pitch = this.pattern(1,:) + this.transpose;
             velocity = this.pattern(2,:);
             noteduration = this.pattern(3,:);
                 
@@ -69,8 +71,6 @@ classdef MatrixSequencer < Module
 
             CV = ones(noteLength,1)*(tuning*2.^(pitch/12));
             CV = CV(:);
-            
-            size(CV)
             
             this.gateOutput.write( gate );
             this.cvOutput.write( CV );
