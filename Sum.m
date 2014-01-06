@@ -27,7 +27,7 @@ classdef Sum < Module
             
             for n = 1:this.numberOfInputs
                 
-                y = y + inputPorts(n).read(N);
+                y = y + this.inputPorts(n).read(N);
                 
             end;
             
