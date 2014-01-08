@@ -26,7 +26,6 @@ classdef MonoSynth < EmptyModule
         
         vcoSum
         cutoffSum
-        vco1TuneGain
     end
     
     methods
@@ -52,14 +51,12 @@ classdef MonoSynth < EmptyModule
             this.fenvAmount = this.addSubModule( Gain('VCF Env Amount', 1) );
             this.cutoffSum = this.addSubModule( Sum('Cutoff control',2) );
             this.vcoSum = this.addSubModule( Sum('VCO mix',2) );
-            this.vco1TuneGain = this.addSubModule( Gain('VCO 1 Tune', 1) );
             
             % Connect audio signal chain
-            this.vco1TuneGain.input.connect( this.cvInput );
-            this.vco1.frequencyInput.connect( this.vco1TuneGain.output );
-            this.vco1TuneGain.gainInput.connect( this.vco1Tune );
+            this.vco1.frequencyInput.connect( this.cvInput );
+            this.vco1.fineTuneInput.connect( this.vco1Tune );
             this.vco2.frequencyInput.connect( this.cvInput );
-            this.vco2.phaseshift = 0.5;
+            this.vco2.phaseshift = 0.2;
             this.vcoSum.inputPorts(1).connect( this.vco1.output );
             this.vcoSum.inputPorts(2).connect( this.vco2.output );
             
