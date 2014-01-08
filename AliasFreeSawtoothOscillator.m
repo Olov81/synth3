@@ -2,6 +2,7 @@ classdef AliasFreeSawtoothOscillator < Module
     
     properties (SetAccess = private)
         frequencyInput
+        fineTuneInput
         output
     end
     
@@ -16,6 +17,7 @@ classdef AliasFreeSawtoothOscillator < Module
             this = this@Module(name);
             
             this.frequencyInput = this.createInputPort();
+            this.fineTuneInput = this.createInputPort();
             this.output = this.createOutputPort();
             
             this.phaseshift = 0;
@@ -25,7 +27,10 @@ classdef AliasFreeSawtoothOscillator < Module
         function doUpdate(this, N)
            
             freq = this.frequencyInput.read(N);           
-
+            fine = this.fineTuneInput.read(N);
+            
+            freq = freq.*(2.^(fine/12));
+            
             y = MexAliasFreeSaw(N, freq, this.phaseshift);
             
             this.output.write(y);
