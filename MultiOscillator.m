@@ -1,45 +1,49 @@
-classdef MultiOscillator
+classdef MultiOscillator < Module
     
     properties (SetAccess = private)
+       
+        frequencyInput
         
-        singleoscillator
+        leftOutput
+        rightOutput
         
     end
     
     properties
         
-        frequency
         detune
         stereospread
         voices
-        syncInput
+        
     end
     
     methods
         
-        function this = MultiOscillator(singleoscillator)
+        function this = MultiOscillator(name)
             
-            this.singleoscillator = singleoscillator;
-            this.frequency = singleoscillator.frequency;
-            this.syncInput = singleoscillator.syncInput;
+            this = this@Module(name);
+            
+            this.frequencyInput = this.createInputPort();
+            this.leftOutput = this.createOutputPort();
+            this.rightOutput = this.createOutputPort();
+            
             this.detune = 0.1;
             this.stereospread = 0.5;
             this.voices = 4;
             
+            
         end;
         
-        function y = update(this)
-            
-            voices = this.voices;
-            
-            if( voices == 1 )
+        function y = doUpdate(this, N)
+                        
+            if( this.voices == 1 )
                 spread = 0.5;
             else
-                spread = (0:voices-1)/(voices-1);
+                spread = (0:this.voices-1)/(this.voices-1);
             end;
             
-          	tuning = 1 + 2*(spread-0.5)*this.detune;
-            phase = 10*rand(size(tuning));
+          	tuning = (spread-0.5)*this.detune;
+            phase = rand(this.voices,1);
             
             pan = this.stereospread*(spread - 0.5) + 0.5;
             
@@ -51,24 +55,23 @@ classdef MultiOscillator
                 end;
             end;
             
-            frequency = this.frequency;
-            osc = this.singleoscillator;
+            frequency = this.frequencyInput.read(N);
             
-            osc.syncInput = this.syncInput;
+            y = zeros(N,2);
             
-            y = zeros(length(frequency),2);
-            
-            for( n = 1:voices )
+            for( n = 1:this.voices )
                 
-                osc.frequency = frequency*tuning(n);
-                osc.phaseshift = phase(n);
+                f = frequency*2^(tuning(n)/12);
                 
-                output = osc.update();
+                output = MexAliasFreeSaw(N, f, phase(n));
                 
                 y(:,1) = y(:,1) + pan(n)*output;
                 y(:,2) = y(:,2) + (1-pan(n))*output;
                 
             end;
+           
+            this.leftOutput.write( y(:,1) );
+            this.rightOutput.write( y(:,2) );
             
         end
         
