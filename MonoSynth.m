@@ -4,28 +4,40 @@ classdef MonoSynth < EmptyModule
         
         gateInput
         cvInput
-        output
-        
+        vco1VolumeInput
+        vco2VolumeInput
         cutoffInput
         resonanceInput
+        
+        output
         
         fenv
         fenvAmount
         
+        penv
+        penvAmount
+        
         aenv
         
-        vco1Tune
+        vco1
+        vco2
+        noiseGenerator
+        noiseAmp
+        noiseFilter
     end
     
     properties(Access=private)
         
-        vco1
-        vco2
+        vco1Gain
+        vco2Gain
+
         vcf
         vca
         
         vcoSum
         cutoffSum
+        
+        pitchSum
     end
     
     methods
@@ -37,29 +49,47 @@ classdef MonoSynth < EmptyModule
             this.gateInput = this.createInputPort();
             this.cvInput = this.createInputPort();
             
+            this.vco1VolumeInput = this.createInputPort();
+            this.vco2VolumeInput = this.createInputPort();
+            
             this.cutoffInput = this.createInputPort();
             this.resonanceInput = this.createInputPort();
             
-            this.vco1Tune = this.createInputPort();
+            this.vco1 = this.addSubModule( MultiOscillator('VCO 1') );
+            this.vco1Gain = this.addSubModule( Gain('VCO 1 Volume', 1 ) );
+            this.vco2 = this.addSubModule( MultiOscillator('VCO 2') );
+            this.vco2Gain = this.addSubModule( Gain('VCO 2 Volume', 1 ) );
+            this.noiseGenerator = this.addSubModule( NoiseGenerator('Noise Generator') );
+            this.noiseAmp = this.addSubModule( Gain('Noise Amp', 0) );
+            this.noiseFilter = this.addSubModule(TwoPoleFilter('Noise filter'));
             
-            this.vco1 = this.addSubModule( AliasFreeSawtoothOscillator('VCO 1') );
-            this.vco2 = this.addSubModule( AliasFreeSawtoothOscillator('VCO 2') );
             this.vcf = this.addSubModule( MoogFilter('VCF', 4) );
             this.vca = this.addSubModule( Gain('VCA', 1) );
             this.fenv = this.addSubModule( EnvelopeGenerator('VCF Env', fs) );
+            this.penv = this.addSubModule( EnvelopeGenerator('Pitch Env', fs) );
             this.aenv = this.addSubModule( EnvelopeGenerator('VCA Env', fs) );
             this.fenvAmount = this.addSubModule( Gain('VCF Env Amount', 1) );
+            this.penvAmount = this.addSubModule( Gain('Pich Env Amount', 0) );
             this.cutoffSum = this.addSubModule( Sum('Cutoff control',2) );
-            this.vcoSum = this.addSubModule( Sum('VCO mix',2) );
+            this.vcoSum = this.addSubModule( Sum('VCO mix',3) );
+            this.pitchSum = this.addSubModule( Sum('Pitch mix',2) );
             
             % Connect audio signal chain
-            this.vco1.frequencyInput.connect( this.cvInput );
-            this.vco1.fineTuneInput.connect( this.vco1Tune );
-            this.vco2.frequencyInput.connect( this.cvInput );
-            this.vco2.phaseshift = 0.2;
-            this.vcoSum.inputPorts(1).connect( this.vco1.output );
-            this.vcoSum.inputPorts(2).connect( this.vco2.output );
-            
+            this.penv.gateInput.connect( this.gateInput );
+            this.pitchSum.inputPorts(1).connect( this.cvInput );
+            this.penvAmount.input.connect( this.penv.output );
+            this.pitchSum.inputPorts(2).connect( this.penvAmount.output );
+            this.vco1.frequencyInput.connect( this.pitchSum.output );
+            this.vco2.frequencyInput.connect( this.pitchSum.output );
+            this.noiseAmp.input.connect( this.noiseGenerator.output );
+            this.noiseFilter.input.connect( this.noiseAmp.output );
+            this.vco1Gain.input.connect( this.vco1.output );
+            this.vco1Gain.gainInput.connect( this.vco1VolumeInput );
+            this.vco2Gain.input.connect( this.vco2.output );
+            this.vco2Gain.gainInput.connect( this.vco2VolumeInput );
+            this.vcoSum.inputPorts(1).connect( this.vco1Gain.output );
+            this.vcoSum.inputPorts(2).connect( this.vco2Gain.output );
+            this.vcoSum.inputPorts(3).connect( this.noiseFilter.output );
             this.vcf.input.connect( this.vcoSum.output );
             this.vca.input.connect( this.vcf.output );
             
@@ -81,6 +111,11 @@ classdef MonoSynth < EmptyModule
             this.fenv.decayInput.set( 0.5 );
             this.fenv.sustainInput.set( 0.1 );
             this.fenv.releaseInput.set( 0.2 );
+            
+            this.penv.attackInput.set( 1e-3 );
+            this.penv.decayInput.set( 0.5 );
+            this.penv.sustainInput.set( 0.0 );
+            this.penv.releaseInput.set( 0.01 );
             
             this.aenv.attackInput.set( 1e-3 );
             this.aenv.decayInput.set( 0.5 );

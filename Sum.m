@@ -22,12 +22,12 @@ classdef Sum < Module
         end
         
         function doUpdate(this,N)
-           
+            
             y = 0;
             
             for n = 1:this.numberOfInputs
                 
-                y = y + this.inputPorts(n).read(N);
+                y = mixsignals(y, this.inputPorts(n).read(N));
                 
             end;
             

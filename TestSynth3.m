@@ -1,22 +1,22 @@
 clear classes;
 
 fs = 44100;
+T = 3;
+N = T*fs;
+t = (0:N-1)/fs;
 
-osc = SawtoothOscillator(fs);
-mosc = MultiOscillator(osc);
-vcf = MoogFilter(4);
+p1.time = 0.3;
+p1.value = 0.8;
+p2.time = 2;
+p2.value = -0.3;
+p3.time = 3;
+p3.value = 1;
 
-vcf.cutoffFrequency = 0.5;
-vcf.resonance = 0.5;
+env = CustomEnvelope('CustomEnvelope', fs, [p1 p2 p3]);
+writer = WaveWriter('Writer');
 
-mosc.frequency = 0*10*( 1 + sin(2*pi*7*(0:5*fs-1)'/fs) ) +70;
-mosc.detune = 0.01;
-mosc.voices = 8;
-mosc.stereospread = .2;
+writer.input.connect(env.output);
 
-% mosc.syncInput = sin(2*pi*120*(0:fs-1)'/fs);
+writer.update(N);
 
-y = mosc.update();
-y = processStereo(y, vcf);
-
-sound(y, fs);
+plot(t, writer.y);

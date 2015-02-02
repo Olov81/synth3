@@ -29,8 +29,7 @@ classdef Gain < Module
            
             g = this.gainInput.read(N);
             x = this.input.read(N);
-            
-            this.output.write( g.*x );
+            this.output.write( multiplysignals(x,g) );
             
         end
     end    

@@ -1,6 +1,7 @@
-classdef StereoEffect
+classdef StereoEffect < EmptyModule
    
     properties
+   
         
         monoeffect
         
@@ -10,13 +11,13 @@ classdef StereoEffect
        
         function this = StereoEffect(monoeffect)
             
+            this = this@EmptyModule(name);
+            
             this.monoeffect = monoeffect;
             
         end;
         
-        function y = update(this, x)
-            
-            monoeffect = this.monoeffect;
+        function y = doUpdate(this, x)
             
             dim = size(x);
             
@@ -24,7 +25,7 @@ classdef StereoEffect
             
             for( n = 1:dim(2) )
                 
-                y(:,n) = monoeffect.update(x(:,n));
+                y(:,n) = this.monoeffect.update(x(:,n));
                 
             end;
         end;

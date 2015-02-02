@@ -8,6 +8,8 @@ classdef AliasFreeSawtoothOscillator < Module
     
     properties
         phaseshift
+        voices
+        detune
     end
     
     methods
@@ -21,14 +23,15 @@ classdef AliasFreeSawtoothOscillator < Module
             this.output = this.createOutputPort();
             
             this.phaseshift = 0;
-            
+            this.voices = 1;
+            this.detune = 0;
         end
         
         function doUpdate(this, N)
            
             freq = this.frequencyInput.read(N);           
             fine = this.fineTuneInput.read(N);
-            
+           
             freq = freq.*(2.^(fine/12));
             
             y = MexAliasFreeSaw(N, freq, this.phaseshift);

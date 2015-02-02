@@ -48,6 +48,8 @@ classdef Module < handle & matlab.mixin.Heterogeneous
         
         function update(this, N)
             
+            disp(['Updating ' this.name '...'])
+            
             if( this.isUpdated == true )
                 return;
             end;
@@ -65,7 +67,6 @@ classdef Module < handle & matlab.mixin.Heterogeneous
             end;
                 
             this.doUpdate(N);
-            
           
             this.isUpdated = true;
             

@@ -47,9 +47,13 @@ classdef InputPort < handle
                 
         end;
         
-        function y = read(this, N)
+        function [y, numberOfChannels] = read(this, N)
             
             y = this.connection.read( N );
+            
+            dim = size(y);
+
+            numberOfChannels = dim(2);
             
         end;
         

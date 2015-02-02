@@ -1,4 +1,4 @@
-classdef MultiTapDelay < Module
+classdef MultiTapDelay < AudioEffect
    
     properties
     
@@ -10,10 +10,7 @@ classdef MultiTapDelay < Module
     
     properties(SetAccess = private)
         
-        input
         wetmixInput
-        output1
-        output2
         
     end
     
@@ -29,12 +26,9 @@ classdef MultiTapDelay < Module
        
         function this = MultiTapDelay(name, fs)
         
-            this = this@Module(name);
+            this = this@AudioEffect(name);
             
-            this.input = this.createInputPort();
             this.wetmixInput = this.createInputPort();
-            this.output1 = this.createOutputPort();
-            this.output2 = this.createOutputPort();
             
             this.buffersize = 2*fs;
             this.delayBufferX = zeros( this.buffersize, 1 );
@@ -45,9 +39,12 @@ classdef MultiTapDelay < Module
             this.feedback = 0.5;
         end
         
-        function doUpdate(this, N)
+        function updateFx(this, N)
             
             x = this.input.read(N);
+            dry = x;
+            x = sum(x,2);
+            
             y1 = zeros(N,1);
             y2 = zeros(N,1);
             
@@ -70,9 +67,11 @@ classdef MultiTapDelay < Module
             
             mix = this.wetmixInput.read(N);
             
-            this.output1.write(mix.*y1 + (1-mix).*x);
-            this.output2.write(mix.*y2 + (1-mix).*x);
+            wet = multiplysignals([y1, y2],mix);
+            dry = multiplysignals(dry, (1-mix));
             
+            this.output.write(mixsignals(wet, dry));
+
         end
     end
 end

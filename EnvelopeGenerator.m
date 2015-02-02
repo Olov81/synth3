@@ -7,11 +7,11 @@ classdef EnvelopeGenerator < Module
         sustainInput;
         releaseInput;
         output;
+        rate;    
     end
     
     properties(Access = private)
         fs
-        rate
     end
     
     methods
@@ -21,7 +21,7 @@ classdef EnvelopeGenerator < Module
             this = this@Module(name);
             
             this.fs = fs;
-            this.rate = log(0.7);
+            this.rate = 0.5;
             
             this.gateInput = this.createInputPort();
             this.attackInput = this.createInputPort();
@@ -48,18 +48,20 @@ classdef EnvelopeGenerator < Module
             D = this.decayInput.read(N);
             S = this.sustainInput.read(N);
             R = this.releaseInput.read(N);
-            k = this.rate;
+            k = log(this.rate);
             gate = this.gateInput.read(N);
+            peakValue = 0;
             
             for n = 1:N
 
                 slope = (gate(n) - oldGate)*Ts;
-
+                
                 if( slope > thresh) % positive slope, restart envelope
                     state = 1;
+                    peakValue = gate(n);
                     % We want to restart from the current value, not from zero,
                     % to avoid clicks
-                    t = A(n)*log(1-currentValue*(1-exp(k)))/k;
+                    t = A(n)*log(1-currentValue/peakValue*(1-exp(k)))/k;
                 elseif( state == 1 && slope < -thresh) % negative slope, release phase
                     state = 0;
                     yR = y(n-1);    % Output value at start of release phase
@@ -70,11 +72,11 @@ classdef EnvelopeGenerator < Module
 
                     if(t < A(n))    % Attack phase
 
-                        y(n) = (1-exp(k*t/A(n)))/(1-exp(k));
+                        y(n) = peakValue*(1-exp(k*t/A(n)))/(1-exp(k));
 
                     else            % Decay phase
 
-                        y(n) = S(n) + (1-S(n))*exp((t-A(n))*k/D(n));
+                        y(n) = S(n) + (peakValue-S(n))*exp((t-A(n))*k/D(n));
 
                     end;
 

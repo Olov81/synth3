@@ -3,9 +3,7 @@ classdef MultiOscillator < Module
     properties (SetAccess = private)
        
         frequencyInput
-        
-        leftOutput
-        rightOutput
+        output
         
     end
     
@@ -14,6 +12,7 @@ classdef MultiOscillator < Module
         detune
         stereospread
         voices
+        tuning
         
     end
     
@@ -24,25 +23,24 @@ classdef MultiOscillator < Module
             this = this@Module(name);
             
             this.frequencyInput = this.createInputPort();
-            this.leftOutput = this.createOutputPort();
-            this.rightOutput = this.createOutputPort();
-            
+            this.output = this.createOutputPort();
+
             this.detune = 0.1;
             this.stereospread = 0.5;
             this.voices = 4;
-            
+            this.tuning = 0;
             
         end;
         
         function y = doUpdate(this, N)
-                        
+            
             if( this.voices == 1 )
                 spread = 0.5;
             else
                 spread = (0:this.voices-1)/(this.voices-1);
             end;
             
-          	tuning = (spread-0.5)*this.detune;
+          	detuning = (spread-0.5)*this.detune;
             phase = rand(this.voices,1);
             
             pan = this.stereospread*(spread - 0.5) + 0.5;
@@ -61,18 +59,17 @@ classdef MultiOscillator < Module
             
             for( n = 1:this.voices )
                 
-                f = frequency*2^(tuning(n)/12);
+                f = frequency*2^((detuning(n)+this.tuning)/12);
                 
-                output = MexAliasFreeSaw(N, f, phase(n));
+                saw = MexAliasFreeSaw(N, f, phase(n));
                 
-                y(:,1) = y(:,1) + pan(n)*output;
-                y(:,2) = y(:,2) + (1-pan(n))*output;
+                y(:,1) = y(:,1) + pan(n)*saw;
+                y(:,2) = y(:,2) + (1-pan(n))*saw;
                 
             end;
            
-            this.leftOutput.write( y(:,1) );
-            this.rightOutput.write( y(:,2) );
-            
+            this.output.write( y );
+          
         end
         
     end

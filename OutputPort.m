@@ -1,9 +1,12 @@
 classdef OutputPort < handle
 
-    properties (Access = private)
-    
-        data
+    properties (Access = private)    
         owner
+    end
+    
+    properties (SetAccess = private)
+        
+        data
     end
     
     methods
@@ -29,12 +32,14 @@ classdef OutputPort < handle
         
         function y = read(this, N)
             
-            datalen = length(this.data);
+            dim = size(this.data);
+            
+            datalen = dim(1);
             
             if( datalen < N )
-                y = [this.data; this.data(datalen)*ones(N-datalen,1)];
+                y = [this.data; this.data(datalen)*ones(N-datalen,dim(2))];
             else
-                y = this.data(1:N);
+                y = this.data(1:N,:);
             end;
             
         end;

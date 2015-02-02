@@ -9,6 +9,8 @@ classdef EmptyModule < Module
         end;
         
         function doUpdate(this, N)
+            
+            
         end;
         
     end
