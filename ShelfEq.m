@@ -1,4 +1,4 @@
-classdef ShelfEq < AudioEffect
+classdef ShelfEq < LinearFilter
    
     properties
         
@@ -15,7 +15,7 @@ classdef ShelfEq < AudioEffect
         
         function this = ShelfEq(name, mode)
     
-            this = this@AudioEffect(name);
+            this = this@LinearFilter(name, 2);
                         
             this.frequencyInput = this.createInputPort( 0.1 );
             this.gainInput = this.createInputPort( 1.2 );
@@ -26,9 +26,8 @@ classdef ShelfEq < AudioEffect
             end;
         end;
         
-        function updateFx(this, N)
+        function [B,A] = computeCoefficients(this, N)
             
-            x = this.input.read(N);
             frequency = this.frequencyInput.read(N);
             gain = this.gainInput.read(N);
             
@@ -47,10 +46,9 @@ classdef ShelfEq < AudioEffect
             b1 = A - 1;
             b2 = zeros(size(b0));
 
-            y = fastFilter([b0 b1 b2],[a0 a1 a2],x);
-            
-            this.output.write( y );
-            
+            B = [b0 b1 b2];
+            A = [a0 a1 a2];
+                       
         end;
         
     end

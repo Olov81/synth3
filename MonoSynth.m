@@ -11,6 +11,8 @@ classdef MonoSynth < EmptyModule
         
         output
         
+        flfo
+        
         fenv
         fenvAmount
         
@@ -38,6 +40,10 @@ classdef MonoSynth < EmptyModule
         cutoffSum
         
         pitchSum
+        
+        fenvMapper
+        penvMapper
+        
     end
     
     methods
@@ -68,17 +74,22 @@ classdef MonoSynth < EmptyModule
             this.fenv = this.addSubModule( EnvelopeGenerator('VCF Env', fs) );
             this.penv = this.addSubModule( EnvelopeGenerator('Pitch Env', fs) );
             this.aenv = this.addSubModule( EnvelopeGenerator('VCA Env', fs) );
+            this.flfo = this.addSubModule( Lfo('Frequency LFO', fs) );
             this.fenvAmount = this.addSubModule( Gain('VCF Env Amount', 1) );
             this.penvAmount = this.addSubModule( Gain('Pich Env Amount', 0) );
             this.cutoffSum = this.addSubModule( Sum('Cutoff control',2) );
             this.vcoSum = this.addSubModule( Sum('VCO mix',3) );
-            this.pitchSum = this.addSubModule( Sum('Pitch mix',2) );
+            this.pitchSum = this.addSubModule( Sum('Pitch mix',3) );
+            this.fenvMapper = this.addSubModule( Note2Freq('Filter env mapper', 2*20/fs) );
+            this.penvMapper = this.addSubModule( Note2Freq('Pitch env mapper', 2*20/fs) );
             
             % Connect audio signal chain
             this.penv.gateInput.connect( this.gateInput );
+            this.penvMapper.input.connect( this.penv.output );
             this.pitchSum.inputPorts(1).connect( this.cvInput );
-            this.penvAmount.input.connect( this.penv.output );
+            this.penvAmount.input.connect( this.penvMapper.output );
             this.pitchSum.inputPorts(2).connect( this.penvAmount.output );
+            this.pitchSum.inputPorts(3).connect( this.flfo.output );
             this.vco1.frequencyInput.connect( this.pitchSum.output );
             this.vco2.frequencyInput.connect( this.pitchSum.output );
             this.noiseAmp.input.connect( this.noiseGenerator.output );
@@ -95,7 +106,8 @@ classdef MonoSynth < EmptyModule
             
             % Filter modulation chain
             this.fenv.gateInput.connect( this.gateInput );
-            this.fenvAmount.input.connect( this.fenv.output );
+            this.fenvMapper.input.connect( this.fenv.output );
+            this.fenvAmount.input.connect( this.fenvMapper.output );
             this.cutoffSum.inputPorts(1).connect( this.fenvAmount.output );
             this.cutoffSum.inputPorts(2).connect( this.cutoffInput );
             
@@ -116,6 +128,7 @@ classdef MonoSynth < EmptyModule
             this.penv.decayInput.set( 0.5 );
             this.penv.sustainInput.set( 0.0 );
             this.penv.releaseInput.set( 0.01 );
+            this.penvMapper.bypass = true;
             
             this.aenv.attackInput.set( 1e-3 );
             this.aenv.decayInput.set( 0.5 );

@@ -60,7 +60,7 @@ classdef Lfo < Module
                 end;
                 
                 if( t > this.syncDelay )
-                    y(n) = amplitude(n)*sin(2*pi*f*t) + this.offset;
+                    y(n) = amplitude(n)*sin(2*pi*f(n)*t) + this.offset;
                 else
                     y(n) = 0;
                 end;

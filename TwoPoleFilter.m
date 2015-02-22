@@ -1,4 +1,4 @@
-classdef TwoPoleFilter < AudioEffect
+classdef TwoPoleFilter < LinearFilter
    
 	properties
         frequencyInput
@@ -10,7 +10,7 @@ classdef TwoPoleFilter < AudioEffect
         
         function this = TwoPoleFilter(name)
             
-            this = this@AudioEffect(name);
+            this = this@LinearFilter(name, 2);
            
             this.frequencyInput = this.createInputPort();
             this.resonanceInput = this.createInputPort();
@@ -20,11 +20,10 @@ classdef TwoPoleFilter < AudioEffect
             this.resonanceInput.set(0.5);
         end
         
-        function updateFx(this, N)
-            
+        function [B,A] = computeCoefficients(this, N)
+        
             wc = this.frequencyInput.read(N);
             q = this.resonanceInput.read(N);
-            x = this.input.read(N);
             
             if( strcmp(this.type, 'highpass'))
                 [B,A] = hpf12(wc, q);
@@ -33,12 +32,7 @@ classdef TwoPoleFilter < AudioEffect
             else
                 [B,A] = lpf12(wc, q);
             end;
-            
-            y = fastFilter(B,A,x);
-            
-            this.output.write(y);
         end
-        
     end
 end
 
@@ -68,9 +62,9 @@ function [B,A] = lpf12(wc, q)
     a1 = (2 - 8./wc.^2);
     a2 = (1 - 4*q./wc + 4./wc.^2);
 
-    b0 = 1;
-    b1 = 2;
-    b2 = 1;
+    b0 = 1*ones(size(q));
+    b1 = 2*ones(size(q));
+    b2 = 1*ones(size(q));
 
     A = [a0 a1 a2];
     B = [b0 b1 b2];

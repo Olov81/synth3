@@ -60,11 +60,11 @@ classdef MultiOscillator < Module
             for( n = 1:this.voices )
                 
                 f = frequency*2^((detuning(n)+this.tuning)/12);
-                
+
                 saw = MexAliasFreeSaw(N, f, phase(n));
                 
-                y(:,1) = y(:,1) + pan(n)*saw;
-                y(:,2) = y(:,2) + (1-pan(n))*saw;
+                y(:,1) = y(:,1) + 2*pan(n)*saw;
+                y(:,2) = y(:,2) + 2*(1-pan(n))*saw;
                 
             end;
            

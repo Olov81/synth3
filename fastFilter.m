@@ -76,5 +76,4 @@ for( ch = 1:no_channels )
         output(n, ch) = y;
         
     end;
-    
 end;

@@ -60,11 +60,11 @@ classdef Module < handle & matlab.mixin.Heterogeneous
                 
             end;
             
-            for( n = 1:length(this.subModules) )
-                
-                this.subModules(n).update(N);
-                
-            end;
+%             for( n = 1:length(this.subModules) )
+%                 
+%                 this.subModules(n).update(N);
+%                 
+%             end;
                 
             this.doUpdate(N);
           
@@ -75,7 +75,7 @@ classdef Module < handle & matlab.mixin.Heterogeneous
         
         function module = addSubModule(this, module)
             
-            this.subModules(end+1) = module;
+            % this.subModules(end+1) = module;
             
         end;
             
