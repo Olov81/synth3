@@ -50,7 +50,7 @@ classdef MixerChannel < Module
             this.levelGain.input.connect(this.paramEq2.output);
             this.levelGain.gainInput.connect(this.levelInput);
             
-            this.sendGain.input.connect(this.highShelfEq.output);
+            this.sendGain.input.connect(this.paramEq2.output);
             this.sendGain.gainInput.connect(this.sendLevelInput);
             
             this.output = this.levelGain.output;

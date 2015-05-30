@@ -72,6 +72,8 @@ classdef MatrixSequencer < Module
             CV = ones(noteLength,1)*(tuning*2.^(pitch/12));
             CV = CV(:);
             
+            gate = min(gate, 1);
+            
             this.gateOutput.write( gate );
             this.cvOutput.write( CV );
             

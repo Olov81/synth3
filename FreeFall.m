@@ -3,7 +3,7 @@ clc;
 close all;
 
 fs = 44100;
-T = 60;
+T = 40;
 t = (0:T*fs-1)/fs;
 N = length(t);
 
@@ -45,8 +45,8 @@ compressor.input.connect( mixer2.mainOutput );
 writer.input.connect( compressor.output );
 
 % Set parameters
-seq.bpm = 138;
-seq.transpose = -6;
+seq.bpm = 100;
+seq.transpose = -6 -40;
 v1 = [0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ... 
       0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ...
       0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ... 
@@ -86,44 +86,46 @@ porta.frequencyInput.set( 2e-3 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.detune = 0.48;
-synth.vco1.voices = 8;
-synth.vco1.stereospread = 0.7;
+synth.vco1.detune = 0.2;
+synth.vco1.voices = 1;
+synth.vco1.stereospread = 0.7*0;
 synth.vco1VolumeInput.set(1);
 
 synth.vco2.detune = 0.4;
-synth.vco2.voices = 0;
+synth.vco2.voices = 1;
 synth.vco2.stereospread = 0.4;
-synth.vco2.tuning = 12;
+synth.vco2.tuning = 11.95;
 synth.vco2VolumeInput.set(1.0);
 
-synth.noiseAmp.gainInput.set(0.5);
-synth.noiseFilter.type = 'highpass';
+synth.noiseAmp.gainInput.set(0.1);
+synth.noiseFilter.type = 'bandpass';
 synth.noiseFilter.frequencyInput.set(0.15);
 synth.noiseGenerator.stereo = true;
 
 % synth.cutoffInput.set( 2*20/fs );
 synth.cutoffInput.connect( filterModulation.output );
-synth.resonanceInput.set( 0.4 );
+synth.resonanceInput.set( 0.98 );
 synth.fenv.decayInput.set( 0.17 );
 synth.fenv.sustainInput.set( 0.0005);
 synth.fenv.attackInput.set( 0.001 );
-synth.fenv.releaseInput.set( 0.1 );
+synth.fenv.releaseInput.set( 0.02 );
 synth.fenvAmount.gainInput.set( 0.12 );
 
-synth.aenv.decayInput.set( 0.1 );
-synth.aenv.releaseInput.set( 0.1 );
+synth.aenv.decayInput.set( 0.15 );
+synth.aenv.releaseInput.set( 0.2 );
 synth.aenv.attackInput.set( 5e-3 );
-synth.aenv.sustainInput.set( 1 );
+synth.aenv.sustainInput.set( 1.0 );
 
 synth.penv.decayInput.set( 0.01 );
 synth.penv.releaseInput.set( 0.15 );
 synth.penv.attackInput.set( 2e-3 );
 synth.penv.sustainInput.set( 0 );
-synth.penvAmount.gainInput.set( 1.0 );
+synth.penvAmount.gainInput.set( 0*1.0 );
 
-synth.flfo.amplitudeInput.set( 4 );
-synth.flfo.frequencyInput.set( 12 );
+synth.flfo.amplitudeInput.set( 0*50 );
+synth.flfo.frequencyInput.set( 4 );
+
+synth.portaRateInput.set( 0.0005 );
 
 p1.time = 0;
 p1.value = 2*20/fs;
@@ -138,7 +140,7 @@ p5.value = 2*10000/fs;
 p6.time = 40;
 p6.value = 2*10000/fs;
 p7.time = 55;
-p7.value = 2*20/fs;
+p7.value = 2*40/fs;
 
 filterModulation.points = [p1 p2 p3 p4 p5 p6 p7];
 
@@ -150,13 +152,13 @@ compressor.ratio = 0.2;
 compressor.threshold = 0.5;
 compressor.attack = 0.02;
 compressor.release = 0.2;
-compressor.bypass = false;
+compressor.bypass = true;
 
 delayfx.wetmixInput.set( 1.0 );
 delayfx.tap1Delay = noteLengthToSamples2(3/16, seq.bpm, fs);
 delayfx.tap2Delay = noteLengthToSamples2(1/16, seq.bpm, fs);
 delayfx.feedback = 0.5;
-delayfx.bypass = false;
+delayfx.bypass = true;
 
 delayFilter.type = 'bandpass';
 delayFilter.frequencyInput.set( 2*400/fs );
@@ -170,17 +172,21 @@ delayCompressor.release = 0.3;
 
 mixer.channels(1).sendLevelInput.set( 0.4 );
 mixer.channels(1).levelInput.set( 1.0 );
-mixer.channels(1).highShelfEq.bypass = false;
+
+mixer.channels(1).highShelfEq.bypass = true;
 mixer.channels(1).highShelfEq.gainInput.set( 2.5 );
 mixer.channels(1).highShelfEq.frequencyInput.set( 2*6000/fs );
-mixer.channels(1).lowShelfEq.bypass = false;
+
+mixer.channels(1).lowShelfEq.bypass = true;
 mixer.channels(1).lowShelfEq.gainInput.set( 0.5 );
 mixer.channels(1).lowShelfEq.frequencyInput.set( 2*800/fs );
-mixer.channels(1).paramEq1.bypass = false;
+
+mixer.channels(1).paramEq1.bypass = true;
 mixer.channels(1).paramEq1.frequencyInput.set(2*1500/fs);
 mixer.channels(1).paramEq1.gainInput.set( 0.5 );
 mixer.channels(1).paramEq1.qInput.set( 0.1 );
-mixer.channels(1).paramEq2.bypass = false;
+
+mixer.channels(1).paramEq2.bypass = true;
 mixer.channels(1).paramEq2.frequencyInput.set(2*300/fs);
 mixer.channels(1).paramEq2.gainInput.set( 2 );
 mixer.channels(1).paramEq2.qInput.set( 0.4 );
@@ -193,7 +199,7 @@ mixer2.channels(1).highShelfEq.frequencyInput.set( 2*5000/fs );
 reverb.time = 6;
 reverb.mix = 1.0;
 reverb.initialDelay = 0.1;
-reverb.bypass = false;
+reverb.bypass = true;
 reverb.hfFallOffRate = 0.999;
 reverb.width = 1.0;
 

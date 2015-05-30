@@ -66,6 +66,7 @@ classdef Lfo < Module
                 end;
                 
                 t = t + Ts;
+                oldGate = gate(n);
                 
             end;
             

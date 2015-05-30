@@ -5,12 +5,14 @@ classdef Mixer < Module
         sendOutput
         returnInput
         channels
+        outputLevelInput
     end
     
     properties(Access=private)
         mainSum
         sendSum
         outputSum
+        outputGain
     end
     
     methods
@@ -21,6 +23,7 @@ classdef Mixer < Module
             this.mainSum = this.addSubModule(Sum('Main sum', numberOfInputs));
             this.sendSum = this.addSubModule(Sum('Send sum', numberOfInputs));
             this.outputSum = this.addSubModule(Sum('Output sum', 2));
+            this.outputGain = this.addSubModule(Gain('Output gain',1));
             
             this.channels = MixerChannel.empty;
             
@@ -32,12 +35,14 @@ classdef Mixer < Module
             end;
             
             this.returnInput = this.createInputPort();
+            this.outputLevelInput = this.outputGain.gainInput;
             
             this.outputSum.inputPorts(1).connect(this.mainSum.output);
             this.outputSum.inputPorts(2).connect(this.returnInput);
+            this.outputGain.input.connect(this.outputSum.output);
 
             this.sendOutput = this.sendSum.output;
-            this.mainOutput = this.outputSum.output;
+            this.mainOutput = this.outputGain.output;
         end;
         
         function doUpdate(this, N)

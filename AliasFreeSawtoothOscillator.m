@@ -34,7 +34,15 @@ classdef AliasFreeSawtoothOscillator < Module
            
             freq = freq.*(2.^(fine/12));
             
+            disp('Generating cpp saw');
+            tic
             y = MexAliasFreeSaw(N, freq, this.phaseshift);
+            toc
+            
+            disp('Generating c saw');
+            tic
+            y = MexAliasFreeSawC(N, freq, this.phaseshift);
+            toc
             
             this.output.write(y);
             

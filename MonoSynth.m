@@ -4,6 +4,7 @@ classdef MonoSynth < EmptyModule
         
         gateInput
         cvInput
+        portaRateInput
         vco1VolumeInput
         vco2VolumeInput
         cutoffInput
@@ -26,6 +27,9 @@ classdef MonoSynth < EmptyModule
         noiseGenerator
         noiseAmp
         noiseFilter
+        
+        portaFilter
+        pitchSum
     end
     
     properties(Access=private)
@@ -39,7 +43,7 @@ classdef MonoSynth < EmptyModule
         vcoSum
         cutoffSum
         
-        pitchSum
+        
         
         fenvMapper
         penvMapper
@@ -54,7 +58,8 @@ classdef MonoSynth < EmptyModule
             
             this.gateInput = this.createInputPort();
             this.cvInput = this.createInputPort();
-            
+            this.portaRateInput = this.createInputPort();
+
             this.vco1VolumeInput = this.createInputPort();
             this.vco2VolumeInput = this.createInputPort();
             
@@ -68,6 +73,7 @@ classdef MonoSynth < EmptyModule
             this.noiseGenerator = this.addSubModule( NoiseGenerator('Noise Generator') );
             this.noiseAmp = this.addSubModule( Gain('Noise Amp', 0) );
             this.noiseFilter = this.addSubModule(TwoPoleFilter('Noise filter'));
+            this.portaFilter = this.addSubModule(TwoPoleFilter('Porta filter'));
             
             this.vcf = this.addSubModule( MoogFilter('VCF', 4) );
             this.vca = this.addSubModule( Gain('VCA', 1) );
@@ -86,7 +92,9 @@ classdef MonoSynth < EmptyModule
             % Connect audio signal chain
             this.penv.gateInput.connect( this.gateInput );
             this.penvMapper.input.connect( this.penv.output );
-            this.pitchSum.inputPorts(1).connect( this.cvInput );
+            this.portaFilter.input.connect( this.cvInput );
+            this.portaFilter.frequencyInput.connect( this.portaRateInput );
+            this.pitchSum.inputPorts(1).connect( this.portaFilter.output );
             this.penvAmount.input.connect( this.penvMapper.output );
             this.pitchSum.inputPorts(2).connect( this.penvAmount.output );
             this.pitchSum.inputPorts(3).connect( this.flfo.output );
@@ -118,6 +126,12 @@ classdef MonoSynth < EmptyModule
             this.vca.gainInput.connect( this.aenv.output );
             this.aenv.gateInput.connect( this.gateInput );
             
+            this.portaFilter.resonanceInput.set( 0.99 );
+            this.portaRateInput.set( 1.0 );
+            
+            % Misc
+            this.flfo.gateInput.connect( this.gateInput );
+            
             % Default values
             this.fenv.attackInput.set( 1e-3 );
             this.fenv.decayInput.set( 0.5 );
@@ -134,6 +148,8 @@ classdef MonoSynth < EmptyModule
             this.aenv.decayInput.set( 0.5 );
             this.aenv.sustainInput.set( 0.0 );
             this.aenv.releaseInput.set( 0.2 );
+            
+            this.flfo.amplitudeInput.set( 0.0 );
             
             this.output = this.vca.output;
         end
