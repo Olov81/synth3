@@ -29,6 +29,11 @@ classdef EnvelopeGenerator < Module
             this.sustainInput = this.createInputPort();
             this.releaseInput = this.createInputPort();
            
+            this.attackInput.set(1e-2);
+            this.decayInput.set(0.5);
+            this.sustainInput.set(0);
+            this.releaseInput.set(0.1);
+            
             this.output = this.createOutputPort();
         end
         
