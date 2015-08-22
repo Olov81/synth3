@@ -43,7 +43,7 @@ classdef Lfo < Module
         
         function doUpdate(this, N)
         
-            f = this.frequencyInput.read(N);
+            fvec = this.frequencyInput.read(N);
             gate = this.gateInput.read(N);
             amplitude = this.amplitudeInput.read(N);
             
@@ -52,15 +52,19 @@ classdef Lfo < Module
             y = zeros(N, 1);
             oldGate = 0;
             gateThreshold = 1e-5;
+            f = 0;
             
             for n = 1:N
               
                 if( (gate(n) - oldGate) > gateThreshold )
                     t = 0;
+                    f = 0;
                 end;
                 
+                f = f + fvec(n);
+                
                 if( t > this.syncDelay )
-                    y(n) = amplitude(n)*sin(2*pi*f(n)*t) + this.offset;
+                    y(n) = amplitude(n)*sin(2*pi*f*Ts) + this.offset;
                 else
                     y(n) = 0;
                 end;
