@@ -38,7 +38,7 @@ writer.input.connect( reverb.output );
 
 % Set parameters
 seq.bpm = 117;
-seq.transpose = -4 + 24;
+seq.transpose = -4;
 seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
@@ -61,38 +61,40 @@ porta.frequencyInput.set( 2e-3 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
+synth.vco1.waveform = 'squarewave';
 synth.vco1.detune = 0.1;
 synth.vco1.voices = 2;
 synth.vco1.stereospread = 0.1;
-synth.vco1VolumeInput.set(0.3);
+synth.vco1VolumeInput.set(0.5);
 
+synth.vco2.waveform = 'sawtooth';
 synth.vco2.detune = 0.15;
-synth.vco2.voices = 0;
+synth.vco2.voices = 4;
 synth.vco2.stereospread = 1.0;
 synth.vco2.tuning = 12;
-synth.vco2VolumeInput.set(1.0);
+synth.vco2VolumeInput.set(0.4);
 
 synth.noiseAmp.gainInput.set(0*0.15);
 synth.noiseFilter.type = 'bandpass';
 synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
-synth.cutoffInput.set( 1.0 );
+synth.cutoffInput.set( 0.1 );
 % synth.cutoffInput.connect( filterModulation.output );
 synth.resonanceInput.set( 0.1 );
 synth.fenv.decayInput.set( 0.2 );
-synth.fenv.sustainInput.set( 0.8 );
+synth.fenv.sustainInput.set( 0.2 );
 synth.fenv.attackInput.set( 0.005 );
 synth.fenv.releaseInput.set( 0.002 );
-synth.fenvAmount.gainInput.set( 0.3 );
+synth.fenvAmount.gainInput.set( 0.5 );
 
 synth.aenv.decayInput.set( 0.04 );
-synth.aenv.releaseInput.set( 0.01 );
+synth.aenv.releaseInput.set( 0.05 );
 synth.aenv.attackInput.set( 1e-2 );
 synth.aenv.sustainInput.set( 1 );
 
-synth.flfo.amplitudeInput.set(8.0);
-synth.flfo.frequencyInput.set(7);
+synth.flfo.amplitudeInput.set(1.0);
+synth.flfo.frequencyInput.set(8);
 
 
 p1.time = 0;

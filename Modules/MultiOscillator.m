@@ -9,6 +9,7 @@ classdef MultiOscillator < Module
     
     properties
         
+        waveform
         detune
         stereospread
         voices
@@ -25,6 +26,7 @@ classdef MultiOscillator < Module
             this.frequencyInput = this.createInputPort();
             this.output = this.createOutputPort();
 
+            this.waveform = 'sawtooth';
             this.detune = 0.1;
             this.stereospread = 0.5;
             this.voices = 4;
@@ -63,10 +65,14 @@ classdef MultiOscillator < Module
                 
                 f = max(f, 1);
                 
-                saw = MexAliasFreeSaw(N, f, phase(n));
+                if(strcmp(this.waveform, 'squarewave'))
+                    wave = MexAliasFreeSquare(N, f, phase(n));
+                else
+                    wave = MexAliasFreeSaw(N, f, phase(n));
+                end;
                 
-                y(:,1) = y(:,1) + 2*pan(n)*saw;
-                y(:,2) = y(:,2) + 2*(1-pan(n))*saw;
+                y(:,1) = y(:,1) + 2*pan(n)*wave;
+                y(:,2) = y(:,2) + 2*(1-pan(n))*wave;
                 
             end;
            
