@@ -1,5 +1,5 @@
 #include "mex.h"
-#include "AliasFreeSaw.h"
+#include "WaveformGenerator.h"
 
 void mexFunction(int nlhs, 
                  mxArray *plhs[],

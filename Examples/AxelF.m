@@ -6,7 +6,7 @@ close all;
 % addpath('../Modules');
 
 fs = 44100;
-T = 20;
+T = 10;
 t = (0:T*fs-1)/fs;
 N = length(t);
 
@@ -38,7 +38,7 @@ writer.input.connect( reverb.output );
 
 % Set parameters
 seq.bpm = 117;
-seq.transpose = -4;
+seq.transpose = -4 + 24;
 seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
@@ -61,8 +61,8 @@ porta.frequencyInput.set( 2e-3 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.detune = 0.2;
-synth.vco1.voices = 8;
+synth.vco1.detune = 0.1;
+synth.vco1.voices = 2;
 synth.vco1.stereospread = 0.1;
 synth.vco1VolumeInput.set(0.3);
 
@@ -77,7 +77,7 @@ synth.noiseFilter.type = 'bandpass';
 synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
-synth.cutoffInput.set( 0.1 );
+synth.cutoffInput.set( 1.0 );
 % synth.cutoffInput.connect( filterModulation.output );
 synth.resonanceInput.set( 0.1 );
 synth.fenv.decayInput.set( 0.2 );
@@ -90,6 +90,10 @@ synth.aenv.decayInput.set( 0.04 );
 synth.aenv.releaseInput.set( 0.01 );
 synth.aenv.attackInput.set( 1e-2 );
 synth.aenv.sustainInput.set( 1 );
+
+synth.flfo.amplitudeInput.set(8.0);
+synth.flfo.frequencyInput.set(7);
+
 
 p1.time = 0;
 p1.value = 2*100/fs;
@@ -123,7 +127,7 @@ delayfx.bypass = false;
 reverb.time = 2;
 reverb.mix = 0.005;
 reverb.initialDelay = 0.1;
-reverb.bypass = false;
+reverb.bypass = true;
 
 tic
 writer.update(N);
