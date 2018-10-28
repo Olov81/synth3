@@ -10,8 +10,8 @@ f = 10000*(1:length(t))/length(t) + 1;
 % f = 5*ones(size(t));
 f = f/scale;
 
-% [b, a] = ellip(N, 1, 60, 2*pi*fs/2, 'low', 's');
-[b, a] = butter(N, 2*pi*fs/2, 'low', 's');
+[b, a] = ellip(N, 1, 60, 2*pi*fs/2, 'low', 's');
+% [b, a] = butter(N, 2*pi*fs/2, 'low', 's');
 
 [A,B,C,D] = tf2ss(b, a);
 

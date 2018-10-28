@@ -3,7 +3,7 @@ clc;
 close all;
 
 fs = 44100;
-T = 40;
+T = 60;
 t = (0:T*fs-1)/fs;
 N = length(t);
 
@@ -15,6 +15,7 @@ mixer2 = Mixer('Mixer 2', 1);
 porta = TwoPoleFilter('Portamento');
 vibrato = Lfo('Vibrato', fs);
 synth = MonoSynth('Synth', fs);
+cleanupFilter = TwoPoleFilter('Cleanup filter');
 sampleAndHold = SampleAndHold('SampleAndHold');
 filterModulation = CustomEnvelope('FilterModulation', fs);
 compressor = Compressor('Compressor', fs);
@@ -30,7 +31,8 @@ porta.input.connect( seq.cvOutput );
 synth.gateInput.connect( seq.gateOutput );
 synth.cvInput.connect( porta.output );
 % filter.frequencyInput.connect( filterModulation.output );
-sampleAndHold.input.connect( synth.output );
+cleanupFilter.input.connect( synth.output );
+sampleAndHold.input.connect( cleanupFilter.output );
 mixer.channels(1).input.connect(sampleAndHold.output);
 delayCompressor.sidechainInput.connect( mixer.sendOutput );
 delayfx.input.connect( mixer.sendOutput );
@@ -45,8 +47,8 @@ compressor.input.connect( mixer2.mainOutput );
 writer.input.connect( compressor.output );
 
 % Set parameters
-seq.bpm = 100;
-seq.transpose = -6 -40;
+seq.bpm = 138;
+seq.transpose = -6;
 v1 = [0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ... 
       0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ...
       0 0 1 0  1 1 0 1  0 0 1 0  1 1 0 1 ... 
@@ -82,29 +84,29 @@ pattern(2,:) =  [v1 v1 v1 v1 v1 v1 v1 v1];
 pattern(3,:) =  [n1 n1 n1 n1 n1 n1 n1 n1];
 seq.pattern = pattern;
 
-porta.frequencyInput.set( 2e-3 );
+porta.frequencyInput.set( 1e-6 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.detune = 0.2;
-synth.vco1.voices = 1;
-synth.vco1.stereospread = 0.7*0;
-synth.vco1VolumeInput.set(1);
+synth.vco1.detune = 0.4;
+synth.vco1.voices = 8;
+synth.vco1.stereospread = 1.0;
+synth.vco1VolumeInput.set(0.1);
 
 synth.vco2.detune = 0.4;
-synth.vco2.voices = 1;
+synth.vco2.voices = 0;
 synth.vco2.stereospread = 0.4;
 synth.vco2.tuning = 11.95;
 synth.vco2VolumeInput.set(1.0);
 
 synth.noiseAmp.gainInput.set(0.1);
 synth.noiseFilter.type = 'bandpass';
-synth.noiseFilter.frequencyInput.set(0.15);
+synth.noiseFilter.frequencyInput.set(0.2);
 synth.noiseGenerator.stereo = true;
 
 % synth.cutoffInput.set( 2*20/fs );
 synth.cutoffInput.connect( filterModulation.output );
-synth.resonanceInput.set( 0.98 );
+synth.resonanceInput.set( 0.1 );
 synth.fenv.decayInput.set( 0.17 );
 synth.fenv.sustainInput.set( 0.0005);
 synth.fenv.attackInput.set( 0.001 );
@@ -125,7 +127,7 @@ synth.penvAmount.gainInput.set( 0*1.0 );
 synth.flfo.amplitudeInput.set( 0*50 );
 synth.flfo.frequencyInput.set( 4 );
 
-synth.portaRateInput.set( 0.0005 );
+synth.portaRateInput.set( 0.1 );
 
 p1.time = 0;
 p1.value = 2*20/fs;
@@ -144,6 +146,12 @@ p7.value = 2*40/fs;
 
 filterModulation.points = [p1 p2 p3 p4 p5 p6 p7];
 
+
+cleanupFilter.type = 'highpass';
+cleanupFilter.resonanceInput.set( 0.5 );
+cleanupFilter.frequencyInput.set( 0.003 );
+cleanupFilter.bypass = false;
+
 sampleAndHold.decimationInput.set(8000/fs);
 sampleAndHold.mix = 0.1;
 sampleAndHold.bypass = true;
@@ -158,7 +166,7 @@ delayfx.wetmixInput.set( 1.0 );
 delayfx.tap1Delay = noteLengthToSamples2(3/16, seq.bpm, fs);
 delayfx.tap2Delay = noteLengthToSamples2(1/16, seq.bpm, fs);
 delayfx.feedback = 0.5;
-delayfx.bypass = true;
+delayfx.bypass = false;
 
 delayFilter.type = 'bandpass';
 delayFilter.frequencyInput.set( 2*400/fs );
@@ -199,7 +207,7 @@ mixer2.channels(1).highShelfEq.frequencyInput.set( 2*5000/fs );
 reverb.time = 6;
 reverb.mix = 1.0;
 reverb.initialDelay = 0.1;
-reverb.bypass = true;
+reverb.bypass = false;
 reverb.hfFallOffRate = 0.999;
 reverb.width = 1.0;
 

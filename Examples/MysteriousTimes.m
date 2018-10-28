@@ -54,6 +54,7 @@ p = [0 3 0 3  0 3 0 3  5 10 0 10  0 10 2 3 ...
      0 3 0 3  0 3 0 3  5 10 0 10  0 10 2 3 ...
      0 3 0 3  0 3 0 3  5 10 0 10  0 10 2 3 ...
      0 3 0 3  0 3 0 3  5 10 0 10  0 10 2 3];
+seq.loop = true;
 p1 = p;
 p2 = p;
 p2(find(p2==0)) = -4;
@@ -83,15 +84,15 @@ synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
 synth.cutoffInput.set( 0.1 );
-% synth.cutoffInput.connect( filterModulation.output );
-synth.resonanceInput.set( 0.5 );
-synth.fenv.decayInput.set( 0.02 );
+synth.cutoffInput.connect( filterModulation.output );
+synth.resonanceInput.set( 0.3 );
+synth.fenv.decayInput.set( 0.05 );
 synth.fenv.sustainInput.set( 0.0 );
 synth.fenv.attackInput.set( 0.001 );
 synth.fenv.releaseInput.set( 0.02 );
-synth.fenvAmount.gainInput.set( 0.3 );
+synth.fenvAmount.gainInput.set( 0.15 );
 
-synth.aenv.decayInput.set( 0.1 );
+synth.aenv.decayInput.set( 0.07 );
 synth.aenv.releaseInput.set( 0.02 );
 synth.aenv.attackInput.set( 1e-2 );
 synth.aenv.sustainInput.set( 0.0 );
@@ -99,10 +100,12 @@ synth.aenv.sustainInput.set( 0.0 );
 p1.time = 0;
 p1.value = 2*100/fs;
 p2.time = 7;
-p2.value = 2*5000/fs;
+p2.value = 2*10000/fs;
 p3.time = 15;
 p3.value = 2*100/fs;
-filterModulation.points = [p1 p2 p3];
+p4.time = 20;
+p4.value = 2*10000/fs;
+filterModulation.points = [p1 p2 p3 p4];
 filter.type = 'highpass';
 filter.resonanceInput.set( 0.1 );
 filter.bypass = true;
@@ -129,9 +132,9 @@ delayFilter.type = 'bandpass';
 delayFilter.frequencyInput.set(0.001);
 
 reverb.time = 2;
-reverb.mix = 0.005;
+reverb.mix = 0.003;
 reverb.initialDelay = 0.1;
-reverb.bypass = true;
+reverb.bypass = false;
 
 tic
 writer.update(N);

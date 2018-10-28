@@ -39,21 +39,22 @@ writer.input.connect( reverb.output );
 % Set parameters
 seq.bpm = 117;
 seq.transpose = -4;
+seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 1 0  1 0 1 1  0 1 1 0  1 0 1 0 ...
      0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0];
-n = [2 0 0 0  2 0 0 1  0 0.3 1 0  1 0 1 0 ...
-     2 0 0 0  2 0 0 1  0 0.3 1 0  1 0 1 0 ...
+n = [2 0 0 0  2 0 0 1.5  0 0.3 1 0  1 0 1 0 ...
+     2 0 0 0  2 0 0 1.5  0 0.3 1 0  1 0 1 0 ...
      1 0 1 0  1 0 0.3 1  0 0.3 1 0  1 0 6 0 ...
      0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0].*0.95;
 p = [0 0 0 0  3 3 3 0  0 0 5 5  0 0 -2 -2 ...
      0 0 0 0  7 7 7 0  0 0 8 8  7 7 3 3 ...
      0 0 7 7  12 12 0 -2  -2 -2 -5 -5  2 2 0 0 ...
      0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0]; 
-pattern(1,:) =  [p p];
-pattern(2,:) =  [v v];
-pattern(3,:) =  [n n];
+pattern(1,:) =  p;
+pattern(2,:) =  v;
+pattern(3,:) =  n;
 seq.pattern = pattern;
 
 porta.frequencyInput.set( 2e-3 );
@@ -61,9 +62,9 @@ porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
 synth.vco1.detune = 0.2;
-synth.vco1.voices = 3;
-synth.vco1.stereospread = 0.4;
-synth.vco1VolumeInput.set(1);
+synth.vco1.voices = 8;
+synth.vco1.stereospread = 0.1;
+synth.vco1VolumeInput.set(0.3);
 
 synth.vco2.detune = 0.15;
 synth.vco2.voices = 0;
@@ -76,17 +77,17 @@ synth.noiseFilter.type = 'bandpass';
 synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
-synth.cutoffInput.set( 0.02 );
+synth.cutoffInput.set( 0.1 );
 % synth.cutoffInput.connect( filterModulation.output );
 synth.resonanceInput.set( 0.1 );
 synth.fenv.decayInput.set( 0.2 );
 synth.fenv.sustainInput.set( 0.8 );
 synth.fenv.attackInput.set( 0.005 );
-synth.fenv.releaseInput.set( 0.005 );
-synth.fenvAmount.gainInput.set( 0.4 );
+synth.fenv.releaseInput.set( 0.002 );
+synth.fenvAmount.gainInput.set( 0.3 );
 
 synth.aenv.decayInput.set( 0.04 );
-synth.aenv.releaseInput.set( 0.05 );
+synth.aenv.releaseInput.set( 0.01 );
 synth.aenv.attackInput.set( 1e-2 );
 synth.aenv.sustainInput.set( 1 );
 
@@ -103,7 +104,7 @@ filter.bypass = true;
 
 chorus.mix = 0.35;
 chorus.frequency = 2;
-chorus.bypass = false;
+chorus.bypass = true;
 chorus.rightDelay = 0.03*fs;
 chorus.leftDelay = 0.05*fs;
 
@@ -111,7 +112,7 @@ compressor.ratio = 0.5;
 compressor.threshold = 0.2;
 compressor.attack = 0.02;
 compressor.release = 0.2;
-compressor.bypass = false;
+compressor.bypass = true;
 
 delayfx.wetmixInput.set( 0.18 );
 delayfx.tap1Delay = noteLengthToSamples2(1/8, seq.bpm, fs);
@@ -120,7 +121,7 @@ delayfx.feedback = 0.2;
 delayfx.bypass = false;
 
 reverb.time = 2;
-reverb.mix = 0.002;
+reverb.mix = 0.005;
 reverb.initialDelay = 0.1;
 reverb.bypass = false;
 

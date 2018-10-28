@@ -1,5 +1,11 @@
 classdef MonoSynth < EmptyModule
    
+    properties
+       
+        filterDrive;
+                
+    end
+    
     properties(SetAccess=private)
         
         gateInput
@@ -43,8 +49,6 @@ classdef MonoSynth < EmptyModule
         vcoSum
         cutoffSum
         
-        
-        
         fenvMapper
         penvMapper
         
@@ -76,6 +80,7 @@ classdef MonoSynth < EmptyModule
             this.portaFilter = this.addSubModule(TwoPoleFilter('Porta filter'));
             
             this.vcf = this.addSubModule( MoogFilter('VCF', 4) );
+            this.vcf.temperatureConstant = 1.0;
             this.vca = this.addSubModule( Gain('VCA', 1) );
             this.fenv = this.addSubModule( EnvelopeGenerator('VCF Env', fs) );
             this.penv = this.addSubModule( EnvelopeGenerator('Pitch Env', fs) );
