@@ -11,4 +11,5 @@ void GenerateSquare(
     unsigned int N,
     double phase,
     const double* f,
+    const double* pw,
     double* y);

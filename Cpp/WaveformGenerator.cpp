@@ -105,7 +105,7 @@ static const ComplexT C_[order] =
 //    1.0e+02*(- 1.074922969523174 - 2.078290894010360*I)
 //};
 
-ComplexT ComputeSawtoothIntegral(unsigned int mode, double t0, double t, double T)
+ComplexT ComputeSawtoothIntegral(unsigned int mode, double t0, double t, double T, double pw)
 {
     ComplexT lmbda = lambda[mode];
 
@@ -117,10 +117,10 @@ ComplexT ComputeSawtoothIntegral(unsigned int mode, double t0, double t, double 
     return ((lmbda * t0 + 1.0)*c1[mode] - lmbda * t - 1.0)/(T*c1[mode]*lmbda*lmbda);
 }
 
-ComplexT ComputeSquarewaveIntegral(unsigned int mode, double t0, double t, double T)
+ComplexT ComputeSquarewaveIntegral(unsigned int mode, double t0, double t, double T, double pw)
 {
     double t1, t2;
-    double t_switch = 0.5*T;
+    double t_switch = pw*T;
 
     if (t > T)
     {
@@ -147,12 +147,13 @@ ComplexT ComputeSquarewaveIntegral(unsigned int mode, double t0, double t, doubl
     return (exp(lmbda*(t0 - t1)) - exp(lmbda*(t0 - t2))) / lmbda;
 }
 
-typedef ComplexT(*ComputeWaveformIntegral)(unsigned int, double, double, double);
+typedef ComplexT(*ComputeWaveformIntegral)(unsigned int, double, double, double, double);
 
 void GenerateWaveform(
     unsigned int N,
     double phase,
     const double* f,
+    const double* pw,
     ComputeWaveformIntegral computeWaveformIntegral,
     double* y)
 {
@@ -170,7 +171,7 @@ void GenerateWaveform(
 
         for (unsigned int mode = 0; mode < order; ++mode)
         {
-            ComplexT integral = computeWaveformIntegral(mode, t0, t, T);
+            ComplexT integral = computeWaveformIntegral(mode, t0, t, T, pw[n]);
 
             w[mode] = c1[mode] * w[mode] + c2[mode] * integral;
 
@@ -192,16 +193,19 @@ void GenerateSaw(
     const double* f,
     double* y)
 {
-    return GenerateWaveform(N, phase, f, ComputeSawtoothIntegral, y);
+    const double* pw = new double[N];
+    
+    return GenerateWaveform(N, phase, f, pw, ComputeSawtoothIntegral, y);
 }
 
 void GenerateSquare(
     unsigned int N,
     double phase,
-    const double* f,
+    const double* f, 
+    const double* pw,
     double* y)
 {
-    return GenerateWaveform(N, phase, f, ComputeSquarewaveIntegral, y);
+    return GenerateWaveform(N, phase, f, pw, ComputeSquarewaveIntegral, y);
 }
 
 //void GenerateSaw(unsigned int N,

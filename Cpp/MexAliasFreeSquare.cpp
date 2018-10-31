@@ -9,11 +9,12 @@ void mexFunction(int nlhs,
     unsigned int noSamples = (unsigned int)(mxGetPr(prhs[0])[0]);
     double* f = mxGetPr(prhs[1]);    
     double phase = mxGetPr(prhs[2])[0];
-                
-    plhs[0] = mxCreateDoubleMatrix(noSamples, 1, mxREAL); 
-   
+    double* pw = mxGetPr(prhs[3]);
+                    
+    plhs[0] = mxCreateDoubleMatrix(noSamples, 1, mxREAL);
+    
     double* y = mxGetPr(plhs[0]);
     
-    GenerateSquare(noSamples, phase, f, y);
+    GenerateSquare(noSamples, phase, f, pw, y);
 }
 

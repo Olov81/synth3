@@ -3,6 +3,7 @@ classdef MultiOscillator < Module
     properties (SetAccess = private)
        
         frequencyInput
+        pulseWidthInput
         output
         
     end
@@ -24,6 +25,7 @@ classdef MultiOscillator < Module
             this = this@Module(name);
             
             this.frequencyInput = this.createInputPort();
+            this.pulseWidthInput = this.createInputPort();
             this.output = this.createOutputPort();
 
             this.waveform = 'sawtooth';
@@ -56,6 +58,7 @@ classdef MultiOscillator < Module
             end;
             
             frequency = this.frequencyInput.read(N);
+            pulseWidth = this.pulseWidthInput.read(N);
             
             y = zeros(N,2);
             
@@ -66,7 +69,7 @@ classdef MultiOscillator < Module
                 f = max(f, 1);
                 
                 if(strcmp(this.waveform, 'squarewave'))
-                    wave = MexAliasFreeSquare(N, f, phase(n));
+                    wave = MexAliasFreeSquare(N, f, phase(n), pulseWidth);
                 else
                     wave = MexAliasFreeSaw(N, f, phase(n));
                 end;

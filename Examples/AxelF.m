@@ -15,6 +15,7 @@ N = length(t);
 seq = MatrixSequencer('Sequencer', fs);
 porta = TwoPoleFilter('Portamento');
 vibrato = Lfo('Vibrato', fs);
+pwm = Lfo('Pwm', fs);
 synth = MonoSynth('Synth', fs);
 filter = TwoPoleFilter('Filter');
 filterModulation = CustomEnvelope('FilterModulation', fs);
@@ -38,7 +39,7 @@ writer.input.connect( reverb.output );
 
 % Set parameters
 seq.bpm = 117;
-seq.transpose = -4;
+seq.transpose = -4 + 30;
 seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
@@ -61,17 +62,22 @@ porta.frequencyInput.set( 2e-3 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.waveform = 'squarewave';
-synth.vco1.detune = 0.1;
-synth.vco1.voices = 2;
-synth.vco1.stereospread = 0.1;
+synth.vco1.waveform = 'sawtooth';
+synth.vco1.detune = 0.2;
+synth.vco1.voices = 1;
+synth.vco1.stereospread = 1.0;
 synth.vco1VolumeInput.set(0.5);
+synth.vco1.pulseWidthInput.connect( pwm.output );
+pwm.amplitudeInput.set( 0.04 );
+pwm.frequencyInput.set( 0.5 );
+pwm.offset = 0.5;
+synth.vco1.pulseWidthInput.set(0.5);
 
 synth.vco2.waveform = 'sawtooth';
 synth.vco2.detune = 0.15;
-synth.vco2.voices = 4;
+synth.vco2.voices = 0;
 synth.vco2.stereospread = 1.0;
-synth.vco2.tuning = 12;
+synth.vco2.tuning = 0;
 synth.vco2VolumeInput.set(0.4);
 
 synth.noiseAmp.gainInput.set(0*0.15);

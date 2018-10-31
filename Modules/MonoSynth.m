@@ -138,6 +138,9 @@ classdef MonoSynth < EmptyModule
             this.flfo.gateInput.connect( this.gateInput );
             
             % Default values
+            this.vco1.pulseWidthInput.set( 0.5 );
+            this.vco2.pulseWidthInput.set( 0.5 );
+            
             this.fenv.attackInput.set( 1e-3 );
             this.fenv.decayInput.set( 0.5 );
             this.fenv.sustainInput.set( 0.1 );
@@ -153,7 +156,7 @@ classdef MonoSynth < EmptyModule
             this.aenv.decayInput.set( 0.5 );
             this.aenv.sustainInput.set( 0.0 );
             this.aenv.releaseInput.set( 0.2 );
-            
+          
             this.flfo.amplitudeInput.set( 0.0 );
             
             this.output = this.vca.output;

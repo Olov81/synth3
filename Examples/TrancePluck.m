@@ -136,11 +136,12 @@ synth.vco1.voices = 4;
 synth.vco1.stereospread = 0.4;
 synth.vco1VolumeInput.set(1);
 
-synth.vco2.detune = 0.5;
-synth.vco2.voices = 0;
-synth.vco2.stereospread = 0.4;
-synth.vco2.tuning = 12;
-synth.vco2VolumeInput.set(1.0);
+synth.vco2.detune = 0.4;
+synth.vco2.voices = 4;
+synth.vco2.stereospread = 1.0;
+synth.vco2.tuning = 0;
+synth.vco2VolumeInput.set(0.3);
+synth.vco2.waveform = 'squarewave';
 
 synth.noiseAmp.gainInput.set(0*0.3);
 synth.noiseFilter.type = 'highpass';
