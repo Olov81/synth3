@@ -39,7 +39,7 @@ writer.input.connect( reverb.output );
 
 % Set parameters
 seq.bpm = 117;
-seq.transpose = -4 + 30;
+seq.transpose = -4 + 12;
 seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
@@ -62,16 +62,16 @@ porta.frequencyInput.set( 2e-3 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.waveform = 'sawtooth';
+synth.vco1.waveform = 'squarewave';
 synth.vco1.detune = 0.2;
-synth.vco1.voices = 1;
-synth.vco1.stereospread = 1.0;
+synth.vco1.voices = 4;
+synth.vco1.stereospread = 1;
 synth.vco1VolumeInput.set(0.5);
 synth.vco1.pulseWidthInput.connect( pwm.output );
-pwm.amplitudeInput.set( 0.04 );
-pwm.frequencyInput.set( 0.5 );
+pwm.amplitudeInput.set( 0.45 );
+pwm.frequencyInput.set( 0.1 );
 pwm.offset = 0.5;
-synth.vco1.pulseWidthInput.set(0.5);
+% synth.vco1.pulseWidthInput.set(0.2);
 
 synth.vco2.waveform = 'sawtooth';
 synth.vco2.detune = 0.15;
@@ -85,7 +85,7 @@ synth.noiseFilter.type = 'bandpass';
 synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
-synth.cutoffInput.set( 0.1 );
+synth.cutoffInput.set( 1 );
 % synth.cutoffInput.connect( filterModulation.output );
 synth.resonanceInput.set( 0.1 );
 synth.fenv.decayInput.set( 0.2 );
@@ -130,7 +130,7 @@ delayfx.wetmixInput.set( 0.18 );
 delayfx.tap1Delay = noteLengthToSamples2(1/8, seq.bpm, fs);
 delayfx.tap2Delay = 200; %noteLengthToSamples2(1/8, seq.bpm, fs);
 delayfx.feedback = 0.2;
-delayfx.bypass = false;
+delayfx.bypass = true;
 
 reverb.time = 2;
 reverb.mix = 0.005;

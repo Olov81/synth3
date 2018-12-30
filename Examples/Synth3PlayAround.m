@@ -10,7 +10,7 @@ N = length(t);
 
 % Create modules
 seq = MatrixSequencer('Sequencer', fs);
-mixer = Mixer('Main mixer', 1);
+mixer = Mixer('Main mixer', 2);
 mixer2 = Mixer('Mixer 2', 1);
 vibrato = Lfo('Vibrato', fs);
 synth = MonoSynth('Synth', fs);
@@ -29,6 +29,7 @@ reverbCompressor = Compressor('Reverb compressor', fs);
 writer = WaveWriter('Writer');
 envelopeFollower = TwoPoleFilter('Envelope follower');
 rectifier = Rectifier('Delay filter input rectifier');
+sampleOsc = SampleOscillator('Sample osc', audioread('F:\D\Share\Musik\Musikproduktion\PCM\WAVS\CHOIR_1.WAV'), fs);
 
 % Connect everything up
 synth.gateInput.connect( seq.gateOutput );
@@ -55,9 +56,21 @@ mixer2.returnInput.connect( reverbCompressor.output );
 compressor.input.connect( mixer2.mainOutput );
 writer.input.connect( compressor.output );
 
+mixer.channels(2).input.connect(sampleOsc.output);
+% sampleOsc.resampleFactorInput.connect(vibrato.output);
+sampleOsc.resampleFactorInput.connect(seq.cvOutput);
+sampleOsc.gateInput.connect(seq.gateOutput);
+% sampleOsc.resampleFactorInput.set(1.0);
+sampleOsc.loopEnabled = 0;
+sampleOsc.loopStart = fs*0.461;
+sampleOsc.loopEnd = fs*0.490;
+vibrato.offset = 0;
+vibrato.frequencyInput.set(20);
+vibrato.amplitudeInput.set(0.5);
+
 % Set parameters
-seq.bpm = 138;
-seq.transpose = -12;
+seq.bpm = 118;
+seq.transpose = 36;
 
 v1 = [1 0 0 1  0 0 1 0  0 1 0 0  1 0 1 0 ... 
       1 0 0 1  0 0 1 0  0 1 0 0  1 0 1 0 ... 
@@ -202,7 +215,7 @@ delayfx2.feedback = 0.0;
 delayfx2.bypass = true;
 
 mixer.channels(1).sendLevelInput.set( 0.5 );
-mixer.channels(1).levelInput.set( 1.5 );
+mixer.channels(1).levelInput.set( 0.0 );
 
 mixer.channels(1).highShelfEq.bypass = true;
 mixer.channels(1).highShelfEq.gainInput.set( 2.0 );
@@ -222,7 +235,7 @@ mixer.channels(1).paramEq2.frequencyInput.set(2*300/fs);
 mixer.channels(1).paramEq2.gainInput.set( 2 );
 mixer.channels(1).paramEq2.qInput.set( 0.4 );
 
-mixer2.channels(1).sendLevelInput.set( 0.005 );
+mixer2.channels(1).sendLevelInput.set( 0.00 );
 mixer2.channels(1).highShelfEq.bypass = true;
 mixer2.channels(1).highShelfEq.gainInput.set( 2.0 );
 mixer2.channels(1).highShelfEq.frequencyInput.set( 2*5000/fs );

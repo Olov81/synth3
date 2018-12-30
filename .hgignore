@@ -1,2 +1,5 @@
 regex:
 .*\.asv
+.*\/\.vs\/.*
+.*\.obj
+Cpp/Synth3/Debug/.*
