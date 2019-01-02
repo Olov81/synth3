@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
-
+#include "Module.h"
+#include "IFilter.h"
 
 template<size_t Order>
-class LinearFilter
+class LinearFilter : public IFilter
 {
 protected:
 

@@ -125,6 +125,8 @@
     <ClInclude Include="Interpolator.h" />
     <ClInclude Include="LinearFilter.h" />
     <ClInclude Include="Tests\Assert.h" />
+    <ClInclude Include="FilterModule.h" />
+    <ClInclude Include="IFilter.h" />
     <ClInclude Include="Tests\InterpolatorTests.h" />
     <ClInclude Include="IOutputPort.h" />
     <ClInclude Include="Module.h" />
@@ -140,6 +142,7 @@
     <ClCompile Include="InputPort.cpp" />
     <ClCompile Include="Interpolator.cpp" />
     <ClCompile Include="Tests\Assert.cpp" />
+    <ClCompile Include="FilterModule.cpp" />
     <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="Tests\ModuleTests.cpp" />
