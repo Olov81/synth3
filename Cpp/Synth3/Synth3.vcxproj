@@ -134,6 +134,7 @@
     <ClInclude Include="OutputPort.h" />
     <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="Tests\SampleBufferTests.h" />
+    <ClInclude Include="SisoModule.h" />
     <ClInclude Include="Tests\TwoPoleLowpassFilterTests.h" />
     <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClCompile Include="OutputPort.cpp" />
     <ClCompile Include="SampleBuffer.cpp" />
     <ClCompile Include="Tests\SampleBufferTests.cpp" />
+    <ClCompile Include="SisoModule.cpp" />
     <ClCompile Include="Tests\Test.cpp" />
     <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp" />
     <ClCompile Include="TwoPoleLowpassFilter.cpp" />

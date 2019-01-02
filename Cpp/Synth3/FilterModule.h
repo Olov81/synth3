@@ -1,25 +1,19 @@
 #pragma once
 
-#include "Module.h"
+#include "SisoModule.h"
 
 class IFilter;
 
-class FilterModule : public Module
+class FilterModule : public SisoModule
 {
 public:
 
 	FilterModule(IFilter* pFilter);
 
-	IInputPort* GetInput();
-
-	IOutputPort* GetOutput();
-
-	virtual void Update() override;
 
 private:
 
 	IFilter* _pFilter;
-	IInputPort* _pInput;
-	IOutputPort* _pOutput;
 
+	virtual double Update(double x);
 };

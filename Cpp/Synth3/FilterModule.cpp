@@ -4,23 +4,9 @@
 FilterModule::FilterModule(IFilter * pFilter)
 	:_pFilter(pFilter)
 {
-	_pInput = CreateInputPort();
-	_pOutput = CreateOutputPort();
 }
 
-IInputPort * FilterModule::GetInput()
+double FilterModule::Update(double x)
 {
-	return _pInput;
-}
-
-IOutputPort * FilterModule::GetOutput()
-{
-	return _pOutput;
-}
-
-void FilterModule::Update()
-{
-	double output = _pFilter->Update(_pInput->Read());
-
-	_pOutput->Write(output);
+	return _pFilter->Update(x);
 }
