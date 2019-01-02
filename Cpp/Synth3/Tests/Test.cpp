@@ -1,4 +1,3 @@
-#include "TwoPoleLowpassFilterTests.h"
 #include "TestSuite.h"
 
 int main()

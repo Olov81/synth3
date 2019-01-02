@@ -60,9 +60,6 @@
     <ClInclude Include="IFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\TwoPoleLowpassFilterTests.h">
-      <Filter>Header Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="FilterModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -112,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="Tests\Test.cpp">
       <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\Assert.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp">
       <Filter>Source Files\Tests</Filter>

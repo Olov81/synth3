@@ -137,7 +137,6 @@
     <ClInclude Include="Tests\SignalSink.h" />
     <ClInclude Include="Tests\SignalSource.h" />
     <ClInclude Include="Tests\TestSuite.h" />
-    <ClInclude Include="Tests\TwoPoleLowpassFilterTests.h" />
     <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +144,6 @@
     <ClCompile Include="InputPort.cpp" />
     <ClCompile Include="Interpolator.cpp" />
     <ClCompile Include="ModuleRunner.cpp" />
-    <ClCompile Include="Tests\Assert.cpp" />
     <ClCompile Include="FilterModule.cpp" />
     <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Module.cpp" />

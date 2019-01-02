@@ -1,8 +1,7 @@
-#include "TwoPoleLowpassFilterTests.h"
 #include "../TwoPoleLowpassFilter.h"
 #include "Assert.h"
 
-void TwoPoleLowpassFilterTests()
+TEST(TwoPoleLowpassFilterTests)
 {
 	TwoPoleLowpassFilter filter;
 
@@ -10,7 +9,7 @@ void TwoPoleLowpassFilterTests()
 	double y2 = filter.Update(1.0);
 	double y3 = filter.Update(1.0);
 
-	AssertGreater(0, y1);
-	AssertGreater(y1, y2);
-	AssertGreater(y2, y3);
+	ASSERT_GREATER(0, y1);
+	ASSERT_GREATER(y1, y2);
+	ASSERT_GREATER(y2, y3);
 }
