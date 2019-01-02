@@ -8,6 +8,19 @@ SampleBuffer::SampleBuffer(const double * pBuffer, unsigned int bufferLength)
 	,_loopEnd(bufferLength - 1)
 	,_getNextSample(&SampleBuffer::GetNextSampleLoopDisabled)
 {
+	_pOutput = CreateOutputPort();
+}
+
+IOutputPort * SampleBuffer::GetOutput()
+{
+	return _pOutput;
+}
+
+void SampleBuffer::Update()
+{
+	double sample = (this->*_getNextSample)();
+
+	_pOutput->Write(sample);
 }
 
 void SampleBuffer::SetLoopEnabled(bool enabled)
@@ -19,11 +32,6 @@ void SampleBuffer::SetLoopInterval(unsigned int start, unsigned int end)
 {
 	_loopStart = start;
 	_loopEnd = end;
-}
-
-double SampleBuffer::GetNextSample()
-{
-	return (this->*_getNextSample)();
 }
 
 double SampleBuffer::GetNextSampleLoopEnabled()

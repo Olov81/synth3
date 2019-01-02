@@ -1,22 +1,27 @@
 #pragma once
+#include "Module.h"
 
-class SampleBuffer
+class SampleBuffer : public Module
 {
 public:
 
 	SampleBuffer(const double* pBuffer, unsigned int bufferLength);
 
+	IOutputPort* GetOutput();
+
+	virtual void Update();
+
 	void SetLoopEnabled(bool enabled);
 
 	void SetLoopInterval(unsigned int start, unsigned int end);
-
-	double GetNextSample();
 
 private:
 
 	double GetNextSampleLoopEnabled();
 
 	double GetNextSampleLoopDisabled();
+
+	IOutputPort* _pOutput;
 
 	typedef double (SampleBuffer::*DoGetNextSample)();
 
@@ -31,4 +36,5 @@ private:
 	unsigned int _loopStart;
 
 	unsigned int _loopEnd;
+
 };
