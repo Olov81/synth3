@@ -1,10 +1,11 @@
-#include "Module.h"
+#include "ModuleTests.h"
+#include "../Module.h"
 
 class TestModule : public Module
 {
 public:
 
-	IInputPort* GetInputOne() 
+	IInputPort* GetInputOne()
 	{
 		return _pInputOne;
 	}
@@ -24,6 +25,10 @@ public:
 		return _pOutputTwo;
 	}
 
+	const std::string& GetName() const
+	{
+		return _name;
+	}
 
 	TestModule(std::string name)
 		:_name(name)
@@ -48,8 +53,7 @@ private:
 	std::string _name;
 };
 
-
-int main()
+void ModuleTests()
 {
 	TestModule moduleOne("One");
 	TestModule moduleTwo("Two");

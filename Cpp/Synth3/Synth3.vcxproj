@@ -77,6 +77,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>$(TargetPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -119,16 +122,31 @@
     <ClInclude Include="IInputPort.h" />
     <ClInclude Include="IModule.h" />
     <ClInclude Include="InputPort.h" />
+    <ClInclude Include="Interpolator.h" />
+    <ClInclude Include="LinearFilter.h" />
+    <ClInclude Include="Tests\Assert.h" />
+    <ClInclude Include="Tests\InterpolatorTests.h" />
     <ClInclude Include="IOutputPort.h" />
     <ClInclude Include="Module.h" />
+    <ClInclude Include="Tests\ModuleTests.h" />
     <ClInclude Include="OutputPort.h" />
+    <ClInclude Include="SampleBuffer.h" />
+    <ClInclude Include="Tests\TwoPoleLowpassFilterTests.h" />
+    <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp" />
     <ClCompile Include="InputPort.cpp" />
+    <ClCompile Include="Interpolator.cpp" />
+    <ClCompile Include="Tests\Assert.cpp" />
+    <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Module.cpp" />
+    <ClCompile Include="Tests\ModuleTests.cpp" />
     <ClCompile Include="OutputPort.cpp" />
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="SampleBuffer.cpp" />
+    <ClCompile Include="Tests\Test.cpp" />
+    <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp" />
+    <ClCompile Include="TwoPoleLowpassFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
