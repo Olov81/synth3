@@ -1,7 +1,11 @@
 #include "InterpolatorTests.h"
 #include "../Interpolator.h"
+#include "../ISampleProvider.h"
 #include <vector>
 #include "Assert.h"
+#include "../ModuleRunner.h"
+#include "SignalSource.h"
+#include "SignalSink.h"
 
 class SampleProvider : public ISampleProvider
 {
@@ -27,11 +31,19 @@ private:
 void InterpolatorTests()
 {
 	SampleProvider sampleProvider({ 1.0, 3.0, 2.0 });
-
+	SignalSource decimation({ 0.5, 0.1, 1.9, 0.5 });
 	Interpolator interpolator(&sampleProvider);
+	SignalSink sink;
 
-	AssertEqual(0.5, interpolator.GetNextSample(0.5));
-	AssertEqual(0.6, interpolator.GetNextSample(0.1));
-	AssertEqual(2.5, interpolator.GetNextSample(1.9));
-	AssertEqual(2.0, interpolator.GetNextSample(0.5));
+	interpolator.GetDecimationInput()->Connect(decimation.GetOutput());
+	sink.GetInput()->Connect(interpolator.GetOutput());
+
+	ModuleRunner runner(&sink);
+
+	runner.Run(4);
+
+	AssertEqual(0.5, sink.GetSample(0));
+	AssertEqual(0.6, sink.GetSample(1));
+	AssertEqual(2.5, sink.GetSample(2));
+	AssertEqual(2.0, sink.GetSample(3));
 }

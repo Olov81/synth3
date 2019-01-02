@@ -1,4 +1,5 @@
 #include "Interpolator.h"
+#include "ISampleProvider.h"
 
 Interpolator::Interpolator(ISampleProvider * pSampleProvider)
 	:_pSampleProvider(pSampleProvider)
@@ -6,7 +7,25 @@ Interpolator::Interpolator(ISampleProvider * pSampleProvider)
 	,_lastSample(0)
 	,_nextSample(pSampleProvider->GetNextSample())
 {
+	_pDecimiationInput = CreateInputPort();
+	_pOutput = CreateOutputPort();
+}
 
+IInputPort * Interpolator::GetDecimationInput()
+{
+	return _pDecimiationInput;
+}
+
+IOutputPort * Interpolator::GetOutput()
+{
+	return _pOutput;
+}
+
+void Interpolator::Update()
+{
+	double output = GetNextSample(_pDecimiationInput->Read());
+
+	_pOutput->Write(output);
 }
 
 double Interpolator::GetNextSample(double increment)
@@ -25,3 +44,5 @@ double Interpolator::GetNextSample(double increment)
 
 	return _position * _nextSample + (1 - _position)*_lastSample;
 }
+
+

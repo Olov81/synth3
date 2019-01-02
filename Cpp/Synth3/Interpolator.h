@@ -1,27 +1,35 @@
 #pragma once
+#include "Module.h"
 
-class ISampleProvider
-{
-public:
+class ISampleProvider;
 
-	virtual double GetNextSample() = 0;
-};
-
-class Interpolator
+class Interpolator : public Module
 {
 public:
 
 	Interpolator(ISampleProvider* sampleProvider);
 
-	double GetNextSample(double increment);
+	IInputPort* GetDecimationInput();
+
+	IOutputPort* GetOutput();
+
+	virtual void Update();
 
 private:
 
+	double GetNextSample(double increment);
+
 	ISampleProvider* _pSampleProvider;
+
+	IInputPort* _pDecimiationInput;
+
+	IOutputPort* _pOutput;
 
 	double _position;
 
 	double _lastSample;
 
 	double _nextSample;
+
+
 };
