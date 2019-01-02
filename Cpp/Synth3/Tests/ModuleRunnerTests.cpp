@@ -52,7 +52,7 @@ private:
 	std::vector<IModule*>& _updateModules;
 };
 
-void ModuleRunnerTests()
+TEST(ModuleRunnerTests)
 {
 	std::vector<IModule*> updatedModules;
 

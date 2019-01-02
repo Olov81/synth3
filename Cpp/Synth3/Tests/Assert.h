@@ -1,6 +1,18 @@
 #pragma once
 #include <iostream>
 
+#define TEST(name)\
+static void name##impl();\
+bool name()\
+{\
+	try\
+		{ name##impl(); }\
+	catch(...)\
+		{ return false; }\
+	return true;\
+}\
+void name##impl()
+
 #define ASSERT_EQUAL(expected, actual)\
 AssertEqual(expected, actual, __LINE__, __FILE__, #actual);
 
@@ -10,6 +22,7 @@ void AssertEqual(TExpected expected, TActual actual, long line, const char* file
 	if (!(expected == actual))
 	{
 		std::cout << file << "(" << line << "): Expected " << expectedName << " to be " << expected << " but was " << actual << std::endl;
+		throw std::exception("Test failed");
 	}
 }
 

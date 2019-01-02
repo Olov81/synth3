@@ -5,8 +5,11 @@
 
 int main()
 {
-	ModuleRunnerTests();
+	bool passed = true;
+	passed &= ModuleRunnerTests();
 	InterpolatorTests();
 	TwoPoleLowpassFilterTests();
 	SampleBufferTests();
+
+	return passed ? 0 : -1;
 }
