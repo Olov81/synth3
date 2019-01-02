@@ -1,4 +1,3 @@
-#include "ModuleRunnerTests.h"
 #include "../Module.h"
 #include "../ModuleRunner.h"
 #include "Assert.h"

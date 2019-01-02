@@ -1,11 +1,10 @@
-#include "SampleBufferTests.h"
 #include "../SampleBuffer.h"
 #include "Assert.h"
 #include "SignalSink.h"
 #include "../ModuleRunner.h"
 
 
-void TestWithoutLoop()
+TEST(TestWithoutLoop)
 {
 	double samples[] = { 1, 2 };
 
@@ -18,12 +17,12 @@ void TestWithoutLoop()
 
 	runner.Run(4);
 
-	AssertEqual(1.0, sink.GetSample(0));
-	AssertEqual(2.0, sink.GetSample(1));
-	AssertEqual(0.0, sink.GetSample(2));
+	ASSERT_EQUAL(1.0, sink.GetSample(0));
+	ASSERT_EQUAL(2.0, sink.GetSample(1));
+	ASSERT_EQUAL(0.0, sink.GetSample(2));
 }
 
-void TestWithLoop()
+TEST(TestWithLoop)
 {
 	double samples[] = { 10, 20, 30, 40 };
 
@@ -38,17 +37,11 @@ void TestWithLoop()
 
 	runner.Run(5);
 
-	AssertEqual(10, sink.GetSample(0));
-	AssertEqual(20, sink.GetSample(1));
-	AssertEqual(30, sink.GetSample(2));
-	AssertEqual(20, sink.GetSample(3));
-	AssertEqual(30, sink.GetSample(4));
-}
-
-void SampleBufferTests()
-{
-	TestWithoutLoop();
-	TestWithLoop();
+	ASSERT_EQUAL(10, sink.GetSample(0));
+	ASSERT_EQUAL(20, sink.GetSample(1));
+	ASSERT_EQUAL(30, sink.GetSample(2));
+	ASSERT_EQUAL(20, sink.GetSample(3));
+	ASSERT_EQUAL(30, sink.GetSample(4));
 }
 
 

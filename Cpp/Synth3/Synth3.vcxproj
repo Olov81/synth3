@@ -128,17 +128,15 @@
     <ClInclude Include="Tests\Assert.h" />
     <ClInclude Include="FilterModule.h" />
     <ClInclude Include="IFilter.h" />
-    <ClInclude Include="Tests\InterpolatorTests.h" />
     <ClInclude Include="IOutputPort.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ISampleProvider.h" />
-    <ClInclude Include="Tests\ModuleRunnerTests.h" />
     <ClInclude Include="OutputPort.h" />
     <ClInclude Include="SampleBuffer.h" />
-    <ClInclude Include="Tests\SampleBufferTests.h" />
     <ClInclude Include="SisoModule.h" />
     <ClInclude Include="Tests\SignalSink.h" />
     <ClInclude Include="Tests\SignalSource.h" />
+    <ClInclude Include="Tests\TestSuite.h" />
     <ClInclude Include="Tests\TwoPoleLowpassFilterTests.h" />
     <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
@@ -159,6 +157,7 @@
     <ClCompile Include="Tests\SignalSink.cpp" />
     <ClCompile Include="Tests\SignalSource.cpp" />
     <ClCompile Include="Tests\Test.cpp" />
+    <ClCompile Include="Tests\TestSuite.cpp" />
     <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp" />
     <ClCompile Include="TwoPoleLowpassFilter.cpp" />
   </ItemGroup>

@@ -1,4 +1,3 @@
-#include "InterpolatorTests.h"
 #include "../Interpolator.h"
 #include "../ISampleProvider.h"
 #include <vector>
@@ -28,7 +27,7 @@ private:
 	std::initializer_list<double>::const_iterator _samples;
 };
 
-void InterpolatorTests()
+TEST(InterpolatorTests)
 {
 	SampleProvider sampleProvider({ 1.0, 3.0, 2.0 });
 	SignalSource decimation({ 0.5, 0.1, 1.9, 0.5 });
@@ -42,8 +41,8 @@ void InterpolatorTests()
 
 	runner.Run(4);
 
-	AssertEqual(0.5, sink.GetSample(0));
-	AssertEqual(0.6, sink.GetSample(1));
-	AssertEqual(2.5, sink.GetSample(2));
-	AssertEqual(2.0, sink.GetSample(3));
+	ASSERT_EQUAL(0.5, sink.GetSample(0));
+	ASSERT_EQUAL(0.6, sink.GetSample(1));
+	ASSERT_EQUAL(2.5, sink.GetSample(2));
+	ASSERT_EQUAL(2.0, sink.GetSample(3));
 }

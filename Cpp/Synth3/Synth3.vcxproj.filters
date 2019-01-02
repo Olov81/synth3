@@ -48,9 +48,6 @@
     <ClInclude Include="Interpolator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\InterpolatorTests.h">
-      <Filter>Header Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="LinearFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -58,9 +55,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\Assert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\SampleBufferTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IFilter.h">
@@ -87,8 +81,8 @@
     <ClInclude Include="Tests\SignalSink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\ModuleRunnerTests.h">
-      <Filter>Header Files\Tests</Filter>
+    <ClInclude Include="Tests\TestSuite.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Tests\ModuleRunnerTests.cpp">
       <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\TestSuite.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "TestSuite.h"
 
 #define TEST(name)\
 static void name##impl();\
@@ -11,6 +12,12 @@ bool name()\
 		{ return false; }\
 	return true;\
 }\
+static bool init##name()\
+{\
+	TestSuite::Instance()->AddTest(name);\
+	return true;\
+}\
+static bool name##init = init##name();\
 void name##impl()
 
 #define ASSERT_EQUAL(expected, actual)\

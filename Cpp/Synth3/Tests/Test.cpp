@@ -1,15 +1,7 @@
-#include "ModuleRunnerTests.h"
-#include "InterpolatorTests.h"
 #include "TwoPoleLowpassFilterTests.h"
-#include "SampleBufferTests.h"
+#include "TestSuite.h"
 
 int main()
 {
-	bool passed = true;
-	passed &= ModuleRunnerTests();
-	InterpolatorTests();
-	TwoPoleLowpassFilterTests();
-	SampleBufferTests();
-
-	return passed ? 0 : -1;
+	return TestSuite::Instance()->RunTests() ? 0 : -1;
 }
