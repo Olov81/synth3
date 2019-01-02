@@ -26,5 +26,3 @@ private:
 	
 	std::vector<OutputPort*> _outputPorts;
 };
-
-std::vector<IModule*> GetDependenciesInUpdateOrder(IModule* pModule);

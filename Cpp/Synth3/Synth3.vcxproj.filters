@@ -51,9 +51,6 @@
     <ClInclude Include="Tests\InterpolatorTests.h">
       <Filter>Header Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\ModuleTests.h">
-      <Filter>Header Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="LinearFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,6 +87,9 @@
     <ClInclude Include="Tests\SignalSink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tests\ModuleRunnerTests.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp">
@@ -111,9 +111,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tests\InterpolatorTests.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\ModuleTests.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="TwoPoleLowpassFilter.cpp">
@@ -145,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Tests\SignalSink.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\ModuleRunnerTests.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

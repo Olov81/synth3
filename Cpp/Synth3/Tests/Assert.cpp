@@ -1,13 +1,4 @@
 #include "Assert.h"
-#include <iostream>
-
-void AssertEqual(double expected, double actual)
-{
-	if (!(expected == actual))
-	{
-		std::cout << "Expected value to be " << expected << " but was " << actual << std::endl;
-	}
-}
 
 void AssertGreater(double limit, double actual)
 {

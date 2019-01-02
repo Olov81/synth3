@@ -1,5 +1,8 @@
-#include "ModuleTests.h"
+#include "ModuleRunnerTests.h"
 #include "../Module.h"
+#include "../ModuleRunner.h"
+#include "Assert.h"
+#include <string>
 
 class TestModule : public Module
 {
@@ -25,13 +28,8 @@ public:
 		return _pOutputTwo;
 	}
 
-	const std::string& GetName() const
-	{
-		return _name;
-	}
-
-	TestModule(std::string name)
-		:_name(name)
+	TestModule(std::vector<IModule*>& updatedModules)
+		:_updateModules(updatedModules)
 	{
 		_pInputOne = CreateInputPort();
 		_pInputTwo = CreateInputPort();
@@ -42,6 +40,7 @@ public:
 	// Inherited via Module
 	virtual void Update() override
 	{
+		_updateModules.push_back(this);
 	}
 
 private:
@@ -50,15 +49,17 @@ private:
 	IInputPort* _pInputTwo;
 	IOutputPort* _pOutputOne;
 	IOutputPort* _pOutputTwo;
-	std::string _name;
+	std::vector<IModule*>& _updateModules;
 };
 
-void ModuleTests()
+void ModuleRunnerTests()
 {
-	TestModule moduleOne("One");
-	TestModule moduleTwo("Two");
-	TestModule moduleThree("Three");
-	TestModule moduleFour("Four");
+	std::vector<IModule*> updatedModules;
+
+	TestModule moduleOne(updatedModules);
+	TestModule moduleTwo(updatedModules);
+	TestModule moduleThree(updatedModules);
+	TestModule moduleFour(updatedModules);
 
 	moduleTwo.GetInputOne()->Connect(moduleOne.GetOutputOne());
 	moduleThree.GetInputOne()->Connect(moduleOne.GetOutputTwo());
@@ -68,5 +69,16 @@ void ModuleTests()
 	moduleFour.GetInputOne()->Connect(moduleTwo.GetOutputOne());
 	moduleFour.GetInputTwo()->Connect(moduleThree.GetOutputOne());
 
-	std::vector<IModule*> modules = GetDependenciesInUpdateOrder(&moduleFour);
+	ModuleRunner runner(&moduleFour);
+
+	runner.Run(2);
+
+	ASSERT_EQUAL(&moduleOne, updatedModules[0]);
+	ASSERT_EQUAL(&moduleThree, updatedModules[1]);
+	ASSERT_EQUAL(&moduleTwo, updatedModules[2]);
+	ASSERT_EQUAL(&moduleFour, updatedModules[3]);
+	ASSERT_EQUAL(&moduleOne, updatedModules[4]);
+	ASSERT_EQUAL(&moduleThree, updatedModules[5]);
+	ASSERT_EQUAL(&moduleTwo, updatedModules[6]);
+	ASSERT_EQUAL(&moduleFour, updatedModules[7]);
 }

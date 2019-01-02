@@ -1,11 +1,11 @@
-#include "ModuleTests.h"
+#include "ModuleRunnerTests.h"
 #include "InterpolatorTests.h"
 #include "TwoPoleLowpassFilterTests.h"
 #include "SampleBufferTests.h"
 
 int main()
 {
-	ModuleTests();
+	ModuleRunnerTests();
 	InterpolatorTests();
 	TwoPoleLowpassFilterTests();
 	SampleBufferTests();

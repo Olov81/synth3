@@ -132,7 +132,7 @@
     <ClInclude Include="IOutputPort.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ISampleProvider.h" />
-    <ClInclude Include="Tests\ModuleTests.h" />
+    <ClInclude Include="Tests\ModuleRunnerTests.h" />
     <ClInclude Include="OutputPort.h" />
     <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="Tests\SampleBufferTests.h" />
@@ -151,7 +151,7 @@
     <ClCompile Include="FilterModule.cpp" />
     <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Module.cpp" />
-    <ClCompile Include="Tests\ModuleTests.cpp" />
+    <ClCompile Include="Tests\ModuleRunnerTests.cpp" />
     <ClCompile Include="OutputPort.cpp" />
     <ClCompile Include="SampleBuffer.cpp" />
     <ClCompile Include="Tests\SampleBufferTests.cpp" />
