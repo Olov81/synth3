@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\SamplePlayer.h" />
+    <ClInclude Include="Inverter.h" />
     <ClInclude Include="Framework\IInputPort.h" />
     <ClInclude Include="Framework\IModule.h" />
     <ClInclude Include="Framework\InputPort.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="SampleSink.h" />
     <ClInclude Include="SampleSource.h" />
+    <ClCompile Include="Tests\SamplePlayerTests.cpp" />
     <ClInclude Include="TestUtils\Assert.h" />
     <ClInclude Include="FilterModule.h" />
     <ClInclude Include="IFilter.h" />
@@ -146,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp" />
+    <ClCompile Include="Inverter.cpp" />
     <ClCompile Include="Framework\InputPort.cpp" />
     <ClCompile Include="Interpolator.cpp" />
     <ClCompile Include="Framework\ModuleRunner.cpp" />

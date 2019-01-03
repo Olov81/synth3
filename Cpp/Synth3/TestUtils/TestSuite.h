@@ -12,11 +12,26 @@ public:
 
 	bool RunTests();
 
-	void AddTest(TestFunction test);
+	void AddTest(TestFunction testFunction, const char* testName);
 
 private:
 
-	std::vector<TestFunction> _testFunctions;
+	TestSuite();
+
+	struct Test
+	{
+		Test(TestFunction function, const char* name)
+			:_function(function)
+			,_name(name)
+
+		{
+		}
+
+		TestFunction _function;
+		const char* _name;
+	};
+
+	std::vector<Test> _testFunctions;
 
 	static TestSuite* _pInstance;
 };

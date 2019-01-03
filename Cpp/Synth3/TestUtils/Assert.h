@@ -6,7 +6,7 @@
 static void name();\
 static bool init##name()\
 {\
-	TestSuite::Instance()->AddTest(name);\
+	TestSuite::Instance()->AddTest(name, #name);\
 	return true;\
 }\
 static bool name##initialized = init##name();\
@@ -18,12 +18,15 @@ AssertEqual(expected, actual, __LINE__, __FILE__, #actual);
 #define ASSERT_GREATER(limit, actual)\
 AssertGreater(limit, actual, __LINE__, __FILE__, #actual);
 
+#define ASSERT_LESS(limit, actual)\
+AssertLess(limit, actual, __LINE__, __FILE__, #actual);
+
 template<class TExpected, class TActual>
 void AssertEqual(TExpected expected, TActual actual, long line, const char* file, const char* expectedName)
 {
 	if (!(expected == actual))
 	{
-		std::cout << file << "(" << line << "): Expected " << expectedName << " to be " << expected << " but was " << actual << std::endl;
+		std::cout << std::endl << file << "(" << line << "): Expected " << expectedName << " to be " << expected << " but was " << actual << std::endl;
 		throw std::exception("Test failed");
 	}
 }
@@ -33,7 +36,17 @@ void AssertGreater(TLimit limit, TActual actual, long line, const char* file, co
 {
 	if (!(actual > limit))
 	{
-		std::cout << file << "(" << line << "): Expected " << expectedName << " to be greater than " << limit << " but was " << actual << std::endl;
+		std::cout << std::endl << file << "(" << line << "): Expected " << expectedName << " to be greater than " << limit << " but was " << actual << std::endl;
+		throw std::exception("Test failed");
+	}
+}
+
+template<class TLimit, class TActual>
+void AssertLess(TLimit limit, TActual actual, long line, const char* file, const char* expectedName)
+{
+	if (!(actual < limit))
+	{
+		std::cout << std::endl << file << "(" << line << "): Expected " << expectedName << " to be less than " << limit << " but was " << actual << std::endl;
 		throw std::exception("Test failed");
 	}
 }

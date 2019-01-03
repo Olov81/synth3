@@ -1,4 +1,5 @@
 #include "TestSuite.h"
+#include <iostream>
 
 TestSuite * TestSuite::Instance()
 {
@@ -14,9 +15,11 @@ bool TestSuite::RunTests()
 {
 	try
 	{
-		for (std::vector<TestFunction>::iterator iter = _testFunctions.begin(); iter != _testFunctions.end(); ++iter)
+		for (std::vector<Test>::iterator iter = _testFunctions.begin(); iter != _testFunctions.end(); ++iter)
 		{
-			(*iter)();
+			std::cout << "Running test " << iter->_name << "... ";
+			iter->_function();
+			std::cout << "passed!" << std::endl;
 		}
 	}
 	catch (...)
@@ -27,9 +30,15 @@ bool TestSuite::RunTests()
 	return true;
 }
 
-void TestSuite::AddTest(TestFunction test)
+void TestSuite::AddTest(TestFunction testFunction, const char* testName)
 {
+	Test test(testFunction, testName);
+
 	_testFunctions.push_back(test);
+}
+
+TestSuite::TestSuite()
+{
 }
 
 TestSuite* TestSuite::_pInstance;
