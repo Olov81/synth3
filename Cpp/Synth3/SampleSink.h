@@ -5,7 +5,7 @@ class SampleSink : public Module
 {
 public:
 
-	SampleSink(double* buffer, size_t bufferSize);
+	SampleSink(double* pBuffer, size_t bufferSize);
 
 	IInputPort* GetInputPort();
 
@@ -13,7 +13,7 @@ public:
 
 private:
 
-	double* _buffer;
+	double* _pBuffer;
 	size_t _bufferSize;
 	IInputPort* _pInputPort;
 	size_t _index;

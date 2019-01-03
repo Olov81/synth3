@@ -2,25 +2,18 @@
 
 SampleBuffer::SampleBuffer(const double * pBuffer, unsigned int bufferLength)
 	:_pBuffer(pBuffer)
-	,_bufferLength(bufferLength)
-	,_currentPosition(0)
-	,_loopStart(0)
-	,_loopEnd(bufferLength - 1)
-	,_getNextSample(&SampleBuffer::GetNextSampleLoopDisabled)
+	, _bufferLength(bufferLength)
+	, _currentPosition(0)
+	, _loopStart(0)
+	, _loopEnd(bufferLength - 1)
+	, _getNextSample(&SampleBuffer::GetNextSampleLoopDisabled)
 {
-	_pOutput = CreateOutputPort();
 }
 
-IOutputPort * SampleBuffer::GetOutput()
-{
-	return _pOutput;
-}
 
-void SampleBuffer::Update()
+double SampleBuffer::GetNextSample()
 {
-	double sample = (this->*_getNextSample)();
-
-	_pOutput->Write(sample);
+	return (this->*_getNextSample)();
 }
 
 void SampleBuffer::SetLoopEnabled(bool enabled)

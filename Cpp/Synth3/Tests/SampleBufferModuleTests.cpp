@@ -1,14 +1,16 @@
-#include "SampleBuffer.h"
+#include "SampleBufferModule.h"
 #include "TestUtils/Assert.h"
 #include "TestUtils/SignalSink.h"
 #include "Framework/ModuleRunner.h"
 
+namespace SampleBufferModuleTests
+{
 
 TEST(TestWithoutLoop)
 {
 	double samples[] = { 1, 2 };
 
-	SampleBuffer buffer(samples, 2);
+	SampleBufferModule buffer(samples, 2);
 	SignalSink sink;
 
 	sink.GetInput()->Connect(buffer.GetOutput());
@@ -26,7 +28,7 @@ TEST(TestWithLoop)
 {
 	double samples[] = { 10, 20, 30, 40 };
 
-	SampleBuffer buffer(samples, 4);
+	SampleBufferModule buffer(samples, 4);
 	buffer.SetLoopEnabled(true);
 	buffer.SetLoopInterval(1, 2);
 	SignalSink sink;
@@ -44,4 +46,5 @@ TEST(TestWithLoop)
 	ASSERT_EQUAL(30, sink.GetSample(4));
 }
 
+}
 

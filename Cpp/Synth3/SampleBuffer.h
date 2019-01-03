@@ -1,15 +1,12 @@
 #pragma once
-#include "Framework/Module.h"
 
-class SampleBuffer : public Module
+class SampleBuffer
 {
 public:
 
 	SampleBuffer(const double* pBuffer, unsigned int bufferLength);
 
-	IOutputPort* GetOutput();
-
-	virtual void Update();
+	double GetNextSample();
 
 	void SetLoopEnabled(bool enabled);
 
@@ -20,8 +17,6 @@ private:
 	double GetNextSampleLoopEnabled();
 
 	double GetNextSampleLoopDisabled();
-
-	IOutputPort* _pOutput;
 
 	typedef double (SampleBuffer::*DoGetNextSample)();
 

@@ -1,34 +1,49 @@
 #include "SamplePlayer.h"
 
-SamplePlayer::SamplePlayer()
-	:_sample(0)
-	,_currentPosition(0)
-	,_oldGate(0)
+SamplePlayer::SamplePlayer(const double * pSampleBuffer, size_t bufferSize)
+	: _decimationPort()
+	, _inverter()
+	, _sampleProvider(pSampleBuffer, bufferSize)
+	, _interpolator(&_sampleProvider)
+{
+	_inverter.GetInput()->Connect(_decimationPort.GetOutput());
+	_sampleProvider.GetFilterCutoffInput()->Connect(_inverter.GetOutput());
+	_interpolator.GetDecimationInput()->Connect(_decimationPort.GetOutput());
+}
+
+void SamplePlayer::Update()
 {
 }
 
-void SamplePlayer::SetSample(const double * sample)
+IInputPort * SamplePlayer::GetDecimationInput()
 {
-	_sample = sample;
-	_currentPosition = 0.0;
+	return _decimationPort.GetInput();
 }
 
-double SamplePlayer::Update(double resampleFactor, double gate)
+IOutputPort * SamplePlayer::GetOutput()
 {
-	if (gate - _oldGate > 0)
-	{
-		_currentPosition = 0.0;
-	}
+	return _interpolator.GetOutput();
+}
 
-	_oldGate = gate;
-	
-	unsigned long k = (unsigned long)_currentPosition;
+SamplePlayer::SampleProvider::SampleProvider(const double * pSampleBuffer, size_t bufferSize)
+	: _sampleBuffer(pSampleBuffer, bufferSize)
+	, _lowpassFilter()
+{
+	_lowpassFilter.SetQ(1.0);
+	_pFilterCutoffInput = CreateInputPort();
+}
 
-	double interpfactor = _currentPosition - k;
+double SamplePlayer::SampleProvider::GetNextSample()
+{
+	return _lowpassFilter.Update(_sampleBuffer.GetNextSample());
+}
 
-	double y = (1 - interpfactor)*_sample[k] + interpfactor * _sample[k + 1];
+void SamplePlayer::SampleProvider::Update()
+{
+	_lowpassFilter.SetCutoff(_pFilterCutoffInput->Read());
+}
 
-	_currentPosition += resampleFactor;
-
-	return y;
+IInputPort * SamplePlayer::SampleProvider::GetFilterCutoffInput()
+{
+	return _pFilterCutoffInput;
 }

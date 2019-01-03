@@ -33,9 +33,6 @@
     <ClInclude Include="..\SamplePlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SampleBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interpolator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,12 +93,18 @@
     <ClInclude Include="SampleSink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleBufferModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SampleBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Interpolator.cpp">
@@ -117,9 +120,6 @@
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\SampleBufferTests.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="FilterModule.cpp">
@@ -157,6 +157,18 @@
     </ClCompile>
     <ClCompile Include="SampleSink.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Port.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleBufferModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\SampleBufferModuleTests.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

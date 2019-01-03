@@ -10,7 +10,6 @@ public:
 
 	FilterModule(IFilter* pFilter);
 
-
 private:
 
 	IFilter* _pFilter;

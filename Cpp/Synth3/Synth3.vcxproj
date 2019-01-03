@@ -126,6 +126,8 @@
     <ClInclude Include="Interpolator.h" />
     <ClInclude Include="LinearFilter.h" />
     <ClInclude Include="Framework\ModuleRunner.h" />
+    <ClInclude Include="Port.h" />
+    <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="SampleSink.h" />
     <ClInclude Include="SampleSource.h" />
     <ClInclude Include="TestUtils\Assert.h" />
@@ -135,7 +137,7 @@
     <ClInclude Include="Framework\Module.h" />
     <ClInclude Include="ISampleProvider.h" />
     <ClInclude Include="Framework\OutputPort.h" />
-    <ClInclude Include="SampleBuffer.h" />
+    <ClInclude Include="SampleBufferModule.h" />
     <ClInclude Include="SisoModule.h" />
     <ClInclude Include="TestUtils\SignalSink.h" />
     <ClInclude Include="TestUtils\SignalSource.h" />
@@ -148,14 +150,16 @@
     <ClCompile Include="Interpolator.cpp" />
     <ClCompile Include="Framework\ModuleRunner.cpp" />
     <ClCompile Include="FilterModule.cpp" />
+    <ClCompile Include="Port.cpp" />
+    <ClCompile Include="SampleBuffer.cpp" />
     <ClCompile Include="SampleSink.cpp" />
     <ClCompile Include="SampleSource.cpp" />
     <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Framework\Module.cpp" />
     <ClCompile Include="Tests\ModuleRunnerTests.cpp" />
     <ClCompile Include="Framework\OutputPort.cpp" />
-    <ClCompile Include="SampleBuffer.cpp" />
-    <ClCompile Include="Tests\SampleBufferTests.cpp" />
+    <ClCompile Include="SampleBufferModule.cpp" />
+    <ClCompile Include="Tests\SampleBufferModuleTests.cpp" />
     <ClCompile Include="SisoModule.cpp" />
     <ClCompile Include="TestUtils\SignalSink.cpp" />
     <ClCompile Include="TestUtils\SignalSource.cpp" />
