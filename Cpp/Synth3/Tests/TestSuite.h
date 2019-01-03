@@ -8,7 +8,7 @@ public:
 
 	static TestSuite* Instance();
 
-	typedef bool(*TestFunction)();
+	typedef void(*TestFunction)();
 
 	bool RunTests();
 

@@ -3,22 +3,14 @@
 #include "TestSuite.h"
 
 #define TEST(name)\
-static void name##impl();\
-bool name()\
-{\
-	try\
-		{ name##impl(); }\
-	catch(...)\
-		{ return false; }\
-	return true;\
-}\
+static void name();\
 static bool init##name()\
 {\
 	TestSuite::Instance()->AddTest(name);\
 	return true;\
 }\
-static bool name##init = init##name();\
-void name##impl()
+static bool name##initialized = init##name();\
+void name()
 
 #define ASSERT_EQUAL(expected, actual)\
 AssertEqual(expected, actual, __LINE__, __FILE__, #actual);

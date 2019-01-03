@@ -12,14 +12,19 @@ TestSuite * TestSuite::Instance()
 
 bool TestSuite::RunTests()
 {
-	bool success = true;
-
-	for (std::vector<TestFunction>::iterator iter = _testFunctions.begin(); iter != _testFunctions.end(); ++iter)
+	try
 	{
-		success &= (*iter)();
+		for (std::vector<TestFunction>::iterator iter = _testFunctions.begin(); iter != _testFunctions.end(); ++iter)
+		{
+			(*iter)();
+		}
+	}
+	catch (...)
+	{
+		return false;
 	}
 
-	return success;
+	return true;
 }
 
 void TestSuite::AddTest(TestFunction test)
