@@ -1,10 +1,10 @@
-#include "../Interpolator.h"
-#include "../ISampleProvider.h"
+#include "Interpolator.h"
+#include "ISampleProvider.h"
 #include <vector>
-#include "Assert.h"
-#include "../ModuleRunner.h"
-#include "SignalSource.h"
-#include "SignalSink.h"
+#include "TestUtils/Assert.h"
+#include "Framework/ModuleRunner.h"
+#include "TestUtils/SignalSource.h"
+#include "TestUtils/SignalSink.h"
 
 class SampleProvider : public ISampleProvider
 {

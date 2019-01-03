@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Module.h"
+#include "Framework/Module.h"
 #include "IFilter.h"
 
 template<size_t Order>

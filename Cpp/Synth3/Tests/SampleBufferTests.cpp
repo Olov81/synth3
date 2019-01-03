@@ -1,7 +1,7 @@
-#include "../SampleBuffer.h"
-#include "Assert.h"
-#include "SignalSink.h"
-#include "../ModuleRunner.h"
+#include "SampleBuffer.h"
+#include "TestUtils/Assert.h"
+#include "TestUtils/SignalSink.h"
+#include "Framework/ModuleRunner.h"
 
 
 TEST(TestWithoutLoop)

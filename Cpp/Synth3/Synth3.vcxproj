@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"$(ProjectDir)";%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>$(TargetPath)</Command>
@@ -119,43 +120,43 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\SamplePlayer.h" />
-    <ClInclude Include="IInputPort.h" />
-    <ClInclude Include="IModule.h" />
-    <ClInclude Include="InputPort.h" />
+    <ClInclude Include="Framework\IInputPort.h" />
+    <ClInclude Include="Framework\IModule.h" />
+    <ClInclude Include="Framework\InputPort.h" />
     <ClInclude Include="Interpolator.h" />
     <ClInclude Include="LinearFilter.h" />
-    <ClInclude Include="ModuleRunner.h" />
-    <ClInclude Include="Tests\Assert.h" />
+    <ClInclude Include="Framework\ModuleRunner.h" />
+    <ClInclude Include="TestUtils\Assert.h" />
     <ClInclude Include="FilterModule.h" />
     <ClInclude Include="IFilter.h" />
-    <ClInclude Include="IOutputPort.h" />
-    <ClInclude Include="Module.h" />
+    <ClInclude Include="Framework\IOutputPort.h" />
+    <ClInclude Include="Framework\Module.h" />
     <ClInclude Include="ISampleProvider.h" />
-    <ClInclude Include="OutputPort.h" />
+    <ClInclude Include="Framework\OutputPort.h" />
     <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="SisoModule.h" />
-    <ClInclude Include="Tests\SignalSink.h" />
-    <ClInclude Include="Tests\SignalSource.h" />
-    <ClInclude Include="Tests\TestSuite.h" />
+    <ClInclude Include="TestUtils\SignalSink.h" />
+    <ClInclude Include="TestUtils\SignalSource.h" />
+    <ClInclude Include="TestUtils\TestSuite.h" />
     <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp" />
-    <ClCompile Include="InputPort.cpp" />
+    <ClCompile Include="Framework\InputPort.cpp" />
     <ClCompile Include="Interpolator.cpp" />
-    <ClCompile Include="ModuleRunner.cpp" />
+    <ClCompile Include="Framework\ModuleRunner.cpp" />
     <ClCompile Include="FilterModule.cpp" />
     <ClCompile Include="Tests\InterpolatorTests.cpp" />
-    <ClCompile Include="Module.cpp" />
+    <ClCompile Include="Framework\Module.cpp" />
     <ClCompile Include="Tests\ModuleRunnerTests.cpp" />
-    <ClCompile Include="OutputPort.cpp" />
+    <ClCompile Include="Framework\OutputPort.cpp" />
     <ClCompile Include="SampleBuffer.cpp" />
     <ClCompile Include="Tests\SampleBufferTests.cpp" />
     <ClCompile Include="SisoModule.cpp" />
-    <ClCompile Include="Tests\SignalSink.cpp" />
-    <ClCompile Include="Tests\SignalSource.cpp" />
+    <ClCompile Include="TestUtils\SignalSink.cpp" />
+    <ClCompile Include="TestUtils\SignalSource.cpp" />
     <ClCompile Include="Tests\Test.cpp" />
-    <ClCompile Include="Tests\TestSuite.cpp" />
+    <ClCompile Include="TestUtils\TestSuite.cpp" />
     <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp" />
     <ClCompile Include="TwoPoleLowpassFilter.cpp" />
   </ItemGroup>

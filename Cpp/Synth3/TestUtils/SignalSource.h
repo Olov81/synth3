@@ -1,6 +1,6 @@
 #pragma once
 #include <initializer_list>
-#include "../Module.h"
+#include "Framework/Module.h"
 
 class SignalSource : public Module
 {

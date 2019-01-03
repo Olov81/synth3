@@ -1,5 +1,5 @@
-#include "../TwoPoleLowpassFilter.h"
-#include "Assert.h"
+#include "TwoPoleLowpassFilter.h"
+#include "TestUtils/Assert.h"
 
 TEST(TwoPoleLowpassFilterTests)
 {

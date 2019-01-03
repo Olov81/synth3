@@ -1,5 +1,5 @@
 #pragma once
-#include "Module.h"
+#include "Framework/Module.h"
 
 class SampleBuffer : public Module
 {
