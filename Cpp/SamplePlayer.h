@@ -7,42 +7,41 @@
 #include "Port.h"
 #include "Inverter.h"
 
+class IFilter;
+
 class SamplePlayer : public Module
 {
 public:
 
-	SamplePlayer(const double* pSampleBuffer, size_t bufferSize);
+	SamplePlayer(const double* pSampleBuffer, size_t bufferSize, IFilter* pFilter);
 
 	virtual void Update();
 
-	IInputPort* GetDecimationInput();
+	IInputPort* GetDecimationInput() const;
 
-	IOutputPort* GetOutput();
+	IOutputPort* GetOutput() const;
 
 private:
 
-	class SampleProvider : public ISampleProvider, public Module
+	class SampleProvider : public ISampleProvider
 	{
 	public:
 
-		SampleProvider(const double* pSampleBuffer, size_t bufferSize);
+		SampleProvider(const double* pSampleBuffer, size_t bufferSize, IFilter* pFilter);
 
 		virtual double GetNextSample();
 
-		virtual void Update();
-
-		IInputPort* GetFilterCutoffInput();
+		void SetFilterCutoff(const double& cutoff) const;
 
 	private:
 
 		SampleBuffer _sampleBuffer;
-		TwoPoleLowpassFilter _lowpassFilter;
-		IInputPort* _pFilterCutoffInput;
+		IFilter* _pFilter;
 	};
 
-	Port _decimationPort;
+	IOutputPort* _pOutputPort;
 
-	Inverter _inverter;
+	IInputPort* _pDecimationInput;
 
 	SampleProvider _sampleProvider;
 

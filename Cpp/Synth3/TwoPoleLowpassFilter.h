@@ -7,7 +7,7 @@ public:
 
 	TwoPoleLowpassFilter();
 
-	void SetCutoff(double cutoff);
+	void SetCutoffFrequency(double cutoff);
 
 	void SetQ(double q);
 

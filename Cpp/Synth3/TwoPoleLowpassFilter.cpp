@@ -10,7 +10,7 @@ TwoPoleLowpassFilter::TwoPoleLowpassFilter()
 	UpdateCoefficients();
 }
 
-void TwoPoleLowpassFilter::SetCutoff(double cutoff)
+void TwoPoleLowpassFilter::SetCutoffFrequency(double cutoff)
 {
 	_cutoff = cutoff;
 	UpdateCoefficients();

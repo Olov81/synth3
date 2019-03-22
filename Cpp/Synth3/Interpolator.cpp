@@ -7,25 +7,6 @@ Interpolator::Interpolator(ISampleProvider * pSampleProvider)
 	,_lastSample(0)
 	,_nextSample(pSampleProvider->GetNextSample())
 {
-	_pDecimiationInput = CreateInputPort();
-	_pOutput = CreateOutputPort();
-}
-
-IInputPort * Interpolator::GetDecimationInput()
-{
-	return _pDecimiationInput;
-}
-
-IOutputPort * Interpolator::GetOutput()
-{
-	return _pOutput;
-}
-
-void Interpolator::Update()
-{
-	double output = GetNextSample(_pDecimiationInput->Read());
-
-	_pOutput->Write(output);
 }
 
 double Interpolator::GetNextSample(double increment)

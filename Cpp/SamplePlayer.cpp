@@ -1,49 +1,44 @@
 #include "SamplePlayer.h"
 
-SamplePlayer::SamplePlayer(const double * pSampleBuffer, size_t bufferSize)
-	: _decimationPort()
-	, _inverter()
-	, _sampleProvider(pSampleBuffer, bufferSize)
+SamplePlayer::SamplePlayer(const double * pSampleBuffer, size_t bufferSize, IFilter* pFilter)
+	: _sampleProvider(pSampleBuffer, bufferSize, pFilter)
 	, _interpolator(&_sampleProvider)
 {
-	_inverter.GetInput()->Connect(_decimationPort.GetOutput());
-	_sampleProvider.GetFilterCutoffInput()->Connect(_inverter.GetOutput());
-	_interpolator.GetDecimationInput()->Connect(_decimationPort.GetOutput());
+	_pOutputPort = CreateOutputPort();
+	_pDecimationInput = CreateInputPort();
 }
 
 void SamplePlayer::Update()
 {
+	const double decimation = _pDecimationInput->Read();
+
+	_sampleProvider.SetFilterCutoff(1.0/decimation);
+
+	_pOutputPort->Write(_interpolator.GetNextSample(decimation));
 }
 
-IInputPort * SamplePlayer::GetDecimationInput()
+IInputPort * SamplePlayer::GetDecimationInput() const
 {
-	return _decimationPort.GetInput();
+	return _pDecimationInput;
 }
 
-IOutputPort * SamplePlayer::GetOutput()
+IOutputPort * SamplePlayer::GetOutput() const
 {
-	return _interpolator.GetOutput();
+	return _pOutputPort;
 }
 
-SamplePlayer::SampleProvider::SampleProvider(const double * pSampleBuffer, size_t bufferSize)
+SamplePlayer::SampleProvider::SampleProvider(const double * pSampleBuffer, size_t bufferSize, IFilter* pFilter)
 	: _sampleBuffer(pSampleBuffer, bufferSize)
-	, _lowpassFilter()
+	, _pFilter(pFilter)
 {
-	_lowpassFilter.SetQ(1.0);
-	_pFilterCutoffInput = CreateInputPort();
 }
 
 double SamplePlayer::SampleProvider::GetNextSample()
 {
-	return _lowpassFilter.Update(_sampleBuffer.GetNextSample());
+	return _pFilter->Update(_sampleBuffer.GetNextSample());
 }
 
-void SamplePlayer::SampleProvider::Update()
+void SamplePlayer::SampleProvider::SetFilterCutoff(const double& cutoff) const
 {
-	_lowpassFilter.SetCutoff(_pFilterCutoffInput->Read());
-}
-
-IInputPort * SamplePlayer::SampleProvider::GetFilterCutoffInput()
-{
-	return _pFilterCutoffInput;
+	_pFilter->SetCutoffFrequency(cutoff);
 }

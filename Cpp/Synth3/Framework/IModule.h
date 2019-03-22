@@ -4,6 +4,7 @@ class IInputPort;
 class IModule
 {
 public:
+	virtual ~IModule() = default;
 
 	virtual void Update() = 0;
 
