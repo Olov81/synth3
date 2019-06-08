@@ -4,8 +4,6 @@
 #include "ISampleProvider.h"
 #include "TwoPoleLowpassFilter.h"
 #include "SampleBuffer.h"
-#include "Port.h"
-#include "Inverter.h"
 
 class IFilter;
 

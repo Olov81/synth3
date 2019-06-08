@@ -51,7 +51,7 @@ class Assertion
 public:
 
 	template<class TExpected>
-	void AreAllEquivalentTo(const std::initializer_list<TExpected>& expectedInitializer)
+	void AreAllEqualTo(const std::initializer_list<TExpected>& expectedInitializer)
 	{
 		std::vector<TExpected> expected(expectedInitializer);
 		

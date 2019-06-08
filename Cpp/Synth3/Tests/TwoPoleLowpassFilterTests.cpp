@@ -5,9 +5,9 @@ TEST(TwoPoleLowpassFilterTests)
 {
 	TwoPoleLowpassFilter filter;
 
-	double y1 = filter.Update(1.0);
-	double y2 = filter.Update(1.0);
-	double y3 = filter.Update(1.0);
+	auto y1 = filter.Update(1.0);
+	auto y2 = filter.Update(1.0);
+	auto y3 = filter.Update(1.0);
 
 	ASSERT_GREATER(0, y1);
 	ASSERT_GREATER(y1, y2);

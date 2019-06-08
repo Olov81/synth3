@@ -3,7 +3,7 @@ clc;
 close all;
 
 fs = 44100;
-T = 15;
+T = 10;
 t = (0:T*fs-1)/fs;
 N = length(t);
 
@@ -56,7 +56,7 @@ mixer2.returnInput.connect( reverbCompressor.output );
 compressor.input.connect( mixer2.mainOutput );
 writer.input.connect( compressor.output );
 
-mixer.channels(2).input.connect(sampleOsc.output);
+mixer.channels(2).input.connect(synth.output);
 % sampleOsc.resampleFactorInput.connect(vibrato.output);
 sampleOsc.resampleFactorInput.connect(seq.cvOutput);
 sampleOsc.gateInput.connect(seq.gateOutput);
@@ -70,7 +70,7 @@ vibrato.amplitudeInput.set(0.5);
 
 % Set parameters
 seq.bpm = 118;
-seq.transpose = 36;
+seq.transpose = -12;
 
 v1 = [1 0 0 1  0 0 1 0  0 1 0 0  1 0 1 0 ... 
       1 0 0 1  0 0 1 0  0 1 0 0  1 0 1 0 ... 
@@ -124,9 +124,9 @@ pattern(2,:) =  [v1 v1 v1 v1];
 pattern(3,:) =  [n1 n1 n1 n1];
 seq.pattern = pattern;
 
-synth.vco1.detune = 0.4;
+synth.vco1.detune = 0.1;
 synth.vco1.voices = 8;
-synth.vco1.stereospread = 0.5;
+synth.vco1.stereospread = 0.1;
 synth.vco1.tuning = 0;
 synth.vco1VolumeInput.set(0.1);
 
@@ -136,13 +136,13 @@ synth.vco2.stereospread = 0.0;
 synth.vco2.tuning = -12;
 synth.vco2VolumeInput.set(0.1);
 
-synth.noiseAmp.gainInput.set(0.05);
+synth.noiseAmp.gainInput.set(0.03);
 synth.noiseFilter.type = 'bandpass';
-synth.noiseFilter.frequencyInput.set(0.15);
+synth.noiseFilter.frequencyInput.set(0.1);
 synth.noiseGenerator.stereo = true;
 
-synth.cutoffInput.set( 0.1 );
-synth.cutoffInput.connect( filterModulation.output );
+synth.cutoffInput.set( 0.5 );
+% synth.cutoffInput.connect( filterModulation.output );
 synth.resonanceInput.set( 0.7 );
 synth.fenv.decayInput.set( 0.5 );
 synth.fenv.sustainInput.set( 0.00);
@@ -151,10 +151,10 @@ synth.fenv.releaseInput.set( 0.02 );
 synth.fenvAmount.gainInput.set( 0.1 );
 % synth.fenvAmount.gainInput.connect(filterModulation.output);
 
-synth.aenv.decayInput.set( 0.03 );
-synth.aenv.releaseInput.set( 0.1 );
-synth.aenv.attackInput.set( 2e-2 );
-synth.aenv.sustainInput.set( 0.3 );
+synth.aenv.decayInput.set( 0.05 );
+synth.aenv.releaseInput.set( 0.05 );
+synth.aenv.attackInput.set( 0.05 );
+synth.aenv.sustainInput.set( 0.9 );
 
 synth.penv.decayInput.set( 0.0015 );
 synth.penv.releaseInput.set( 0.05 );
@@ -166,7 +166,7 @@ synth.flfo.amplitudeInput.set( 1 );
 synth.flfo.frequencyInput.set( 6 );
 synth.flfo.syncDelay = 0.0;
 
-synth.portaRateInput.set( 0.002 );
+synth.portaRateInput.set( 0.1 );
 
 synthHpf.type = 'highpass';
 synthHpf.resonanceInput.set( 0.5 );
@@ -205,7 +205,7 @@ delayfx.wetmixInput.set( 1.0 );
 delayfx.tap1Delay = noteLengthToSamples2(1/8, seq.bpm, fs);
 delayfx.tap2Delay = noteLengthToSamples2(1/16, seq.bpm, fs);
 delayfx.feedback = 0.5;
-delayfx.bypass = false;
+delayfx.bypass = true;
 envelopeFollower.resonanceInput.set( 0.5 );
 
 delayfx2.wetmixInput.set( 1.0 );
@@ -235,7 +235,7 @@ mixer.channels(1).paramEq2.frequencyInput.set(2*300/fs);
 mixer.channels(1).paramEq2.gainInput.set( 2 );
 mixer.channels(1).paramEq2.qInput.set( 0.4 );
 
-mixer2.channels(1).sendLevelInput.set( 0.00 );
+mixer2.channels(1).sendLevelInput.set( 0.01 );
 mixer2.channels(1).highShelfEq.bypass = true;
 mixer2.channels(1).highShelfEq.gainInput.set( 2.0 );
 mixer2.channels(1).highShelfEq.frequencyInput.set( 2*5000/fs );

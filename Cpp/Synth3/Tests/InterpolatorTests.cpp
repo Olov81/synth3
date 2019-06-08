@@ -13,9 +13,9 @@ public:
 	{
 	}
 
-	virtual double GetNextSample() 
+	double GetNextSample() override
 	{
-		double sample = *_samples;
+		const auto sample = *_samples;
 		_samples++;
 		return sample;
 	}

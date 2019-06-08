@@ -3,6 +3,7 @@
 #include "../TestUtils/SignalSource.h"
 #include "../TestUtils/SignalSink.h"
 #include "Framework/ModuleRunner.h"
+#include "soundfile.h"
 
 class FilterStub : public IFilter
 {
@@ -37,9 +38,18 @@ TEST(SamplePlayerTests)
 
 	runner.Run(4);
 
+	SoundHeader soundHeader;
+	soundHeader.setHighMono();
+	SoundFileWrite soundFile("Test.wav", soundHeader);
+	soundFile.writeSampleDouble(signalSink.GetSample(0)/0x8000);
+	soundFile.writeSampleDouble(signalSink.GetSample(1)/0x8000);
+	soundFile.writeSampleDouble(signalSink.GetSample(2)/0x8000);
+	soundFile.writeSampleDouble(signalSink.GetSample(3)/0x8000);
+	soundFile.close();
+
 	ASSERT_EQUAL(-2.0, signalSink.GetSample(0));
 	ASSERT_EQUAL(-4.0, signalSink.GetSample(1));
 	ASSERT_EQUAL(-4.5, signalSink.GetSample(2));
 	ASSERT_EQUAL(-5.5, signalSink.GetSample(3));
-	Assert(filter.SetFrequencies).AreAllEquivalentTo({ 0.5, 0.5, 2.0, 1.0 });
+	Assert(filter.SetFrequencies).AreAllEqualTo({ 0.5, 0.5, 2.0, 1.0 });
 }

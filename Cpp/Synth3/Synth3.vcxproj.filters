@@ -93,9 +93,6 @@
     <ClInclude Include="SampleSink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Port.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SampleBufferModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SampleSink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Port.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SampleBufferModule.cpp">

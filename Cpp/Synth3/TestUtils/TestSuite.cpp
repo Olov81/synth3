@@ -3,7 +3,7 @@
 
 TestSuite * TestSuite::Instance()
 {
-	if (_pInstance == 0)
+	if (_pInstance == nullptr)
 	{
 		_pInstance = new TestSuite();
 	}
@@ -15,10 +15,10 @@ bool TestSuite::RunTests()
 {
 	try
 	{
-		for (std::vector<Test>::iterator iter = _testFunctions.begin(); iter != _testFunctions.end(); ++iter)
+		for (auto& testFunction : _testFunctions)
 		{
-			std::cout << "Running test " << iter->_name << "... ";
-			iter->_function();
+			std::cout << "Running test " << testFunction._name << "... ";
+			testFunction._function();
 			std::cout << "passed!" << std::endl;
 		}
 	}
@@ -37,8 +37,6 @@ void TestSuite::AddTest(TestFunction testFunction, const char* testName)
 	_testFunctions.push_back(test);
 }
 
-TestSuite::TestSuite()
-{
-}
+TestSuite::TestSuite() = default;
 
 TestSuite* TestSuite::_pInstance;

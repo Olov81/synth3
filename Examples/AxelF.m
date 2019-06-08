@@ -39,7 +39,7 @@ writer.input.connect( reverb.output );
 
 % Set parameters
 seq.bpm = 117;
-seq.transpose = -4 + 12;
+seq.transpose = -4;
 seq.loop = true;
 v = [1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...
      1 0 0 0  1 0 0 1  0 1 1 0  1 0 1 0 ...

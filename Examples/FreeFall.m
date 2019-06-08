@@ -88,9 +88,9 @@ porta.frequencyInput.set( 1e-6 );
 porta.resonanceInput.set( 1.0 );
 porta.bypass = true;
 
-synth.vco1.detune = 0.4;
+synth.vco1.detune = 0.5;
 synth.vco1.voices = 8;
-synth.vco1.stereospread = 1.0;
+synth.vco1.stereospread = 0.8;
 synth.vco1VolumeInput.set(0.1);
 
 synth.vco2.detune = 0.4;

@@ -7,22 +7,22 @@ class TestModule : public Module
 {
 public:
 
-	IInputPort* GetInputOne()
+	IInputPort* GetInputOne() const
 	{
 		return _pInputOne;
 	}
 
-	IInputPort* GetInputTwo()
+	IInputPort* GetInputTwo() const
 	{
 		return _pInputTwo;
 	}
 
-	IOutputPort* GetOutputOne()
+	IOutputPort* GetOutputOne() const
 	{
 		return _pOutputOne;
 	}
 
-	IOutputPort* GetOutputTwo()
+	IOutputPort* GetOutputTwo() const
 	{
 		return _pOutputTwo;
 	}
@@ -37,7 +37,7 @@ public:
 	}
 
 	// Inherited via Module
-	virtual void Update() override
+	void Update() override
 	{
 		_updateModules.push_back(this);
 	}
