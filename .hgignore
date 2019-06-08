@@ -3,3 +3,4 @@ regex:
 .*\/\.vs\/.*
 .*\.obj
 Cpp/Synth3/Debug/.*
+Cpp/SoundFile/Debug/.*
