@@ -20,13 +20,17 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{FBA9E433-3F9E-42D4-92CC-E9843B679570}</ProjectGuid>
-    <RootNamespace>SoundFile</RootNamespace>
+    <ProjectGuid>{74DBBC4D-EBA0-48BE-A06E-0FE9D240C252}</ProjectGuid>
+    <RootNamespace>PlayAround</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -76,15 +80,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Olle\Documents\MATLAB\synth3\Cpp\soundfile-2.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;VISUAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
-    <Lib>
-      <OutputFile>$(ProjectDir)$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -128,28 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\soundfile-2.2\include\Array.cpp" />
-    <ClCompile Include="..\soundfile-2.2\include\Collection.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\FileIO.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\Options.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\Options_private.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\soundfilehelpers.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\SoundFileRead.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\SoundFileWrite.cpp" />
-    <ClCompile Include="..\soundfile-2.2\src\SoundHeader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\soundfile-2.2\include\Array.h" />
-    <ClInclude Include="..\soundfile-2.2\include\Collection.h" />
-    <ClInclude Include="..\soundfile-2.2\include\FileIO.h" />
-    <ClInclude Include="..\soundfile-2.2\include\Options.h" />
-    <ClInclude Include="..\soundfile-2.2\include\Options_private.h" />
-    <ClInclude Include="..\soundfile-2.2\include\sigConfiguration.h" />
-    <ClInclude Include="..\soundfile-2.2\include\soundfile.h" />
-    <ClInclude Include="..\soundfile-2.2\include\soundfilehelpers.h" />
-    <ClInclude Include="..\soundfile-2.2\include\SoundFileRead.h" />
-    <ClInclude Include="..\soundfile-2.2\include\SoundFileWrite.h" />
-    <ClInclude Include="..\soundfile-2.2\include\SoundHeader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
