@@ -21,12 +21,18 @@
     <ClInclude Include="Source\WaveformGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Constant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WaveWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\WaveformGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Constant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

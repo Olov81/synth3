@@ -100,9 +100,11 @@ const LinearFunction& GetFunction(double t, double T)
 		return waveform[0];
 	}
 
-	double omega = t / T;
+	const auto omega = t / T;
 
-	for (int index = 0; index < 2; ++index)
+	const auto numberOfFunctions = sizeof(waveform) / sizeof(LinearFunction);
+
+	for (size_t index = 0; index < numberOfFunctions - 1; ++index)
 	{
 		if (waveform[index].omega <= omega && omega < waveform[index + 1].omega)
 		{
@@ -211,7 +213,7 @@ void WaveformGenerator::Update()
 {
 	const auto T = scale / _pFrequencyInput->Read();
 	const auto t0 = _t;
-	_t = _t + ts;
+	_t += ts;
 	auto y = 0.0;
 
 	for (unsigned int mode = 0; mode < order; ++mode)

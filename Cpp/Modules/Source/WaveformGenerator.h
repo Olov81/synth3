@@ -2,11 +2,12 @@
 #include "Framework/Module.h"
 #include <complex>
 
-class WaveformGenerator : Module
+class WaveformGenerator : public Module
 {
 public:
 
 	WaveformGenerator();
+
 	void Update() override;
 
 private:	
