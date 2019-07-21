@@ -1,6 +1,6 @@
 #include "Framework/Module.h"
 #include "Framework/ModuleRunner.h"
-#include "TestUtils/Assert.h"
+#include "Assert.h"
 #include <string>
 
 class TestModule : public Module

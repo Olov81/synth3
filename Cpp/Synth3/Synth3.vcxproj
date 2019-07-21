@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -78,14 +78,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);C:\Users\Olle\Documents\MATLAB\synth3\Cpp\soundfile-2.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
-      <Command>$(TargetPath)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>SoundFile.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Olle\Documents\MATLAB\synth3\Cpp\Synth3\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Testing.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Testing\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,8 +137,6 @@
     <ClInclude Include="SampleBuffer.h" />
     <ClInclude Include="SampleSink.h" />
     <ClInclude Include="SampleSource.h" />
-    <ClCompile Include="Tests\SamplePlayerTests.cpp" />
-    <ClInclude Include="TestUtils\Assert.h" />
     <ClInclude Include="FilterModule.h" />
     <ClInclude Include="IFilter.h" />
     <ClInclude Include="Framework\IOutputPort.h" />
@@ -146,9 +145,6 @@
     <ClInclude Include="Framework\OutputPort.h" />
     <ClInclude Include="SampleBufferModule.h" />
     <ClInclude Include="SisoModule.h" />
-    <ClInclude Include="TestUtils\SignalSink.h" />
-    <ClInclude Include="TestUtils\SignalSource.h" />
-    <ClInclude Include="TestUtils\TestSuite.h" />
     <ClInclude Include="TwoPoleLowpassFilter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -161,18 +157,10 @@
     <ClCompile Include="SampleBuffer.cpp" />
     <ClCompile Include="SampleSink.cpp" />
     <ClCompile Include="SampleSource.cpp" />
-    <ClCompile Include="Tests\InterpolatorTests.cpp" />
     <ClCompile Include="Framework\Module.cpp" />
-    <ClCompile Include="Tests\ModuleRunnerTests.cpp" />
     <ClCompile Include="Framework\OutputPort.cpp" />
     <ClCompile Include="SampleBufferModule.cpp" />
-    <ClCompile Include="Tests\SampleBufferModuleTests.cpp" />
     <ClCompile Include="SisoModule.cpp" />
-    <ClCompile Include="TestUtils\SignalSink.cpp" />
-    <ClCompile Include="TestUtils\SignalSource.cpp" />
-    <ClCompile Include="Tests\Test.cpp" />
-    <ClCompile Include="TestUtils\TestSuite.cpp" />
-    <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp" />
     <ClCompile Include="TwoPoleLowpassFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

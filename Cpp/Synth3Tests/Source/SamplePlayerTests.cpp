@@ -1,7 +1,7 @@
-#include "../SamplePlayer.h"
-#include "../TestUtils/Assert.h"
-#include "../TestUtils/SignalSource.h"
-#include "../TestUtils/SignalSink.h"
+#include "SamplePlayer.h"
+#include "Assert.h"
+#include "SignalSource.h"
+#include "SignalSink.h"
 #include "Framework/ModuleRunner.h"
 
 class FilterStub : public IFilter

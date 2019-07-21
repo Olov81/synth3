@@ -1,6 +1,6 @@
 #include "SampleBufferModule.h"
-#include "TestUtils/Assert.h"
-#include "TestUtils/SignalSink.h"
+#include "Assert.h"
+#include "SignalSink.h"
 #include "Framework/ModuleRunner.h"
 
 namespace SampleBufferModuleTests

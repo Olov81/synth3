@@ -13,20 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Tests">
-      <UniqueIdentifier>{d02940fd-1611-4ab9-961b-45d9ed6001dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{c2971352-dfd0-4b5d-92e5-72dd282de047}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{c7d6ed1c-7e01-4147-a2c5-d9abc992b20b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\TestUtils">
-      <UniqueIdentifier>{68393ec2-e1ab-4997-83b0-98fc8cb30b17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TestUtils">
-      <UniqueIdentifier>{18e839ce-17b6-47ae-bace-0db1e3186e0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,18 +66,6 @@
     <ClInclude Include="Framework\OutputPort.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="TestUtils\Assert.h">
-      <Filter>Header Files\TestUtils</Filter>
-    </ClInclude>
-    <ClInclude Include="TestUtils\SignalSink.h">
-      <Filter>Header Files\TestUtils</Filter>
-    </ClInclude>
-    <ClInclude Include="TestUtils\SignalSource.h">
-      <Filter>Header Files\TestUtils</Filter>
-    </ClInclude>
-    <ClInclude Include="TestUtils\TestSuite.h">
-      <Filter>Header Files\TestUtils</Filter>
-    </ClInclude>
     <ClInclude Include="SampleSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -110,26 +89,14 @@
     <ClCompile Include="Interpolator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\InterpolatorTests.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
     <ClCompile Include="TwoPoleLowpassFilter.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\Test.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\TwoPoleLowpassFilterTests.cpp">
-      <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="FilterModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SisoModule.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\ModuleRunnerTests.cpp">
-      <Filter>Source Files\Tests</Filter>
     </ClCompile>
     <ClCompile Include="Framework\InputPort.cpp">
       <Filter>Source Files\Framework</Filter>
@@ -143,15 +110,6 @@
     <ClCompile Include="Framework\OutputPort.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="TestUtils\SignalSink.cpp">
-      <Filter>Source Files\TestUtils</Filter>
-    </ClCompile>
-    <ClCompile Include="TestUtils\SignalSource.cpp">
-      <Filter>Source Files\TestUtils</Filter>
-    </ClCompile>
-    <ClCompile Include="TestUtils\TestSuite.cpp">
-      <Filter>Source Files\TestUtils</Filter>
-    </ClCompile>
     <ClCompile Include="SampleSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -164,14 +122,8 @@
     <ClCompile Include="SampleBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\SampleBufferModuleTests.cpp">
-      <Filter>Source Files\Tests</Filter>
-    </ClCompile>
     <ClCompile Include="Inverter.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tests\SamplePlayerTests.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

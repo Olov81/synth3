@@ -1,8 +1,8 @@
 #include "Interpolator.h"
 #include "ISampleProvider.h"
 #include <vector>
-#include "TestUtils/Assert.h"
-#include "TestUtils/SignalSource.h"
+#include "Assert.h"
+#include "SignalSource.h"
 
 class SampleProvider : public ISampleProvider
 {
