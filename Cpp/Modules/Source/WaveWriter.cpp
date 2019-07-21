@@ -16,3 +16,8 @@ void WaveWriter::Close()
 {
 	_soundFileWrite.close();
 }
+
+IInputPort* WaveWriter::GetInput() const
+{
+	return _pInput;
+}

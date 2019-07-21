@@ -12,6 +12,8 @@ public:
 
 	void Close();
 
+	IInputPort* GetInput() const;
+
 private:
 
 	IInputPort* _pInput;

@@ -1,8 +1,8 @@
 #pragma once
-#include "Framework/Module.h"
+#include "Source.h"
 #include <complex>
 
-class WaveformGenerator : public Module
+class WaveformGenerator : public Source
 {
 public:
 
@@ -10,11 +10,12 @@ public:
 
 	void Update() override;
 
+	IInputPort* GetFrequencyInput() const;
+
 private:	
 	
 	typedef std::complex<double> ComplexT;
 
-	IOutputPort* _pOutput;
 	IInputPort* _pFrequencyInput;
 	double _t;
 	std::complex<double> _w[6];

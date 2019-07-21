@@ -18,10 +18,13 @@
     <ClInclude Include="Include\WaveWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WaveformGenerator.h">
+    <ClInclude Include="Include\WaveformGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Constant.h">
+    <ClInclude Include="Include\Constant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +35,10 @@
     <ClCompile Include="Source\WaveformGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Constant.cpp">
+    <ClCompile Include="Source\Constant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

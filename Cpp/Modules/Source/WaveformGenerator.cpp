@@ -205,7 +205,6 @@ WaveformGenerator::WaveformGenerator()
 	: _t(0)
 	, _w{ 0,0,0,0,0,0 }
 {
-	_pOutput = CreateOutputPort();
 	_pFrequencyInput = CreateInputPort();
 }
 
@@ -230,5 +229,10 @@ void WaveformGenerator::Update()
 		_t = _t - T;
 	}
 
-	_pOutput->Write(2 * y - 1);
+	Write(2 * y - 1);
+}
+
+IInputPort* WaveformGenerator::GetFrequencyInput() const
+{
+	return _pFrequencyInput;
 }

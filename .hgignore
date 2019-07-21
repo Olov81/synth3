@@ -4,3 +4,4 @@ regex:
 .*\.obj
 .*\.lib
 .*\Debug\/.*
+.*\.vcxproj\.user
