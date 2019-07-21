@@ -20,12 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Constant.h" />
+    <ClInclude Include="Include\Gain.h" />
+    <ClInclude Include="Include\Lfo.h" />
     <ClInclude Include="Include\Source.h" />
     <ClInclude Include="Include\WaveWriter.h" />
     <ClInclude Include="Include\WaveformGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Constant.cpp" />
+    <ClCompile Include="Source\Gain.cpp" />
+    <ClCompile Include="Source\Lfo.cpp" />
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />

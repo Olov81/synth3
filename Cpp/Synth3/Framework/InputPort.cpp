@@ -2,7 +2,8 @@
 #include "IOutputPort.h"
 
 InputPort::InputPort()
-	: _pOutputPort(0)
+	: _pOutputPort(nullptr)
+	, _defaultValue(0)
 {
 
 }
@@ -14,10 +15,16 @@ void InputPort::Connect(IOutputPort* pOutputPort)
 
 double InputPort::Read() const
 {
-	return _pOutputPort == 0 ? 0 : _pOutputPort->Read();
+	return _pOutputPort == nullptr ? _defaultValue : _pOutputPort->Read();
 }
 
 IOutputPort * InputPort::GetConnection() const
 {
 	return _pOutputPort;
+}
+
+void InputPort::Set(const double& value)
+{
+	_defaultValue = value;
+	_pOutputPort = nullptr;
 }

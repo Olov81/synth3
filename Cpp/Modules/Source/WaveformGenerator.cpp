@@ -79,13 +79,13 @@ struct LinearFunction
 LinearFunction waveform[] = {
 
 	// Square wave
-	//LinearFunction(0, 1, 0),
-	//LinearFunction(0, 0, 0.5),
-	//LinearFunction(0,0,1.0)
+	LinearFunction(0, 1, 0),
+	LinearFunction(0, 0, 0.5),
+	LinearFunction(0,0,1.0)
 
 	//Sawtooth
-	LinearFunction(1, 0, 0),
-	LinearFunction(0,0,1.0)
+	//LinearFunction(1, 0, 0),
+	//LinearFunction(0,0,1.0)
 
 	// Triangle
 	//LinearFunction(2, 0, 0),

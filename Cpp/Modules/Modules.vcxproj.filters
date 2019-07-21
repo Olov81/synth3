@@ -27,6 +27,12 @@
     <ClInclude Include="Include\Source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Lfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Gain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WaveWriter.cpp">
@@ -39,6 +45,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Lfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Gain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

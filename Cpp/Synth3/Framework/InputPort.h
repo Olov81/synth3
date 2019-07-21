@@ -7,13 +7,17 @@ public:
 
 	InputPort();
 
-	virtual void Connect(IOutputPort * pOutputPort);
+	void Connect(IOutputPort * pOutputPort) override;
 
-	virtual double Read() const;
+	double Read() const override;
 
-	virtual IOutputPort* GetConnection() const;
+	IOutputPort* GetConnection() const override;
+
+	void Set(const double& value) override;
 
 private:
 
 	IOutputPort* _pOutputPort;
+
+	double _defaultValue;
 };
