@@ -52,7 +52,7 @@ ModuleRunner::ModuleCollection ModuleRunner::GetDependenciesInUpdateOrder(IModul
 
 void ModuleRunner::UpdateModules()
 {
-	for (ModuleCollection::iterator iter = _modules.begin(); iter != _modules.end(); ++iter)
+	for (auto iter = _modules.begin(); iter != _modules.end(); ++iter)
 	{
 		(*iter)->Update();
 	}
