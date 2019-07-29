@@ -15,6 +15,9 @@ void name()
 #define ASSERT_EQUAL(expected, actual)\
 AssertEqual(expected, actual, __LINE__, __FILE__, #actual);
 
+#define ASSERT_CLOSE(expected, actual, precision)\
+AssertClose(expected, actual, precision, __LINE__, __FILE__, #actual);
+
 #define ASSERT_GREATER(limit, actual)\
 AssertGreater(limit, actual, __LINE__, __FILE__, #actual);
 
@@ -105,6 +108,16 @@ void AssertEqual(TExpected expected, TActual actual, long line, const char* file
 	if (!(expected == actual))
 	{
 		std::cout << std::endl << file << "(" << line << "): Expected " << expectedName << " to be " << expected << " but was " << actual << std::endl;
+		throw std::exception("Test failed");
+	}
+}
+
+template<class TExpected, class TActual>
+void AssertClose(TExpected expected, TActual actual, double precision, long line, const char* file, const char* expectedName)
+{
+	if (!(std::abs(expected - actual) < precision))
+	{
+		std::cout << std::endl << file << "(" << line << "): Expected " << expectedName << " to be approximately " << expected << " but was " << actual << std::endl;
 		throw std::exception("Test failed");
 	}
 }

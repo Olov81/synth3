@@ -1,4 +1,5 @@
 #include "SignalSink.h"
+#include <fstream>
 
 SignalSink::SignalSink()
 {
@@ -18,4 +19,17 @@ double SignalSink::GetSample(unsigned int index)
 void SignalSink::Update()
 {
 	_samples.push_back(_pInput->Read());
+}
+
+void SignalSink::WriteCsv(const char* filePath)
+{
+	std::ofstream file;
+	file.open(filePath);
+	
+	for (auto sample : _samples)
+	{
+		file << sample << ",";
+	}
+
+	file.close();
 }

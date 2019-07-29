@@ -14,6 +14,8 @@ public:
 
 	virtual void Update();
 
+	void WriteCsv(const char* filePath);
+
 private:
 
 	IInputPort* _pInput;

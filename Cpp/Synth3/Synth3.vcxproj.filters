@@ -81,6 +81,12 @@
     <ClInclude Include="Inverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SignalSink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SignalSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SamplePlayer.cpp">
@@ -123,6 +129,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Inverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SignalSink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SignalSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

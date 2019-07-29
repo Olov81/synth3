@@ -158,16 +158,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\SignalSink.h" />
-    <ClInclude Include="Include\SignalSource.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Source\InterpolatorTests.cpp" />
     <ClCompile Include="Source\ModuleRunnerTests.cpp" />
     <ClCompile Include="Source\SampleBufferModuleTests.cpp" />
     <ClCompile Include="Source\SamplePlayerTests.cpp" />
-    <ClCompile Include="Source\SignalSink.cpp" />
-    <ClCompile Include="Source\SignalSource.cpp" />
     <ClCompile Include="Source\Test.cpp" />
     <ClCompile Include="Source\TwoPoleLowpassFilterTests.cpp" />
   </ItemGroup>
