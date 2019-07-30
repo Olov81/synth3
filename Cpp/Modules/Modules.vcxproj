@@ -27,6 +27,7 @@
     <ClInclude Include="Include\WaveWriter.h" />
     <ClInclude Include="Include\WaveformGenerator.h" />
     <ClInclude Include="Include\Sequencer.h" />
+    <ClInclude Include="Include\Waveforms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GateGenerator.cpp" />

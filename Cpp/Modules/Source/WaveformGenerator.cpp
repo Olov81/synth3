@@ -1,5 +1,6 @@
 #include "WaveformGenerator.h"
 #include <complex>
+#include <utility>
 
 static const double scale = 1000.0;
 static const unsigned int order = 6;
@@ -60,60 +61,6 @@ static const ComplexT C_[order] =
 	1.0e+02 * (-4.310989922168807 + 8.335007580485707 * I),
 	1.0e+02 * (-4.310989922168807 - 8.335007580485707 * I)
 };
-
-struct LinearFunction
-{
-	LinearFunction(double _k, double _m, double _omega)
-		: k(_k)
-		, m(_m)
-		, omega(_omega)
-	{
-
-	}
-
-	double k;
-	double m;
-	double omega;
-};
-
-LinearFunction waveform[] = {
-
-	// Square wave
-	//LinearFunction(0, 1, 0),
-	//LinearFunction(0, 0, 0.5),
-	//LinearFunction(0,0,1.0)
-
-	//Sawtooth
-	//LinearFunction(1, 0, 0),
-	//LinearFunction(0,0,1.0)
-
-	// Triangle
-	LinearFunction(2, 0, 0),
-	LinearFunction(-2, 2, 0.5),
-	LinearFunction(0,0,1.0)
-};
-
-const LinearFunction& GetFunction(double t, double T)
-{
-	if (t > T)
-	{
-		return waveform[0];
-	}
-
-	const auto omega = t / T;
-
-	const auto numberOfFunctions = sizeof(waveform) / sizeof(LinearFunction);
-
-	for (size_t index = 0; index < numberOfFunctions - 1; ++index)
-	{
-		if (waveform[index].omega <= omega && omega < waveform[index + 1].omega)
-		{
-			return waveform[index];
-		}
-	}
-
-	return waveform[0];
-}
 
 static const double a = -ts / 2;
 
@@ -179,31 +126,10 @@ static ComplexT ComputeLinearIntegral(unsigned int mode, double t0, double t1, d
 	return (ea * (a * f.k * lambda[mode] + K) - eb * (b * f.k * lambda[mode] + K)) / (lambda2[mode] * T);
 }
 
-static ComplexT ComputeIntegral(unsigned int mode, double t0, double t, double T)
-{
-	const auto& f1 = GetFunction(t0, T);
-	const auto& f2 = GetFunction(t, T);
-
-	if (t > T)
-	{
-		return
-			ComputeLinearIntegral(mode, t0, 0, t0, T, T, f1)
-			+ ComputeLinearIntegral(mode, t0, T, T, t, T, f2);
-	}
-	if (&f1 == &f2)
-	{
-		return ComputeLinearIntegral(mode, t0, 0, t0, t, T, f1);
-	}
-
-	const auto tbreak = f2.omega * T;
-
-	return ComputeLinearIntegral(mode, t0, 0, t0, tbreak, T, f1)
-		+ ComputeLinearIntegral(mode, t0, 0, tbreak, t, T, f2);
-}
-
-WaveformGenerator::WaveformGenerator()
+WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	: _t(0)
 	, _w{ 0,0,0,0,0,0 }
+	, _waveform(std::move(waveform))
 {
 	_pFrequencyInput = CreateInputPort();
 }
@@ -235,4 +161,47 @@ void WaveformGenerator::Update()
 IInputPort* WaveformGenerator::GetFrequencyInput() const
 {
 	return _pFrequencyInput;
+}
+
+ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double t, double T)
+{
+	const auto& f1 = GetFunction(t0, T);
+	const auto& f2 = GetFunction(t, T);
+
+	if (t > T)
+	{
+		return
+			ComputeLinearIntegral(mode, t0, 0, t0, T, T, f1)
+			+ ComputeLinearIntegral(mode, t0, T, T, t, T, f2);
+	}
+	if (&f1 == &f2)
+	{
+		return ComputeLinearIntegral(mode, t0, 0, t0, t, T, f1);
+	}
+
+	const auto tbreak = f2.omega * T;
+
+	return ComputeLinearIntegral(mode, t0, 0, t0, tbreak, T, f1)
+		+ ComputeLinearIntegral(mode, t0, 0, tbreak, t, T, f2);
+}
+
+
+const LinearFunction& WaveformGenerator::GetFunction(double t, double T)
+{
+	if (t > T)
+	{
+		return _waveform[0];
+	}
+
+	const auto omega = t / T;
+
+	for (size_t index = 0; index < _waveform.size() - 1; ++index)
+	{
+		if (_waveform[index].omega <= omega && omega < _waveform[index + 1].omega)
+		{
+			return _waveform[index];
+		}
+	}
+
+	return _waveform[0];
 }

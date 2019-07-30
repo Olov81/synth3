@@ -26,25 +26,25 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 	
-	WaveformGenerator generator;
+	WaveformGenerator generator(Waveforms::Sawtooth());
 	
 	Gain gain;
 	gain.GetGainInput()->Set(0.5);
 
 	Sequencer sequencer(ts, 100, {
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("F4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 4, 1.0 / 8, 1.0),
+		SequencerEvent("C6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("C6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("C6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("E6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("D6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("D6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("D6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("F6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("E6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("E6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("D6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("D6", 1.0 / 8, 1.0 / 16, 1.0),
+		SequencerEvent("C6", 1.0 / 4, 3.0 / 16, 1.0),
 		});
 
 	Lfo lfo(fs);
@@ -52,13 +52,17 @@ int main()
 	lfo.GetAmplitudeInput()->Set(800);
 	lfo.GetOffsetInput()->Set(1220);
 
+	Gain gate;
+
 	SignalSink sequencerFrequencies;
 	SignalSink generatorOutput;
 
 	sequencerFrequencies.GetInput()->Connect(sequencer.GetFrequencyOutput());
 	generator.GetFrequencyInput()->Connect(sequencer.GetFrequencyOutput());
 	generatorOutput.GetInput()->Connect(generator.GetOutput());
-	gain.GetInput()->Connect(generator.GetOutput());
+	gate.GetGainInput()->Connect(sequencer.GetGateOutput());
+	gate.GetInput()->Connect(generator.GetOutput());
+	gain.GetInput()->Connect(gate.GetOutput());
 	waveWriter.GetInput()->Connect(gain.GetOutput());
 
 	ModuleRunner runner(&waveWriter);
