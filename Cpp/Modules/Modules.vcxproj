@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\EnvelopeGenerator.h" />
+    <ClInclude Include="Include\FlankDetector.h" />
     <ClInclude Include="Include\GateGenerator.h" />
     <ClInclude Include="Include\Constant.h" />
     <ClInclude Include="Include\Gain.h" />
@@ -30,6 +32,8 @@
     <ClInclude Include="Include\Waveforms.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\EnvelopeGenerator.cpp" />
+    <ClCompile Include="Source\FlankDetector.cpp" />
     <ClCompile Include="Source\GateGenerator.cpp" />
     <ClCompile Include="Source\Constant.cpp" />
     <ClCompile Include="Source\Gain.cpp" />

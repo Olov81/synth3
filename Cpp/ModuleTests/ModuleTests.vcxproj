@@ -155,6 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\EnvelopeGeneratorTests.cpp" />
     <ClCompile Include="Source\SequencerTests.cpp" />
     <ClCompile Include="Source\Test.cpp" />
   </ItemGroup>
