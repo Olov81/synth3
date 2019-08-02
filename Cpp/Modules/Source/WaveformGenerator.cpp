@@ -109,19 +109,19 @@ static ComplexT ComputeExponential(unsigned int mode, double t)
 	// Third order Taylor series expansion of exp(lambda*t) around -ts/2 since t
 	// is always in the interval [-ts, 0]
 
-	auto dt = (t - a);
-	auto dt2 = dt * dt;
-	auto dt3 = dt * dt2;
+	const auto dt = (t - a);
+	const auto dt2 = dt * dt;
+	const auto dt3 = dt * dt2;
 
 	return K[mode] + K1[mode] * dt + K2[mode] * dt2 / 2.0 + K3[mode] * dt3 / 6.0;
 }
 
 static ComplexT ComputeLinearIntegral(unsigned int mode, double t0, double t1, double a, double b, double T, const LinearFunction & f)
 {
-	auto K = -f.k * lambda[mode] * t1 + f.k + lambda[mode] * f.m * T;
+	const auto K = -f.k * lambda[mode] * t1 + f.k + lambda[mode] * f.m * T;
 
-	auto ea = ComputeExponential(mode, t0 - a);
-	auto eb = ComputeExponential(mode, t0 - b);
+	const auto ea = ComputeExponential(mode, t0 - a);
+	const auto eb = ComputeExponential(mode, t0 - b);
 
 	return (ea * (a * f.k * lambda[mode] + K) - eb * (b * f.k * lambda[mode] + K)) / (lambda2[mode] * T);
 }
@@ -132,11 +132,14 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	, _waveform(std::move(waveform))
 {
 	_pFrequencyInput = CreateInputPort();
+	_pTuneInput = CreateInputPort();
+	_t = static_cast<double>(std::rand()) / RAND_MAX;
 }
 
 void WaveformGenerator::Update()
 {
-	const auto T = scale / _pFrequencyInput->Read();
+	const auto frequency = _pFrequencyInput->Read() * std::pow(2.0, _pTuneInput->Read() / 12.0);
+	const auto T = scale / frequency;
 	const auto t0 = _t;
 	_t += ts;
 	auto y = 0.0;
@@ -161,6 +164,11 @@ void WaveformGenerator::Update()
 IInputPort* WaveformGenerator::GetFrequencyInput() const
 {
 	return _pFrequencyInput;
+}
+
+IInputPort* WaveformGenerator::GetTuneInput() const
+{
+	return _pTuneInput;
 }
 
 ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double t, double T)

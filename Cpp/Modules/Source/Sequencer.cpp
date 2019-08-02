@@ -27,33 +27,34 @@ static int GetSemiTonesFromA(const char noteBase)
 	}
 }
 
-static double GetFrequency(const char noteBase, const int octave, const int keySignature)
+static double GetFrequency(const char noteBase, const int octave, const int noteOffset)
 {
 	static double frequencyA4 = 440;
 
 	const auto noteBaseSemiTonesFromA = GetSemiTonesFromA(noteBase);
 
-	const double semiTones = noteBaseSemiTonesFromA + keySignature + (octave - 4) * 12;
+	const double semiTones = noteBaseSemiTonesFromA + noteOffset + (octave - 4) * 12;
 
 	return frequencyA4 * std::pow(2.0, semiTones / 12.0);
 }
 
-static double GetFrequency(std::string note)
+double Sequencer::GetFrequency(std::string note) const
 {
 	const auto noteBase = note[0];
 	const auto octave = std::stoi(note.substr(note.length() - 1, 1), nullptr, 10);
 	const auto keySignature = GetKeySignature(note);
 	
-	return GetFrequency(noteBase, octave, keySignature);
+	return ::GetFrequency(noteBase, octave, keySignature + _tune);
 }
 
-Sequencer::Sequencer(double ts, double bpm, EventList events)
+Sequencer::Sequencer(double ts, double bpm, EventList events, int tune)
 	: _ts(ts)
 	, _t(0)
 	, _bpm(bpm)
 	, _events(std::move(events))
 	, _currentFrequency(440)
 	, _currentGate(0.0)
+	, _tune(tune)
 {
 	_pFrequencyOutput = CreateOutputPort();
 	_pGateOutput = CreateOutputPort();

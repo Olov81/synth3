@@ -51,7 +51,7 @@ public:
 
 	typedef std::list<SequencerEvent> EventList;
 
-	Sequencer(double ts, double bpm, EventList events);
+	Sequencer(double ts, double bpm, EventList events, int tune = 0);
 
 	void Update() override;
 
@@ -65,6 +65,8 @@ private:
 
 	void ReadNextEvent();
 
+	double GetFrequency(std::string note) const;
+
 	EventList _events;
 	EventList::const_iterator _nextEvent;
 	double _t;
@@ -76,6 +78,7 @@ private:
 	double _noteOffTime;
 	IOutputPort* _pFrequencyOutput;
 	IOutputPort* _pGateOutput;
+	int _tune;
 };
 
 

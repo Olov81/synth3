@@ -14,11 +14,14 @@ public:
 
 	IInputPort* GetFrequencyInput() const;
 
+	IInputPort* GetTuneInput() const;
+
 private:	
 	
 	typedef std::complex<double> ComplexT;
 
 	IInputPort* _pFrequencyInput;
+	IInputPort* _pTuneInput;
 	double _t;
 	std::complex<double> _w[6];
 	std::vector<LinearFunction> _waveform;

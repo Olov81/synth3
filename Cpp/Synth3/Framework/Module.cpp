@@ -32,3 +32,8 @@ const IInputPort* Module::GetInputPort(unsigned int index) const
 {
 	return _inputPorts[index];
 }
+
+IInputPort* Module::GetInputPort(unsigned int index)
+{
+	return _inputPorts[index];
+}

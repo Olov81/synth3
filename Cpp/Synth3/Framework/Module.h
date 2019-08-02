@@ -12,6 +12,8 @@ public:
 
 	const IInputPort * GetInputPort(unsigned int index) const;
 
+	IInputPort* GetInputPort(unsigned index);
+
 protected:
 
 	Module();

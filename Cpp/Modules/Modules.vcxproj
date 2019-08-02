@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Sum.h" />
     <ClInclude Include="Include\EnvelopeGenerator.h" />
     <ClInclude Include="Include\FlankDetector.h" />
     <ClInclude Include="Include\GateGenerator.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="Source\Lfo.cpp" />
     <ClCompile Include="Source\Sequencer.cpp" />
     <ClCompile Include="Source\Source.cpp" />
+    <ClCompile Include="Source\Sum.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />
   </ItemGroup>
