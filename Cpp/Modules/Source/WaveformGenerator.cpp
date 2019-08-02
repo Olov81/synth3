@@ -140,6 +140,12 @@ void WaveformGenerator::Update()
 {
 	const auto frequency = _pFrequencyInput->Read() * std::pow(2.0, _pTuneInput->Read() / 12.0);
 	const auto T = scale / frequency;
+
+	if (_t > T)
+	{
+		_t = _t - T;
+	}
+
 	const auto t0 = _t;
 	_t += ts;
 	auto y = 0.0;
@@ -151,11 +157,6 @@ void WaveformGenerator::Update()
 		_w[mode] = c1[mode] * _w[mode] + c2[mode] * integral;
 
 		y = y + (C_[mode] * std::conj(_w[mode])).real();
-	}
-
-	if (_t > T)
-	{
-		_t = _t - T;
 	}
 
 	Write(2 * y - 1);

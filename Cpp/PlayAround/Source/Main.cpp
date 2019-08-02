@@ -28,7 +28,7 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 	
-	WaveformGenerator generatorOne(Waveforms::Triangle());
+	WaveformGenerator generatorOne(Waveforms::Sawtooth());
 	WaveformGenerator generatorTwo(Waveforms::Sawtooth());
 	generatorTwo.GetTuneInput()->Set(11.95);
 	
