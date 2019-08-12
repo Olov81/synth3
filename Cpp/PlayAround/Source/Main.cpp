@@ -28,7 +28,7 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 	
-	WaveformGenerator generatorOne(Waveforms::Sawtooth());
+	WaveformGenerator generatorOne(Waveforms::Square());
 	WaveformGenerator generatorTwo(Waveforms::Sawtooth());
 	generatorTwo.GetTuneInput()->Set(11.95);
 	
@@ -49,7 +49,7 @@ int main()
 		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
 		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
 		SequencerEvent("C4", 1.0 / 4, 3.0 / 16, 1.0),
-		},-24);
+		},0);
 
 	Gain vca;
 	Sum mixer(2);
@@ -61,7 +61,7 @@ int main()
 	generatorOne.GetFrequencyInput()->Connect(sequencer.GetFrequencyOutput());
 	generatorTwo.GetFrequencyInput()->Connect(sequencer.GetFrequencyOutput());
 	mixer.GetInputPort(0)->Connect(generatorOne.GetOutput());
-	//mixer.GetInputPort(1)->Connect(generatorTwo.GetOutput());
+	mixer.GetInputPort(1)->Connect(generatorTwo.GetOutput());
 	envelope.GateInput()->Connect(sequencer.GetGateOutput());
 	vca.GetGainInput()->Connect(envelope.GetOutput());
 	vca.GetInput()->Connect(mixer.GetOutput());
