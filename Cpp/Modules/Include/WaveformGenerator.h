@@ -2,6 +2,7 @@
 #include "Source.h"
 #include <complex>
 #include "Waveforms.h"
+#include "FlankDetector.h"
 
 class WaveformGenerator : public Source
 {
@@ -16,17 +17,24 @@ public:
 
 	IInputPort* GetTuneInput() const;
 
+	IInputPort* GetPhaseResetInput() const;
+
+	typedef double ComplexT;
+
 private:	
 	
-	typedef std::complex<double> ComplexT;
 
 	IInputPort* _pFrequencyInput;
 	IInputPort* _pTuneInput;
+	IInputPort* _pPhaseResetInput;
 	double _t;
 	std::complex<double> _w[6];
 	std::vector<LinearFunction> _waveform;
+	FlankDetector _flankDetector;
 
 	const LinearFunction& GetFunction(double t, double T);
 
 	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t, double T);
+
+	void ResetPhase();
 };

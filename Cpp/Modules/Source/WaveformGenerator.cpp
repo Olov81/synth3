@@ -130,14 +130,21 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	: _t(0)
 	, _w{ 0,0,0,0,0,0 }
 	, _waveform(std::move(waveform))
+	, _flankDetector(
+		1e-3,
+		[]() {},
+		std::bind(&WaveformGenerator::ResetPhase, this))
 {
 	_pFrequencyInput = CreateInputPort();
 	_pTuneInput = CreateInputPort();
+	_pPhaseResetInput = CreateInputPort();
 	_t = static_cast<double>(std::rand()) / RAND_MAX;
 }
 
 void WaveformGenerator::Update()
 {
+	_flankDetector.Update(_pPhaseResetInput->Read());
+
 	const auto frequency = _pFrequencyInput->Read() * std::pow(2.0, _pTuneInput->Read() / 12.0);
 	const auto T = scale / frequency;
 
@@ -172,6 +179,11 @@ IInputPort* WaveformGenerator::GetTuneInput() const
 	return _pTuneInput;
 }
 
+IInputPort* WaveformGenerator::GetPhaseResetInput() const
+{
+	return _pPhaseResetInput;
+}
+
 ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double t, double T)
 {
 	const auto& f1 = GetFunction(t0, T);
@@ -192,6 +204,11 @@ ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double
 
 	return ComputeLinearIntegral(mode, t0, 0, t0, tbreak, T, f1)
 		+ ComputeLinearIntegral(mode, t0, 0, tbreak, t, T, f2);
+}
+
+void WaveformGenerator::ResetPhase()
+{
+	_t = 0;
 }
 
 
