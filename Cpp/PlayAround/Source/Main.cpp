@@ -29,7 +29,7 @@ int main()
 	WaveWriter waveWriter("Apa.wav");
 	
 	WaveformGenerator generatorOne(Waveforms::Sawtooth());
-	WaveformGenerator generatorTwo(Waveforms::Square());
+	WaveformGenerator generatorTwo(Waveforms::Sawtooth());
 	generatorTwo.GetTuneInput()->Set(11.95);
 	
 	Gain outputLevel;
@@ -49,15 +49,15 @@ int main()
 		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
 		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
 		SequencerEvent("C4", 1.0 / 4, 3.0 / 16, 1.0),
-		}, -24);
+		}, 12);
 
 	Gain vca;
 	Sum mixer(2);
 	EnvelopeGenerator envelope(ts);
 	Lfo lfo(fs);
 	Sum generatorTwoFrequency(2);
-	lfo.GetAmplitudeInput()->Set(30);
-	lfo.GetOffsetInput()->Set(70);
+	lfo.GetAmplitudeInput()->Set(100);
+	lfo.GetOffsetInput()->Set(200);
 	lfo.GetFrequencyInput()->Set(0.5);
 	envelope.SustainInput()->Set(1.0);
 	envelope.ReleaseInput()->Set(5e-2);

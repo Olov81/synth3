@@ -54,6 +54,9 @@
     <ClInclude Include="Include\ContinuousFilterFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\ZeroCrossingDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WaveWriter.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\ContinuousFilterFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZeroCrossingDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

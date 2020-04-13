@@ -2,7 +2,7 @@
 #include "Source.h"
 #include <complex>
 #include "Waveforms.h"
-#include "FlankDetector.h"
+#include "ZeroCrossingDetector.h"
 
 class WaveformGenerator : public Source
 {
@@ -30,7 +30,7 @@ private:
 	double _t;
 	std::complex<double> _w[6];
 	std::vector<LinearFunction> _waveform;
-	FlankDetector _flankDetector;
+	ZeroCrossingDetector _zeroCrossingDetector;
 
 	const LinearFunction& GetFunction(double t, double T);
 

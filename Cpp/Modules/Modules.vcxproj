@@ -32,6 +32,7 @@
     <ClInclude Include="Include\WaveformGenerator.h" />
     <ClInclude Include="Include\Sequencer.h" />
     <ClInclude Include="Include\Waveforms.h" />
+    <ClInclude Include="Include\ZeroCrossingDetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ContinuousFilterFactory.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Source\Sum.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />
+    <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

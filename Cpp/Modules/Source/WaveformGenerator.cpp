@@ -130,10 +130,9 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	: _t(0)
 	, _w{ 0,0,0,0,0,0 }
 	, _waveform(std::move(waveform))
-	, _flankDetector(
-		1e-3,
-		[]() {},
-		std::bind(&WaveformGenerator::ResetPhase, this))
+	, _zeroCrossingDetector(
+		std::bind(&WaveformGenerator::ResetPhase, this),
+		[]() {})
 {
 	_pFrequencyInput = CreateInputPort();
 	_pTuneInput = CreateInputPort();
@@ -143,7 +142,7 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 
 void WaveformGenerator::Update()
 {
-	_flankDetector.Update(_pPhaseResetInput->Read());
+	_zeroCrossingDetector.Update(_pPhaseResetInput->Read());
 
 	const auto frequency = _pFrequencyInput->Read() * std::pow(2.0, _pTuneInput->Read() / 12.0);
 	const auto T = scale / frequency;
