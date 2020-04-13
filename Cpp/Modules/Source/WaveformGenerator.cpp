@@ -131,7 +131,7 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	, _w{ 0,0,0,0,0,0 }
 	, _waveform(std::move(waveform))
 	, _zeroCrossingDetector(
-		std::bind(&WaveformGenerator::ResetPhase, this),
+		std::bind(&WaveformGenerator::ResetPhase, this, std::placeholders::_1),
 		[]() {})
 {
 	_pFrequencyInput = CreateInputPort();
@@ -205,9 +205,9 @@ ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double
 		+ ComputeLinearIntegral(mode, t0, 0, tbreak, t, T, f2);
 }
 
-void WaveformGenerator::ResetPhase()
+void WaveformGenerator::ResetPhase(const double& relativeTimeInstant)
 {
-	_t = 0;
+	_t = relativeTimeInstant*ts;
 }
 
 

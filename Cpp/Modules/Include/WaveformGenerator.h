@@ -36,5 +36,5 @@ private:
 
 	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t, double T);
 
-	void ResetPhase();
+	void ResetPhase(const double& relativeTimeInstant);
 };

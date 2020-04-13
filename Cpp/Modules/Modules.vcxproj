@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\ContinuousFilterFactory.h" />
+    <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\Sum.h" />
     <ClInclude Include="Include\EnvelopeGenerator.h" />
     <ClInclude Include="Include\FlankDetector.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\MoogFilter.cpp" />
     <ClCompile Include="Source\ContinuousFilterFactory.cpp" />
     <ClCompile Include="Source\EnvelopeGenerator.cpp" />
     <ClCompile Include="Source\FlankDetector.cpp" />

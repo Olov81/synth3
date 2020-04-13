@@ -28,4 +28,5 @@ size_t ContinuousFilterParameters::Order()
 
 ContinuousFilterParameters ContinuousFilterFactory::CreateRealPoleFilter(size_t order, double cutoffFrequency)
 {
+	return ContinuousFilterParameters(1);
 }

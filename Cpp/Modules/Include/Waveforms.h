@@ -39,6 +39,26 @@ public:
 		};
 	}
 
+	static std::vector<LinearFunction> HalfPulse()
+	{
+		return
+		{
+			LinearFunction(0, 1, 0),
+			LinearFunction(0, 0, 0.25),
+			LinearFunction(0,0,1.0)
+		};
+	}
+
+	static std::vector<LinearFunction> QuarterPulse()
+	{
+		return
+		{
+			LinearFunction(0, 1, 0),
+			LinearFunction(0, 0, 0.125),
+			LinearFunction(0,0,1.0)
+		};
+	}
+
 	static std::vector<LinearFunction> Triangle()
 	{
 		return

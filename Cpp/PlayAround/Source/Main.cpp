@@ -8,6 +8,7 @@
 #include "SignalSink.h"
 #include "EnvelopeGenerator.h"
 #include "Sum.h"
+#include "MoogFilter.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -36,43 +37,59 @@ int main()
 	outputLevel.GetGainInput()->Set(0.2);
 
 	Sequencer sequencer(ts, 100, {
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("F4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("E4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("D4", 1.0 / 8, 1.0 / 16, 1.0),
-		SequencerEvent("C4", 1.0 / 4, 3.0 / 16, 1.0),
-		}, 12);
+		SequencerEvent("C4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("C4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("C4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("E4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("D4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("D4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("D4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("F4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("E4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("E4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("D4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("D4", 1.0 / 8, 1.5 / 16, 1.0),
+		SequencerEvent("C4", 1.0 / 4, 3.5 / 16, 1.0),
+		}, -20);
 
+	Gain vcoGain;
 	Gain vca;
+	MoogFilter vcf;
+	Gain filterEnvelopeAmount;
 	Sum mixer(2);
 	EnvelopeGenerator envelope(ts);
 	Lfo lfo(fs);
 	Sum generatorTwoFrequency(2);
+
+	vcoGain.GetGainInput()->Set(0.5);
+	vcf.GetResonanceInput()->Set(0.1);
+	vca.GetGainInput()->Set(1.0);
+
+	filterEnvelopeAmount.GetGainInput()->Set(0.2);
+
 	lfo.GetAmplitudeInput()->Set(100);
 	lfo.GetOffsetInput()->Set(200);
 	lfo.GetFrequencyInput()->Set(0.5);
-	envelope.SustainInput()->Set(1.0);
+
+	envelope.SustainInput()->Set(0.07);
 	envelope.ReleaseInput()->Set(5e-2);
+	envelope.DecayInput()->Set(0.1);
 	SignalSink logger;
 
 	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.GetFrequencyOutput());
-	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.GetOutput());
+	//generatorTwoFrequency.GetInputPort(1)->Connect(lfo.GetOutput());
 
 	generatorOne.GetFrequencyInput()->Connect(sequencer.GetFrequencyOutput());
 	generatorTwo.GetFrequencyInput()->Connect(generatorTwoFrequency.GetOutput());
-	generatorTwo.GetPhaseResetInput()->Connect(generatorOne.GetOutput());
+	vcoGain.GetInput()->Connect(generatorTwo.GetOutput());
+	//generatorTwo.GetPhaseResetInput()->Connect(generatorOne.GetOutput());
 	//mixer.GetInputPort(0)->Connect(generatorOne.GetOutput());
-	mixer.GetInputPort(1)->Connect(generatorTwo.GetOutput());
+	vcf.GetInput()->Connect(vcoGain.GetOutput());
+	filterEnvelopeAmount.GetInput()->Connect(envelope.GetOutput());
+	vcf.GetFrequencyInput()->Connect(filterEnvelopeAmount.GetOutput());
+	mixer.GetInputPort(1)->Connect(vcf.GetOutput());
 	envelope.GateInput()->Connect(sequencer.GetGateOutput());
-	vca.GetGainInput()->Connect(envelope.GetOutput());
+	//vca.GetGainInput()->Connect(envelope.GetOutput());
 	vca.GetInput()->Connect(mixer.GetOutput());
 	outputLevel.GetInput()->Connect(vca.GetOutput());
 	waveWriter.GetInput()->Connect(outputLevel.GetOutput());
