@@ -27,24 +27,20 @@ static int GetSemiTonesFromA(const char noteBase)
 	}
 }
 
-static double GetFrequency(const char noteBase, const int octave, const int noteOffset)
+static double GetPitch(const char noteBase, const int octave, const int noteOffset)
 {
-	static double frequencyA4 = 440;
-
 	const auto noteBaseSemiTonesFromA = GetSemiTonesFromA(noteBase);
 
-	const double semiTones = noteBaseSemiTonesFromA + noteOffset + (octave - 4) * 12;
-
-	return frequencyA4 * std::pow(2.0, semiTones / 12.0);
+	return noteBaseSemiTonesFromA + noteOffset + (octave - 4) * 12;;
 }
 
-double Sequencer::GetFrequency(std::string note) const
+double Sequencer::GetPitch(std::string note) const
 {
 	const auto noteBase = note[0];
 	const auto octave = std::stoi(note.substr(note.length() - 1, 1), nullptr, 10);
 	const auto keySignature = GetKeySignature(note);
 	
-	return ::GetFrequency(noteBase, octave, keySignature + _tune);
+	return ::GetPitch(noteBase, octave, keySignature + _tune);
 }
 
 Sequencer::Sequencer(double ts, double bpm, EventList events, int tune)
@@ -52,11 +48,11 @@ Sequencer::Sequencer(double ts, double bpm, EventList events, int tune)
 	, _t(0)
 	, _bpm(bpm)
 	, _events(std::move(events))
-	, _currentFrequency(440)
+	, _currentPitch(0.0)
 	, _currentGate(0.0)
 	, _tune(tune)
 {
-	_pFrequencyOutput = CreateOutputPort();
+	_pPitchOutput = CreateOutputPort();
 	_pGateOutput = CreateOutputPort();
 	_nextEvent = _events.begin();
 	ReadNextEvent();
@@ -73,18 +69,18 @@ void Sequencer::Update()
 		_currentGate = 0;
 	}
 
-	_pFrequencyOutput->Write(_currentFrequency);
+	_pPitchOutput->Write(_currentPitch);
 	_pGateOutput->Write(_currentGate);
 
 	_t += _ts;
 }
 
-IOutputPort* Sequencer::GetFrequencyOutput() const
+IOutputPort* Sequencer::PitchOutput() const
 {
-	return _pFrequencyOutput;
+	return _pPitchOutput;
 }
 
-IOutputPort* Sequencer::GetGateOutput() const
+IOutputPort* Sequencer::GateOutput() const
 {
 	return _pGateOutput;
 }
@@ -105,7 +101,7 @@ void Sequencer::ReadNextEvent()
 		return;
 	}
 
-	_currentFrequency = GetFrequency(_nextEvent->Note());
+	_currentPitch = GetPitch(_nextEvent->Note());
 	_currentGate = _nextEvent->Velocity();
 	_nextEventStartTime = _t + NoteValueToTimeDuration(_nextEvent->Value());
 	_noteOffTime = _t + NoteValueToTimeDuration(_nextEvent->Length());

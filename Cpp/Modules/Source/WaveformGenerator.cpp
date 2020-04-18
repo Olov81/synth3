@@ -137,14 +137,14 @@ WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
 	_pFrequencyInput = CreateInputPort();
 	_pTuneInput = CreateInputPort();
 	_pPhaseResetInput = CreateInputPort();
-	_t = static_cast<double>(std::rand()) / RAND_MAX;
+	_t = 10*static_cast<double>(std::rand()) / RAND_MAX;
 }
 
 void WaveformGenerator::Update()
 {
 	_zeroCrossingDetector.Update(_pPhaseResetInput->Read());
 
-	const auto frequency = _pFrequencyInput->Read() * std::pow(2.0, _pTuneInput->Read() / 12.0);
+	const auto frequency = _pFrequencyInput->Read();
 	const auto T = scale / frequency;
 
 	if (_t > T)
@@ -168,14 +168,9 @@ void WaveformGenerator::Update()
 	Write(2 * y - 1);
 }
 
-IInputPort* WaveformGenerator::GetFrequencyInput() const
+IInputPort* WaveformGenerator::FrequencyInput() const
 {
 	return _pFrequencyInput;
-}
-
-IInputPort* WaveformGenerator::GetTuneInput() const
-{
-	return _pTuneInput;
 }
 
 IInputPort* WaveformGenerator::GetPhaseResetInput() const
@@ -207,9 +202,8 @@ ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double
 
 void WaveformGenerator::ResetPhase(const double& relativeTimeInstant)
 {
-	_t = relativeTimeInstant*ts;
+	_t = relativeTimeInstant * ts;
 }
-
 
 const LinearFunction& WaveformGenerator::GetFunction(double t, double T)
 {

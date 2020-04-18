@@ -16,16 +16,16 @@ TEST(GenerateFrequencies)
 		});
 	SignalSink frequencies;
 
-	frequencies.GetInput()->Connect(sequencer.GetFrequencyOutput());
+	frequencies.GetInput()->Connect(sequencer.PitchOutput());
 
 	ModuleRunner runner(&frequencies);
 
 	runner.Run(4);
 
-	ASSERT_EQUAL(440, frequencies.GetSample(0));
-	ASSERT_EQUAL(440, frequencies.GetSample(1));
-	ASSERT_CLOSE(330, frequencies.GetSample(2), 5e-1);
-	ASSERT_CLOSE(330, frequencies.GetSample(3), 5e-1);
+	ASSERT_EQUAL(0, frequencies.GetSample(0));
+	ASSERT_EQUAL(0, frequencies.GetSample(1));
+	ASSERT_CLOSE(-5, frequencies.GetSample(2), 5e-1);
+	ASSERT_CLOSE(-5, frequencies.GetSample(3), 5e-1);
 }
 
 TEST(GenerateGate)
@@ -41,7 +41,7 @@ TEST(GenerateGate)
 		});
 	SignalSink gate;
 
-	gate.GetInput()->Connect(sequencer.GetGateOutput());
+	gate.GetInput()->Connect(sequencer.GateOutput());
 
 	ModuleRunner runner(&gate);
 

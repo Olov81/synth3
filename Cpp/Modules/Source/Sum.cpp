@@ -21,8 +21,8 @@ void Sum::Update()
 
 	_pOutput->Write(y);
 }
-
-IOutputPort* Sum::GetOutput() const
+	
+IOutputPort* Sum::Output() const
 {
 	return _pOutput;
 }

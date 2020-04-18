@@ -13,9 +13,7 @@ public:
 
 	void Update() override;
 
-	IInputPort* GetFrequencyInput() const;
-
-	IInputPort* GetTuneInput() const;
+	IInputPort* FrequencyInput() const;
 
 	IInputPort* GetPhaseResetInput() const;
 

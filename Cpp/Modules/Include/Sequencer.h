@@ -55,9 +55,9 @@ public:
 
 	void Update() override;
 
-	IOutputPort* GetFrequencyOutput() const;
+	IOutputPort* PitchOutput() const;
 
-	IOutputPort* GetGateOutput() const;
+	IOutputPort* GateOutput() const;
 
 private:	
 	
@@ -65,7 +65,7 @@ private:
 
 	void ReadNextEvent();
 
-	double GetFrequency(std::string note) const;
+	double GetPitch(std::string note) const;
 
 	EventList _events;
 	EventList::const_iterator _nextEvent;
@@ -73,10 +73,10 @@ private:
 	double _ts;
 	double _bpm;
 	double _currentGate;
-	double _currentFrequency;
+	double _currentPitch;
 	double _nextEventStartTime;
 	double _noteOffTime;
-	IOutputPort* _pFrequencyOutput;
+	IOutputPort* _pPitchOutput;
 	IOutputPort* _pGateOutput;
 	int _tune;
 };

@@ -9,7 +9,7 @@ public:
 
 	void Update() override;
 
-	IOutputPort* GetOutput() const;
+	IOutputPort* Output() const;
 
 private:
 
