@@ -72,7 +72,7 @@
     <ClInclude Include="Include\PitchToFrequencyConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PitchToFrequencyConverter.cpp">
+    <ClInclude Include="Include\EnvelopeFollower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,6 +123,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SignalSplitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PitchToFrequencyConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnvelopeFollower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
