@@ -9,7 +9,10 @@ class MultiOscillator : public Module
 {
 public:
 
-	MultiOscillator(size_t numberOfVoices, std::vector<LinearFunction> waveform);
+	MultiOscillator(
+		size_t numberOfVoices,
+		std::vector<LinearFunction> waveform,
+		double voiceInterval);
 
 	IInputPort* PitchInput() const;
 
@@ -25,7 +28,7 @@ private:
 	{
 	public:
 
-		Voice(std::vector<LinearFunction> waveform, double detuneMultiplicator);
+		Voice(std::vector<LinearFunction> waveform, double detuneMultiplicator, double transpose);
 
 		IInputPort* PitchInput();
 

@@ -120,7 +120,7 @@ int main()
 
 	//MultiOscillator multiOscillator(2, Waveforms::Sawtooth());
 	WaveformGenerator generatorOne(Waveforms::Sawtooth());
-	MultiOscillator generatorTwo(4, Waveforms::Sawtooth());
+	MultiOscillator generatorTwo(4, Waveforms::Sawtooth(), 12);
 	generatorTwo.DetuneInput()->Set(0.02);
 	//generatorTwo.GetTuneInput()->Set(11.95);
 	
