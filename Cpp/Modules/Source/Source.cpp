@@ -10,7 +10,7 @@ void Source::Write(const double& value) const
 	_pOutput->Write(value);
 }
 
-IOutputPort* Source::GetOutput() const
+IOutputPort* Source::Output() const
 {
 	return _pOutput;
 }

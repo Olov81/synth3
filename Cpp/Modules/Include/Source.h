@@ -5,7 +5,7 @@ class Source : public Module
 {
 public:
 
-	IOutputPort* GetOutput() const;
+	IOutputPort* Output() const;
 
 protected:
 

@@ -5,6 +5,7 @@
 #include "PitchToFrequencyConverter.h"
 #include "Gain.h"
 #include "WaveformGeneratorModule.h"
+#include "LinearTableFunctionProvider.h"
 
 class MultiOscillator : public Module
 {
@@ -41,6 +42,7 @@ private:
 
 	private:
 
+		LinearTableFunctionProvider _functionProvider;
 		WaveformGenerator _generator;
 		WaveformGeneratorModule _generatorModule;
 		Sum _pitchMixer;

@@ -24,9 +24,12 @@
     <ClInclude Include="Include\Globals.h" />
     <ClInclude Include="Include\ILinearFunctionProvider.h" />
     <ClInclude Include="Include\IWaveformGenerator.h" />
+    <ClInclude Include="Include\LinearTableFunctionProvider.h" />
     <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\MulltiOscillator.h" />
     <ClInclude Include="Include\PitchToFrequencyConverter.h" />
+    <ClInclude Include="Include\PulseFunctionProvider.h" />
+    <ClInclude Include="Include\PulseGenerator.h" />
     <ClInclude Include="Include\SignalSplitter.h" />
     <ClInclude Include="Include\Sum.h" />
     <ClInclude Include="Include\EnvelopeGenerator.h" />
@@ -43,6 +46,7 @@
     <ClInclude Include="Include\Waveforms.h" />
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
+    <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
     <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +59,8 @@
     <ClCompile Include="Source\Gain.cpp" />
     <ClCompile Include="Source\Lfo.cpp" />
     <ClCompile Include="Source\MultiOscillator.cpp" />
+    <ClCompile Include="Source\PulseFunctionProvider.cpp" />
+    <ClCompile Include="Source\PulseGenerator.cpp" />
     <ClCompile Include="Source\Sequencer.cpp" />
     <ClCompile Include="Source\SignalSplitter.cpp" />
     <ClCompile Include="Source\Source.cpp" />

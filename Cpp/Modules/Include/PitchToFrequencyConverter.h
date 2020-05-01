@@ -3,5 +3,7 @@
 
 class PitchToFrequencyConverter : public SisoModule
 {
+public:
+
 	double Update(double x) override;
 };

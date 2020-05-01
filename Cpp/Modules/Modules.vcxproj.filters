@@ -84,6 +84,15 @@
     <ClInclude Include="Include\ILinearFunctionProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\LinearTableFunctionProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PulseGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PulseFunctionProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WaveWriter.cpp">
@@ -141,6 +150,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\WaveformGeneratorModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LinearTableFunctionProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PulseGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PulseFunctionProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

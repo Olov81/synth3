@@ -8,7 +8,6 @@ struct LinearFunction
 		, m(_m)
 		, omega(_omega)
 	{
-
 	}
 
 	double k;

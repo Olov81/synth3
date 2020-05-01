@@ -16,7 +16,7 @@ TEST(EnvelopeGenerator_full_cycle)
 	generator.ReleaseInput()->Set(5.0);
 
 	generator.GateInput()->Connect(gate.GetOutput());
-	generatorOutput.GetInput()->Connect(generator.GetOutput());
+	generatorOutput.GetInput()->Connect(generator.Output());
 
 	ModuleRunner runner(&generatorOutput);
 
@@ -44,7 +44,7 @@ TEST(EnvelopeGenerator_release_during_attack_phase)
 	generator.ReleaseInput()->Set(5.0);
 
 	generator.GateInput()->Connect(gate.GetOutput());
-	generatorOutput.GetInput()->Connect(generator.GetOutput());
+	generatorOutput.GetInput()->Connect(generator.Output());
 
 	ModuleRunner runner(&generatorOutput);
 
@@ -67,7 +67,7 @@ TEST(EnvelopeGenerator_release_during_decay_phase)
 	generator.ReleaseInput()->Set(5.0);
 
 	generator.GateInput()->Connect(gate.GetOutput());
-	generatorOutput.GetInput()->Connect(generator.GetOutput());
+	generatorOutput.GetInput()->Connect(generator.Output());
 
 	ModuleRunner runner(&generatorOutput);
 
@@ -90,7 +90,7 @@ TEST(EnvelopeGenerator_retrigger_during_release_phase)
 	generator.ReleaseInput()->Set(5.0);
 
 	generator.GateInput()->Connect(gate.GetOutput());
-	generatorOutput.GetInput()->Connect(generator.GetOutput());
+	generatorOutput.GetInput()->Connect(generator.Output());
 
 	ModuleRunner runner(&generatorOutput);
 

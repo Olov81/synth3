@@ -10,7 +10,7 @@ MultiOscillator::MultiOscillator(
 {
 	_detuneRepeater.GetGainInput()->Set(1);
 
-	for (size_t n = 0; n < numberOfVoices; ++n)
+	for (unsigned n = 0; n < numberOfVoices; ++n)
 	{
 		auto transpose = (n % 2) * voiceInterval;
 
@@ -49,7 +49,8 @@ MultiOscillator::Voice::Voice(
 	std::vector<LinearFunction> waveform,
 	double detuneMultiplicator,
 	double transpose)
-	: _generator(waveform)
+	: _functionProvider(waveform)
+	, _generator(&_functionProvider)
 	, _generatorModule(&_generator)
 	, _pitchMixer(3)
 {
@@ -72,7 +73,7 @@ IInputPort* MultiOscillator::Voice::DetuneInput()
 
 IOutputPort* MultiOscillator::Voice::Output() const
 {
-	return _generatorModule.GetOutput();
+	return _generatorModule.Output();
 }
 
 void MultiOscillator::Voice::Update()

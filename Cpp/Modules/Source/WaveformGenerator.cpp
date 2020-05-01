@@ -126,10 +126,10 @@ static ComplexT ComputeLinearIntegral(unsigned int mode, double t0, double t1, d
 	return (ea * (a * f.k * lambda[mode] + K) - eb * (b * f.k * lambda[mode] + K)) / (lambda2[mode] * T);
 }
 
-WaveformGenerator::WaveformGenerator(std::vector<LinearFunction> waveform)
+WaveformGenerator::WaveformGenerator(ILinearFunctionProvider* functionProvider)
 	: _t(0)
 	, _w{ 0,0,0,0,0,0 }
-	, _waveform(std::move(waveform))
+	, _pFunctionProvider(functionProvider)
 {
 	_t = 10*static_cast<double>(std::rand()) / RAND_MAX;
 }
@@ -188,20 +188,7 @@ void WaveformGenerator::ResetPhase(const double& relativeTimeInstant)
 
 const LinearFunction& WaveformGenerator::GetFunction(double t, double T)
 {
-	if (t > T)
-	{
-		return _waveform[0];
-	}
+	const auto omega = t > T ? (t - T) / T : t / T;
 
-	const auto omega = t / T;
-
-	for (size_t index = 0; index < _waveform.size() - 1; ++index)
-	{
-		if (_waveform[index].omega <= omega && omega < _waveform[index + 1].omega)
-		{
-			return _waveform[index];
-		}
-	}
-
-	return _waveform[0];
+	return _pFunctionProvider->GetFunction(omega);
 }

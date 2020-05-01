@@ -10,6 +10,7 @@
 #include "Sum.h"
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
+#include "PulseGenerator.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -142,9 +143,12 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 
-	MultiOscillator generatorTwo(4, Waveforms::Sawtooth(),12);
-	generatorTwo.DetuneInput()->Set(0.03);
-	
+	//MultiOscillator generatorTwo(4, Waveforms::Sawtooth(),12);
+	//generatorTwo.DetuneInput()->Set(0.03);
+
+	PulseGenerator generatorTwo;
+	generatorTwo.PulseWidthInput()->Set(0.1);
+
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
@@ -162,15 +166,16 @@ int main()
 	EnvelopeGenerator filterEnvelope(ts);
 	EnvelopeGenerator amplitudeEnvelope(ts);
 	Lfo lfo(fs);
+	Lfo pwm(fs);
 	Sum generatorTwoFrequency(2);
 
 	vcoGain.GetGainInput()->Set(0.5);
 	vcf.GetResonanceInput()->Set(0.1);
-	vca.GetGainInput()->Connect(amplitudeEnvelope.GetOutput());
+	vca.GetGainInput()->Connect(amplitudeEnvelope.Output());
 
-	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.GetOutput());
+	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
-	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
+	filterFrequencyMixer.GetInputPort(1)->Set(1.0);
 
 	filterEnvelopeAmount.GetGainInput()->Set(0.2);
 	pitchEnvelopeAmount.GetGainInput()->Set(0);
@@ -178,8 +183,12 @@ int main()
 	lfo.AmplitudeInput()->Set(0.1);
 	lfo.OffsetInput()->Set(0);
 	lfo.FrequencyInput()->Set(8.0);
-	lfo.DelayInput()->Set(0.3);
+	lfo.DelayInput()->Set(0.4);
 	lfo.GateInput()->Connect(sequencer.GateOutput());
+
+	pwm.AmplitudeInput()->Set(0.45);
+	pwm.OffsetInput()->Set(0.5);
+	pwm.FrequencyInput()->Set(0.2);
 
 	amplitudeEnvelope.SustainInput()->Set(0.0);
 	amplitudeEnvelope.ReleaseInput()->Set(0.1);
@@ -193,11 +202,12 @@ int main()
 	filterEnvelope.AttackInput()->Set(0.03);
 	SignalSink logger;
 
-	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.GetOutput());
+	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 
 	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
-	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.GetOutput());
+	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.Output());
 
+	generatorTwo.PulseWidthInput()->Connect(pwm.Output());
 	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
 	vcoGain.GetInput()->Connect(generatorTwo.Output());
 

@@ -1,15 +1,14 @@
 #pragma once
-#include "Source.h"
 #include <complex>
 #include "Waveforms.h"
-#include "ZeroCrossingDetector.h"
 #include "IWaveformGenerator.h"
+#include "ILinearFunctionProvider.h"
 
 class WaveformGenerator : public IWaveformGenerator
 {
 public:
 
-	WaveformGenerator(std::vector<LinearFunction> waveform);
+	WaveformGenerator(ILinearFunctionProvider* functionProvider);
 
 	double Update(const double& frequency) override;
 
@@ -21,7 +20,7 @@ private:
 	
 	double _t;
 	std::complex<double> _w[6];
-	std::vector<LinearFunction> _waveform;
+	ILinearFunctionProvider* _pFunctionProvider;
 
 	const LinearFunction& GetFunction(double t, double T);
 
