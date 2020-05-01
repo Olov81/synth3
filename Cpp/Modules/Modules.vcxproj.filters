@@ -18,9 +18,6 @@
     <ClInclude Include="Include\WaveWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\WaveformGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,12 +72,21 @@
     <ClInclude Include="Include\EnvelopeFollower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\WaveformGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WaveformGeneratorModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IWaveformGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ILinearFunctionProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WaveWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WaveformGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Constant.cpp">
@@ -129,6 +135,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\EnvelopeFollower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WaveformGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WaveformGeneratorModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

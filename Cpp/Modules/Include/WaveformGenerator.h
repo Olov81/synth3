@@ -3,36 +3,27 @@
 #include <complex>
 #include "Waveforms.h"
 #include "ZeroCrossingDetector.h"
+#include "IWaveformGenerator.h"
 
-class WaveformGenerator : public Source
+class WaveformGenerator : public IWaveformGenerator
 {
 public:
 
-
 	WaveformGenerator(std::vector<LinearFunction> waveform);
 
-	void Update() override;
+	double Update(const double& frequency) override;
 
-	IInputPort* FrequencyInput() const;
-
-	IInputPort* GetPhaseResetInput() const;
+	void ResetPhase(const double& relativeTimeInstant) override;
 
 	typedef double ComplexT;
 
 private:	
 	
-
-	IInputPort* _pFrequencyInput;
-	IInputPort* _pTuneInput;
-	IInputPort* _pPhaseResetInput;
 	double _t;
 	std::complex<double> _w[6];
 	std::vector<LinearFunction> _waveform;
-	ZeroCrossingDetector _zeroCrossingDetector;
 
 	const LinearFunction& GetFunction(double t, double T);
 
 	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t, double T);
-
-	void ResetPhase(const double& relativeTimeInstant);
 };

@@ -50,13 +50,14 @@ MultiOscillator::Voice::Voice(
 	double detuneMultiplicator,
 	double transpose)
 	: _generator(waveform)
+	, _generatorModule(&_generator)
 	, _pitchMixer(3)
 {
 	_detuneGain.GetGainInput()->Set(detuneMultiplicator);
 	_pitchMixer.GetInputPort(1)->Connect(_detuneGain.GetOutput());
 	_pitchMixer.GetInputPort(2)->Set(transpose);
 	_pitchToFrequencyConverter.GetInput()->Connect(_pitchMixer.Output());
-	_generator.FrequencyInput()->Connect(_pitchToFrequencyConverter.GetOutput());
+	_generatorModule.FrequencyInput()->Connect(_pitchToFrequencyConverter.GetOutput());
 }
 
 IInputPort* MultiOscillator::Voice::PitchInput()
@@ -71,7 +72,7 @@ IInputPort* MultiOscillator::Voice::DetuneInput()
 
 IOutputPort* MultiOscillator::Voice::Output() const
 {
-	return _generator.GetOutput();
+	return _generatorModule.GetOutput();
 }
 
 void MultiOscillator::Voice::Update()

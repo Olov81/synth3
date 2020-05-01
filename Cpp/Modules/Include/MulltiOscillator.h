@@ -4,6 +4,7 @@
 #include "SignalSplitter.h"
 #include "PitchToFrequencyConverter.h"
 #include "Gain.h"
+#include "WaveformGeneratorModule.h"
 
 class MultiOscillator : public Module
 {
@@ -41,6 +42,7 @@ private:
 	private:
 
 		WaveformGenerator _generator;
+		WaveformGeneratorModule _generatorModule;
 		Sum _pitchMixer;
 		PitchToFrequencyConverter _pitchToFrequencyConverter;
 		Gain _detuneGain;

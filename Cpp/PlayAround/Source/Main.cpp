@@ -10,7 +10,6 @@
 #include "Sum.h"
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
-#include "EnvelopeFollower.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -143,19 +142,14 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 
-	//MultiOscillator multiOscillator(2, Waveforms::Sawtooth());
-	WaveformGenerator generatorOne(Waveforms::Sawtooth());
 	MultiOscillator generatorTwo(4, Waveforms::Sawtooth(),12);
 	generatorTwo.DetuneInput()->Set(0.03);
-	//generatorTwo.GetTuneInput()->Set(11.95);
 	
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
 	Sequencer metronome(ts, 130, Metronome(), 0);
 	Sequencer sequencer(ts, 112, Reflex(), 0);
-	//EnvelopeFollower portamento(ts);
-	//portamento.TimeInput()->Set(0.005);
 
 	Gain vcoGain;
 	Gain vca;
@@ -201,23 +195,17 @@ int main()
 
 	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.GetOutput());
 
-	//portamento.LeftInput()->Connect(sequencer.PitchOutput());
 	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
 	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.GetOutput());
 
-	generatorOne.FrequencyInput()->Connect(metronome.PitchOutput());
-	metronomeGain.GetGainInput()->Connect(metronome.GateOutput());
-	metronomeGain.GetInput()->Connect(generatorOne.GetOutput());
-
 	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
 	vcoGain.GetInput()->Connect(generatorTwo.Output());
-	//generatorTwo.GetPhaseResetInput()->Connect(generatorOne.Output());
-	//mixer.GetInputPort(0)->Connect(metronomeGain.GetOutput());
+
 	vcf.GetInput()->Connect(vcoGain.GetOutput());
 	vcf.GetFrequencyInput()->Connect(filterFrequencyMixer.Output());
 	mixer.GetInputPort(1)->Connect(vcf.GetOutput());
 	filterEnvelope.GateInput()->Connect(sequencer.GateOutput());
-	//vca.GetGainInput()->Connect(envelope.Output());
+
 	vca.GetInput()->Connect(mixer.Output());
 	outputLevel.GetInput()->Connect(vca.GetOutput());
 	waveWriter.LeftInput()->Connect(outputLevel.GetOutput());
