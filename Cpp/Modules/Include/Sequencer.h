@@ -3,16 +3,18 @@
 #include "Framework/Module.h"
 #include <list>
 #include <string>
+#include "EnvelopeFollower.h"
 
 class SequencerEvent
 {
 public:
 
-	SequencerEvent(const char* note, double value, double length, double velocity)
+	SequencerEvent(const char* note, double value, double length, double velocity, double portamento = 1e-3)
 		: _note(note)
 		, _value(value)
 		, _length(length)
 		, _velocity(velocity)
+		, _portamento(portamento)
 	{
 
 	}
@@ -37,12 +39,18 @@ public:
 		return _velocity;
 	}
 
+	double Portamento() const
+	{
+		return _portamento;
+	}
+
 private:
 
 	std::string _note;
 	double _value;
 	double _length;
 	double _velocity;
+	double _portamento;
 };
 
 class Sequencer : public Module
@@ -76,9 +84,11 @@ private:
 	double _currentPitch;
 	double _nextEventStartTime;
 	double _noteOffTime;
+	double _portamento;
 	IOutputPort* _pPitchOutput;
 	IOutputPort* _pGateOutput;
 	int _tune;
+	EnvelopeFollower _envelopeFollower;
 };
 
 

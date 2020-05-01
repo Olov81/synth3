@@ -15,4 +15,3 @@ public:
 
 	virtual void Set(const double& value) = 0;
 };
-

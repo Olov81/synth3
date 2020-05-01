@@ -62,7 +62,7 @@ Sequencer::EventList LarsJansson()
 		Event("C#5", 1.0 / 4),
 		Event("A4", 1.0 / 4),
 		Event("F5", 5.0 / 8),
-		Event("E5", 2.0 / 4),
+		SequencerEvent("E5", 2.0 / 4, 0.9*2.0/4, 1.0, 0.1),
 		Event("D5", 3.0 / 8),
 		Event("C5", 4.0 / 8),
 		Event("Bb4", 1.0 / 16),
@@ -82,15 +82,40 @@ Sequencer::EventList TheBill()
 	return {
 		SequencerEvent("C4", 1.0 / 8, 1.0 / 8, 1.0),
 		Event("Eb4", 1.0 / 8),
-		Event("Bb4", 1.0 / 8),
-		SequencerEvent("G4", 3.0 / 8, 1.0 / 8, 1.0),
-		SequencerEvent("Eb4", 1.0 / 8, 1.0/8, 1.0),
+		SequencerEvent("Bb4", 1.0 / 8, 1.0 / 8, 1.0, 0.01),
+		SequencerEvent("G4", 3.0 / 8, 0.99*3.0 / 8, 1.0),
+		SequencerEvent("Eb4", 1.0 / 8,1.0 / 8, 1.0, 0.01),
 		Event("F4", 1.0 / 8),
 		Event("G4", 6.0 / 32),
 		Event("Ab4", 1.0 / 32),
-		Event("G4", 1.0 / 32),
-		Event("F4", 1.0 / 4),
-		Event("G4", 1.0 / 4)
+		SequencerEvent("G4", 1.0 / 32, 1.0 / 32, 1.0),
+		SequencerEvent("F4", 1.0 / 4, 0.9* 1.0 / 4, 1.0, 0.01),
+		Event("G4", 2.0 / 4)
+	};
+}
+
+Sequencer::EventList Reflex()
+{
+	return {
+		Event("E4", 1.0 / 8),
+		Event("F#4", 1.0 / 8),
+		SequencerEvent("G4", 1.0 / 8, 1.0 / 8, 1.0),
+		Event("F#4", 1.0 / 8),
+		SequencerEvent("G4", 1.0 / 8, 1.0 / 8, 1.0),
+		Event("F#4", 1.0 / 8),
+		Event("G4", 0.2 * 1.0 / 4),
+		SequencerEvent("A4", 0.8 * 1.0 / 4,  0.9 * 0.8 * 1.0 / 4, 1.0, 0.02),
+		SequencerEvent("B3", 1.0, 0.99*1.0, 1.0, 0.005),
+		Event("A4", 1.0 / 8),
+		Event("B4", 1.0 / 8),
+		SequencerEvent("C5", 1.0 / 8, 1.0 / 8, 1.0),
+		Event("B4", 1.0 / 8),
+		SequencerEvent("C5", 1.0 / 8, 1.0 / 8, 1.0),
+		Event("B4", 1.0 / 8),
+		SequencerEvent("C5", 1.0 / 32, 1.0 / 32, 1.0),
+		SequencerEvent("D5", 3.0 / 32, 3.0 / 32, 1.0, 0.05),
+		SequencerEvent("C5", 1.0 / 8, 0.99*1.0 / 8, 1.0, 0.11),
+		SequencerEvent("E4", 1.0, 1.0, 1.0, 0.002),
 	};
 }
 
@@ -114,23 +139,23 @@ int main()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 6;
+	static const double duration = 10;
 
 	WaveWriter waveWriter("Apa.wav");
 
 	//MultiOscillator multiOscillator(2, Waveforms::Sawtooth());
 	WaveformGenerator generatorOne(Waveforms::Sawtooth());
-	MultiOscillator generatorTwo(4, Waveforms::Sawtooth(), 12);
-	generatorTwo.DetuneInput()->Set(0.02);
+	MultiOscillator generatorTwo(4, Waveforms::Sawtooth(),12);
+	generatorTwo.DetuneInput()->Set(0.03);
 	//generatorTwo.GetTuneInput()->Set(11.95);
 	
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
 	Sequencer metronome(ts, 130, Metronome(), 0);
-	Sequencer sequencer(ts, 130, TheBill(), 9);
-	EnvelopeFollower portamento(ts);
-	portamento.TimeInput()->Set(0.005);
+	Sequencer sequencer(ts, 112, Reflex(), 0);
+	//EnvelopeFollower portamento(ts);
+	//portamento.TimeInput()->Set(0.005);
 
 	Gain vcoGain;
 	Gain vca;
@@ -153,19 +178,19 @@ int main()
 	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
 	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
 
-	filterEnvelopeAmount.GetGainInput()->Set(0.5);
+	filterEnvelopeAmount.GetGainInput()->Set(0.2);
 	pitchEnvelopeAmount.GetGainInput()->Set(0);
 
-	lfo.AmplitudeInput()->Set(0.3);
+	lfo.AmplitudeInput()->Set(0.1);
 	lfo.OffsetInput()->Set(0);
-	lfo.FrequencyInput()->Set(6.0);
+	lfo.FrequencyInput()->Set(8.0);
 	lfo.DelayInput()->Set(0.3);
 	lfo.GateInput()->Connect(sequencer.GateOutput());
 
-	amplitudeEnvelope.SustainInput()->Set(1.0);
-	amplitudeEnvelope.ReleaseInput()->Set(1.0);
+	amplitudeEnvelope.SustainInput()->Set(0.0);
+	amplitudeEnvelope.ReleaseInput()->Set(0.1);
 	amplitudeEnvelope.DecayInput()->Set(2.0);
-	amplitudeEnvelope.AttackInput()->Set(0.03);
+	amplitudeEnvelope.AttackInput()->Set(0.01);
 	amplitudeEnvelope.GateInput()->Connect(sequencer.GateOutput());
 
 	filterEnvelope.SustainInput()->Set(0);
@@ -176,8 +201,8 @@ int main()
 
 	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.GetOutput());
 
-	portamento.GetInput()->Connect(sequencer.PitchOutput());
-	generatorTwoFrequency.GetInputPort(0)->Connect(portamento.GetOutput());
+	//portamento.LeftInput()->Connect(sequencer.PitchOutput());
+	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
 	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.GetOutput());
 
 	generatorOne.FrequencyInput()->Connect(metronome.PitchOutput());
@@ -195,7 +220,8 @@ int main()
 	//vca.GetGainInput()->Connect(envelope.Output());
 	vca.GetInput()->Connect(mixer.Output());
 	outputLevel.GetInput()->Connect(vca.GetOutput());
-	waveWriter.GetInput()->Connect(outputLevel.GetOutput());
+	waveWriter.LeftInput()->Connect(outputLevel.GetOutput());
+	waveWriter.RightInput()->Connect(outputLevel.GetOutput());
 
 	logger.GetInput()->Connect(sequencer.GateOutput());
 

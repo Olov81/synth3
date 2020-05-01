@@ -9,6 +9,8 @@ public:
 
 	IInputPort* TimeInput() const;
 
+	double Update(double x) override;
+
 private:
 
 	IInputPort* _pTimeInput;
@@ -17,5 +19,4 @@ private:
 
 	const double _ts;
 
-	double Update(double x) override;
 };

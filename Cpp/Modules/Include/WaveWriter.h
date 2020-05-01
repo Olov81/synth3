@@ -12,11 +12,13 @@ public:
 
 	void Close();
 
-	IInputPort* GetInput() const;
+	IInputPort* LeftInput() const;
+	IInputPort* RightInput() const;
 
 private:
 
-	IInputPort* _pInput;
+	IInputPort* _pLeftInput;
+	IInputPort* _pRightInput;
 	SoundHeader _header;
 	SoundFileWrite _soundFileWrite;
 };

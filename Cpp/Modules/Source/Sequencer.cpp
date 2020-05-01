@@ -50,7 +50,9 @@ Sequencer::Sequencer(double ts, double bpm, EventList events, int tune)
 	, _events(std::move(events))
 	, _currentPitch(0.0)
 	, _currentGate(0.0)
+	, _portamento(1e-3)
 	, _tune(tune)
+	, _envelopeFollower(ts)
 {
 	_pPitchOutput = CreateOutputPort();
 	_pGateOutput = CreateOutputPort();
@@ -69,7 +71,8 @@ void Sequencer::Update()
 		_currentGate = 0;
 	}
 
-	_pPitchOutput->Write(_currentPitch);
+	_envelopeFollower.TimeInput()->Set(_portamento);
+	_pPitchOutput->Write(_envelopeFollower.Update(_currentPitch));
 	_pGateOutput->Write(_currentGate);
 
 	_t += _ts;
@@ -105,5 +108,6 @@ void Sequencer::ReadNextEvent()
 	_currentGate = _nextEvent->Velocity();
 	_nextEventStartTime = _t + NoteValueToTimeDuration(_nextEvent->Value());
 	_noteOffTime = _t + NoteValueToTimeDuration(_nextEvent->Length());
+	_portamento = _nextEvent->Portamento();
 	++_nextEvent;
 }
