@@ -67,4 +67,14 @@ public:
 			LinearFunction(0,0,1.0)
 		};
 	}
+
+	static std::vector<LinearFunction> CustomOne()
+	{
+		return
+		{
+			LinearFunction(-2.7, 1, 0),
+			LinearFunction(0, 0, 0.5),
+			LinearFunction(-2.7, 1, 1.0),
+		};
+	}
 };

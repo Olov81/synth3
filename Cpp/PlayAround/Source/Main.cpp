@@ -143,11 +143,11 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 
-	//MultiOscillator generatorTwo(4, Waveforms::Sawtooth(),12);
-	//generatorTwo.DetuneInput()->Set(0.03);
+	MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
+	generatorTwo.DetuneInput()->Set(0.03);
 
-	PulseGenerator generatorTwo;
-	generatorTwo.PulseWidthInput()->Set(0.1);
+	//PulseGenerator generatorTwo;
+	//generatorTwo.PulseWidthInput()->Set(0.1);
 
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
@@ -175,7 +175,7 @@ int main()
 
 	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
-	filterFrequencyMixer.GetInputPort(1)->Set(1.0);
+	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
 
 	filterEnvelopeAmount.GetGainInput()->Set(0.2);
 	pitchEnvelopeAmount.GetGainInput()->Set(0);
@@ -207,7 +207,8 @@ int main()
 	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
 	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.Output());
 
-	generatorTwo.PulseWidthInput()->Connect(pwm.Output());
+	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
+	//generatorTwo.PulseWidthInput()->Set(0.9);
 	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
 	vcoGain.GetInput()->Connect(generatorTwo.Output());
 
