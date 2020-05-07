@@ -1,6 +1,7 @@
 #include "WaveformGenerator.h"
 #include <complex>
 #include <utility>
+#include <algorithm>
 
 static const double scale = 1000.0;
 static const unsigned int order = 6;
@@ -159,26 +160,78 @@ double WaveformGenerator::Update(const double& frequency)
 	return 2 * y - 1;
 }
 
-ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double t, double T)
+ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double t1, double T)
 {
-	const auto& f1 = GetFunction(t0, T);
-	const auto& f2 = GetFunction(t, T);
+	ComplexT result = 0;
+	auto omega = t0 / T;
+	double tstart = t0;
+	double tbreak;
+	
+	do
+	{		
+		auto f = _pFunctionProvider->GetFunction(omega);
 
-	if (t > T)
-	{
-		return
-			ComputeLinearIntegral(mode, t0, 0, t0, T, T, f1)
-			+ ComputeLinearIntegral(mode, t0, T, T, t, T, f2);
-	}
-	if (f1 == f2)
-	{
-		return ComputeLinearIntegral(mode, t0, 0, t0, t, T, f1);
-	}
+		tbreak = std::min(f.omega * T, t1);
+		
+		result += ComputeLinearIntegral(mode, t0, 0, tstart, tbreak, T, f);
 
-	const auto tbreak = f2.omega * T;
+		omega = f.omega;
 
-	return ComputeLinearIntegral(mode, t0, 0, t0, tbreak, T, f1)
-		+ ComputeLinearIntegral(mode, t0, 0, tbreak, t, T, f2);
+		tstart = tbreak;
+		
+	} while (tbreak < t1);
+
+	return result;
+	
+	//const auto functions = _pFunctionProvider->GetFunctions();
+	//const auto omegaStart = t0 / T;
+	//const auto omegaEnd = t1 / T;
+	//
+	//ComplexT result = 0;
+	//size_t index = 0;
+	//double fomega = functions[index].omega;
+	//
+	//do
+	//{
+	//	
+	//	const auto f = functions[index];
+
+	//	
+	//	index = index + 1;
+	//	
+	//} while (fomega < omegaEnd);
+	
+	//auto tstart = t0;
+
+	//for(size_t n = 0; n < functions.size(); ++n)
+	//{
+	//	const auto tbreak = n < functions.size() - 1 ? T * functions[n + 1].omega : t1;
+
+	//	result += ComputeLinearIntegral(mode, t0, 0, tstart, tbreak, T, functions[n]);
+
+	//	tstart = tbreak;
+	//}
+
+	//return result;
+	//
+	//const auto& f1 = GetFunction(t0, T);
+	//const auto& f2 = GetFunction(t1, T);
+
+	//if (t1 > T)
+	//{
+	//	return
+	//		ComputeLinearIntegral(mode, t0, 0, t0, T, T, f1)
+	//		+ ComputeLinearIntegral(mode, t0, T, T, t1, T, f2);
+	//}
+	//if (f1 == f2)
+	//{
+	//	return ComputeLinearIntegral(mode, t0, 0, t0, t1, T, f1);
+	//}
+
+	//const auto tbreak = f2.omega * T;
+
+	//return ComputeLinearIntegral(mode, t0, 0, t0, tbreak, T, f1)
+	//	+ ComputeLinearIntegral(mode, t0, 0, tbreak, t1, T, f2);
 }
 
 void WaveformGenerator::ResetPhase(const double& relativeTimeInstant)

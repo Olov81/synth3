@@ -9,6 +9,8 @@ public:
 
 	LinearFunction GetFunction(const double& omega) const override;
 
+	const std::vector<LinearFunction>& GetFunctions() const override;
+	
 	void SetFrequencyMultiplier(const double& multiplier);
 
 private:

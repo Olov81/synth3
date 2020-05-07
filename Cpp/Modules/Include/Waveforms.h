@@ -2,14 +2,31 @@
 #include <vector>
 #include <cmath>
 
+struct WaveformPoint
+{
+public:
+
+	WaveformPoint(double _omega, double _y)
+		: omega(_omega)
+		, y(_y)
+	{
+	}
+	
+	
+	double omega;
+	double y;
+};
+
 struct LinearFunction
 {
-	//LinearFunction(double omega1, double y1, double omega2, double y2)
-	//	: k((y2 - y1) / (omega2 - omega1))
-	//	, m(y1 - k * omega1)
-	//	, omega(omega1)
-	//{
-	//}
+	LinearFunction(WaveformPoint p1, WaveformPoint p2)
+		: k((p2.y - p1.y) / (p2.omega - p1.omega))
+		, m(p1.y - k * p1.omega)
+		, omegaStart(p1.omega)
+		, omega(p2.omega)
+		, start(p1.y)
+	{
+	}
 	
 	LinearFunction(double _k, double _start, double _omega)
 		: k(_k)
@@ -20,16 +37,18 @@ struct LinearFunction
 		
 	}
 
-	//LinearFunction(double _k, double _m, double _omega)
-	//	: k(_k)
-	//	, m(_m)
-	//	, omega(_omega)
-	//{
+	LinearFunction(double _k, double _m, double _omegaStart, double _omegaEnd)
+		: k(_k)
+		, m(_m)
+		, omegaStart(_omegaStart)
+		, omega(_omegaEnd)
+	{
 
-	//}
+	}
 
 	double k;
 	double m;
+	double omegaStart;
 	double omega;
 	double start;
 };
@@ -54,8 +73,8 @@ public:
 	{
 		return
 		{
-			LinearFunction(1, 0, 0),
-			LinearFunction(0,0,1.0)
+			LinearFunction(1, 0, 1.0),
+			LinearFunction(1, 1, 2.0)
 		};
 	}
 

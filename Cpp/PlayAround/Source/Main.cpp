@@ -167,14 +167,16 @@ int main()
 	//PulseGenerator generatorOne;
 	//generatorTwo.FrequencyMultiplierInput()->Set(5.0 / 3);
 
-	LinearTableFunctionProvider functionProvider(Waveforms::CustomOne());
+	LinearTableFunctionProvider functionProvider(Waveforms::Sawtooth());
+	//WaveformGenerator generator(&functionProvider);
+	//WaveformGeneratorModule generatorTwo(&generator);
 	SyncWaveformGenerator generatorTwo(&functionProvider);
 	
 	Gain outputLevel;
-	outputLevel.GetGainInput()->Set(0.2);
+	outputLevel.GetGainInput()->Set(0.5);
 
 	Sequencer metronome(ts, 130, Metronome(), 0);
-	Sequencer sequencer(ts, 112, SingleNote(), -12);
+	Sequencer sequencer(ts, 112, SingleNote(), 5);
 
 	Gain vcoGain;
 	Gain vca;
@@ -209,9 +211,9 @@ int main()
 	lfo.DelayInput()->Set(0.4);
 	lfo.GateInput()->Connect(sequencer.GateOutput());
 
-	pwm.AmplitudeInput()->Set(2.4);
-	pwm.OffsetInput()->Set(4);
-	pwm.FrequencyInput()->Set(0.3);
+	//pwm.AmplitudeInput()->Set(0.1);
+	//pwm.OffsetInput()->Set(2);
+	//pwm.FrequencyInput()->Set(0.3);
 
 	//pwm.AmplitudeInput()->Set(11);
 	//pwm.OffsetInput()->Set(12);
@@ -235,9 +237,10 @@ int main()
 	//generatorTwoPitch.GetInputPort(1)->Connect(pwm.Output());
 
 	//generatorTwo.PhaseResetInput()->Connect(generatorOne.Output());
-	generatorTwo.PitchInput()->Connect(sequencer.PitchOutput());
+	generatorTwo.PitchInput()->Connect(generatorTwoPitch.Output());
 
-	generatorTwo.FrequencyMultiplierInput()->Connect(pwm.Output());
+	generatorTwo.FrequencyMultiplierInput()->Set(1.9);
+	//generatorTwo.FrequencyMultiplierInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Set(0.9);
 	vcoGain.GetInput()->Connect(generatorTwo.Output());

@@ -9,6 +9,8 @@ public:
 
 	LinearFunction GetFunction(const double& omega) const override;
 
+	const std::vector<LinearFunction>& GetFunctions() const override;
+	
 private:
 
 	std::vector<LinearFunction> _table;

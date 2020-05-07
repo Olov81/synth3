@@ -14,8 +14,6 @@ public:
 
 	void ResetPhase(const double& relativeTimeInstant) override;
 
-	typedef double ComplexT;
-
 private:	
 	
 	double _t;
@@ -23,6 +21,8 @@ private:
 	ILinearFunctionProvider* _pFunctionProvider;
 
 	LinearFunction GetFunction(double t, double T) const;
+	
+	std::vector<LinearFunction> GetFunctions(double t1, double t2, double T) const;
 
-	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t, double T);
+	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t1, double T);
 };
