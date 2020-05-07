@@ -27,5 +27,8 @@
     <ClCompile Include="Source\EnvelopeFollowerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SyncFunctionProviderTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

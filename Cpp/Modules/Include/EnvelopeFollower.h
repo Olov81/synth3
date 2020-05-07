@@ -18,5 +18,4 @@ private:
 	double _lastOutput;
 
 	const double _ts;
-
 };

@@ -7,6 +7,6 @@ public:
 
 	virtual ~ILinearFunctionProvider() = default;
 
-	virtual const LinearFunction& GetFunction(const double& omega) const = 0;
+	virtual LinearFunction GetFunction(const double& omega) const = 0;
 };
 

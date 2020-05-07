@@ -170,7 +170,7 @@ ComplexT WaveformGenerator::ComputeIntegral(unsigned int mode, double t0, double
 			ComputeLinearIntegral(mode, t0, 0, t0, T, T, f1)
 			+ ComputeLinearIntegral(mode, t0, T, T, t, T, f2);
 	}
-	if (&f1 == &f2)
+	if (f1 == f2)
 	{
 		return ComputeLinearIntegral(mode, t0, 0, t0, t, T, f1);
 	}
@@ -186,7 +186,7 @@ void WaveformGenerator::ResetPhase(const double& relativeTimeInstant)
 	_t = relativeTimeInstant * ts;
 }
 
-const LinearFunction& WaveformGenerator::GetFunction(double t, double T)
+LinearFunction WaveformGenerator::GetFunction(double t, double T) const
 {
 	const auto omega = t > T ? (t - T) / T : t / T;
 

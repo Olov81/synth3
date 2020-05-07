@@ -22,7 +22,7 @@ private:
 	std::complex<double> _w[6];
 	ILinearFunctionProvider* _pFunctionProvider;
 
-	const LinearFunction& GetFunction(double t, double T);
+	LinearFunction GetFunction(double t, double T) const;
 
 	std::complex<double> ComputeIntegral(unsigned mode, double t0, double t, double T);
 };

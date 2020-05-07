@@ -53,6 +53,7 @@ Sequencer::Sequencer(double ts, double bpm, EventList events, int tune)
 	, _portamento(1e-3)
 	, _tune(tune)
 	, _envelopeFollower(ts)
+	, _enablePortamento(true)
 {
 	_pPitchOutput = CreateOutputPort();
 	_pGateOutput = CreateOutputPort();
@@ -72,7 +73,10 @@ void Sequencer::Update()
 	}
 
 	_envelopeFollower.TimeInput()->Set(_portamento);
-	_pPitchOutput->Write(_envelopeFollower.Update(_currentPitch));
+
+	const auto pitch = _enablePortamento ? _envelopeFollower.Update(_currentPitch) : _currentPitch;
+
+	_pPitchOutput->Write(pitch);
 	_pGateOutput->Write(_currentGate);
 
 	_t += _ts;
@@ -86,6 +90,11 @@ IOutputPort* Sequencer::PitchOutput() const
 IOutputPort* Sequencer::GateOutput() const
 {
 	return _pGateOutput;
+}
+
+void Sequencer::EnablePortamento(bool enable)
+{
+	_enablePortamento = enable;
 }
 
 double Sequencer::NoteValueToTimeDuration(double value) const

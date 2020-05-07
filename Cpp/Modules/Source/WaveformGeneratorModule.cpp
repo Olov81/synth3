@@ -5,7 +5,7 @@ WaveformGeneratorModule::WaveformGeneratorModule(IWaveformGenerator* waveformGen
 , _zeroCrossingDetector(
 	std::bind(&WaveformGeneratorModule::ResetPhase, this, std::placeholders::_1),
 	[]() {})
-, _pFrequencyInput(CreateInputPort())
+, _pPitchInput(CreateInputPort())
 , _pPhaseResetInput(CreateInputPort())
 {
 }
@@ -13,13 +13,14 @@ WaveformGeneratorModule::WaveformGeneratorModule(IWaveformGenerator* waveformGen
 void WaveformGeneratorModule::Update()
 {
 	_zeroCrossingDetector.Update(_pPhaseResetInput->Read());
-	const auto output = _pWaveformGenerator->Update(_pFrequencyInput->Read());
+	const auto frequency = _pitchToFrequencyConverter.Update(_pPitchInput->Read());
+	const auto output = _pWaveformGenerator->Update(frequency);
 	Write(output);
 }
 
-IInputPort* WaveformGeneratorModule::FrequencyInput() const
+IInputPort* WaveformGeneratorModule::PitchInput() const
 {
-	return _pFrequencyInput;
+	return _pPitchInput;
 }
 
 IInputPort* WaveformGeneratorModule::PhaseResetInput() const
@@ -30,4 +31,33 @@ IInputPort* WaveformGeneratorModule::PhaseResetInput() const
 void WaveformGeneratorModule::ResetPhase(const double& relativeTimeInstant) const
 {
 	_pWaveformGenerator->ResetPhase(relativeTimeInstant);
+}
+
+SyncWaveformGenerator::SyncWaveformGenerator(ILinearFunctionProvider* functionProvider)
+: _syncFunctionProvider(functionProvider)
+, _generator(&_syncFunctionProvider)
+, _pPitchInput(CreateInputPort())
+, _pFrequencyMultiplierInput(CreateInputPort())
+{
+}
+
+void SyncWaveformGenerator::Update()
+{
+	_syncFunctionProvider.SetFrequencyMultiplier(_pFrequencyMultiplierInput->Read());
+
+	const auto pitch = _pitchToFrequencyConverter.Update(_pPitchInput->Read());
+	
+	const auto output = _generator.Update(pitch);
+
+	Write(output);
+}
+
+IInputPort* SyncWaveformGenerator::PitchInput() const
+{
+	return _pPitchInput;
+}
+
+IInputPort* SyncWaveformGenerator::FrequencyMultiplierInput() const
+{
+	return _pFrequencyMultiplierInput;
 }

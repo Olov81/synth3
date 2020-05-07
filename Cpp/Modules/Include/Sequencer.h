@@ -67,6 +67,8 @@ public:
 
 	IOutputPort* GateOutput() const;
 
+	void EnablePortamento(bool enable);
+
 private:	
 	
 	double NoteValueToTimeDuration(double value) const;
@@ -89,6 +91,7 @@ private:
 	IOutputPort* _pGateOutput;
 	int _tune;
 	EnvelopeFollower _envelopeFollower;
+	bool _enablePortamento;
 };
 
 

@@ -58,7 +58,7 @@ MultiOscillator::Voice::Voice(
 	_pitchMixer.GetInputPort(1)->Connect(_detuneGain.GetOutput());
 	_pitchMixer.GetInputPort(2)->Set(transpose);
 	_pitchToFrequencyConverter.GetInput()->Connect(_pitchMixer.Output());
-	_generatorModule.FrequencyInput()->Connect(_pitchToFrequencyConverter.GetOutput());
+	_generatorModule.PitchInput()->Connect(_pitchToFrequencyConverter.GetOutput());
 }
 
 IInputPort* MultiOscillator::Voice::PitchInput()

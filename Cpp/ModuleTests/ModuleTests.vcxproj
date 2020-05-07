@@ -158,6 +158,7 @@
     <ClCompile Include="Source\EnvelopeFollowerTests.cpp" />
     <ClCompile Include="Source\EnvelopeGeneratorTests.cpp" />
     <ClCompile Include="Source\SequencerTests.cpp" />
+    <ClCompile Include="Source\SyncFunctionProviderTests.cpp" />
     <ClCompile Include="Source\Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

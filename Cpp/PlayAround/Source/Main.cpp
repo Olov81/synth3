@@ -11,6 +11,7 @@
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
 #include "PulseGenerator.h"
+#include "SyncFunctionProvider.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -119,6 +120,13 @@ Sequencer::EventList Reflex()
 	};
 }
 
+Sequencer::EventList SingleNote()
+{
+	return {
+		Event("A4", 1.0)
+	};
+}
+
 Sequencer::EventList Metronome()
 {
 	static const size_t BEATS = 30;
@@ -139,21 +147,34 @@ int main()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 10;
+	static const double duration = 3;
 
 	WaveWriter waveWriter("Apa.wav");
 
-	MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
-	generatorTwo.DetuneInput()->Set(0.03);
+	//LinearTableFunctionProvider functionProvider(Waveforms::Square());
+	//SyncFunctionProvider syncFunctionProvider(&functionProvider);
+	//WaveformGenerator generator(&syncFunctionProvider);
+	//WaveformGeneratorModule generatorTwo(&generator);
+	//syncFunctionProvider.SetFrequencyMultiplier(1.8);
+	//MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
+	//generatorTwo.DetuneInput()->Set(0.03);
 
+	//MultiOscillator generatorTwo(1, Waveforms::Square(), 12);
+	
 	//PulseGenerator generatorTwo;
-	//generatorTwo.PulseWidthInput()->Set(0.1);
+	//generatorTwo.PulseWidthInput()->Set(0.5);
 
+	//PulseGenerator generatorOne;
+	//generatorTwo.FrequencyMultiplierInput()->Set(5.0 / 3);
+
+	LinearTableFunctionProvider functionProvider(Waveforms::CustomOne());
+	SyncWaveformGenerator generatorTwo(&functionProvider);
+	
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
 	Sequencer metronome(ts, 130, Metronome(), 0);
-	Sequencer sequencer(ts, 112, Reflex(), 0);
+	Sequencer sequencer(ts, 112, SingleNote(), -12);
 
 	Gain vcoGain;
 	Gain vca;
@@ -167,15 +188,17 @@ int main()
 	EnvelopeGenerator amplitudeEnvelope(ts);
 	Lfo lfo(fs);
 	Lfo pwm(fs);
-	Sum generatorTwoFrequency(2);
+	Sum generatorTwoPitch(2);
 
 	vcoGain.GetGainInput()->Set(0.5);
 	vcf.GetResonanceInput()->Set(0.1);
 	vca.GetGainInput()->Connect(amplitudeEnvelope.Output());
 
+	//generatorOne.PitchInput()->Connect(sequencer.PitchOutput());
+
 	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
-	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
+	filterFrequencyMixer.GetInputPort(1)->Set(1.0);
 
 	filterEnvelopeAmount.GetGainInput()->Set(0.2);
 	pitchEnvelopeAmount.GetGainInput()->Set(0);
@@ -186,11 +209,15 @@ int main()
 	lfo.DelayInput()->Set(0.4);
 	lfo.GateInput()->Connect(sequencer.GateOutput());
 
-	pwm.AmplitudeInput()->Set(0.45);
-	pwm.OffsetInput()->Set(0.5);
-	pwm.FrequencyInput()->Set(0.2);
+	pwm.AmplitudeInput()->Set(2.4);
+	pwm.OffsetInput()->Set(4);
+	pwm.FrequencyInput()->Set(0.3);
 
-	amplitudeEnvelope.SustainInput()->Set(0.0);
+	//pwm.AmplitudeInput()->Set(11);
+	//pwm.OffsetInput()->Set(12);
+	//pwm.FrequencyInput()->Set(1.0);
+
+	amplitudeEnvelope.SustainInput()->Set(1.0);
 	amplitudeEnvelope.ReleaseInput()->Set(0.1);
 	amplitudeEnvelope.DecayInput()->Set(2.0);
 	amplitudeEnvelope.AttackInput()->Set(0.01);
@@ -204,12 +231,15 @@ int main()
 
 	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 
-	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
-	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.Output());
+	generatorTwoPitch.GetInputPort(0)->Connect(sequencer.PitchOutput());
+	//generatorTwoPitch.GetInputPort(1)->Connect(pwm.Output());
 
+	//generatorTwo.PhaseResetInput()->Connect(generatorOne.Output());
+	generatorTwo.PitchInput()->Connect(sequencer.PitchOutput());
+
+	generatorTwo.FrequencyMultiplierInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Set(0.9);
-	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
 	vcoGain.GetInput()->Connect(generatorTwo.Output());
 
 	vcf.GetInput()->Connect(vcoGain.GetOutput());

@@ -39,6 +39,7 @@
     <ClInclude Include="Include\Gain.h" />
     <ClInclude Include="Include\Lfo.h" />
     <ClInclude Include="Include\Source.h" />
+    <ClInclude Include="Include\SyncFunctionProvider.h" />
     <ClInclude Include="Include\WaveformGeneratorModule.h" />
     <ClInclude Include="Include\WaveWriter.h" />
     <ClInclude Include="Include\WaveformGenerator.h" />
@@ -65,6 +66,7 @@
     <ClCompile Include="Source\SignalSplitter.cpp" />
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\Sum.cpp" />
+    <ClCompile Include="Source\SyncFunctionProvider.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveformGeneratorModule.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />
