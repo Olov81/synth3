@@ -1,18 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Source\EnvelopeFollower.cpp" />
+    <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
+    <ClCompile Include="Source\MidiFilePlayer.cpp" />
+    <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
+    <ClCompile Include="Source\MoogFilter.cpp" />
+    <ClCompile Include="Source\ContinuousFilterFactory.cpp" />
+    <ClCompile Include="Source\EnvelopeGenerator.cpp" />
+    <ClCompile Include="Source\FlankDetector.cpp" />
+    <ClCompile Include="Source\GateGenerator.cpp" />
+    <ClCompile Include="Source\Constant.cpp" />
+    <ClCompile Include="Source\Gain.cpp" />
+    <ClCompile Include="Source\Lfo.cpp" />
+    <ClCompile Include="Source\MultiOscillator.cpp" />
+    <ClCompile Include="Source\PulseFunctionProvider.cpp" />
+    <ClCompile Include="Source\PulseGenerator.cpp" />
+    <ClCompile Include="Source\Sequencer.cpp" />
+    <ClCompile Include="Source\SignalSplitter.cpp" />
+    <ClCompile Include="Source\Source.cpp" />
+    <ClCompile Include="Source\Sum.cpp" />
+    <ClCompile Include="Source\WaveformGenerator.cpp" />
+    <ClCompile Include="Source\WaveformGeneratorModule.cpp" />
+    <ClCompile Include="Source\WaveWriter.cpp" />
+    <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
+    <ClCompile Include="Source\Multiply.cpp" />
+    <ClCompile Include="Source\Psg.cpp" />
+    <ClCompile Include="Source\Repeater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\WaveWriter.h">
@@ -173,5 +187,35 @@
     <ClCompile Include="Source\SyncFunctionProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClInclude Include="Include\ContinuousFilterFactory.h" />
+    <ClInclude Include="Include\EnvelopeFollower.h" />
+    <ClInclude Include="Include\Globals.h" />
+    <ClInclude Include="Include\ILinearFunctionProvider.h" />
+    <ClInclude Include="Include\IWaveformGenerator.h" />
+    <ClInclude Include="Include\LinearTableFunctionProvider.h" />
+    <ClInclude Include="Include\MidiFilePlayer.h" />
+    <ClInclude Include="Include\MoogFilter.h" />
+    <ClInclude Include="Include\MulltiOscillator.h" />
+    <ClInclude Include="Include\PitchToFrequencyConverter.h" />
+    <ClInclude Include="Include\PulseFunctionProvider.h" />
+    <ClInclude Include="Include\PulseGenerator.h" />
+    <ClInclude Include="Include\SignalSplitter.h" />
+    <ClInclude Include="Include\Sum.h" />
+    <ClInclude Include="Include\EnvelopeGenerator.h" />
+    <ClInclude Include="Include\FlankDetector.h" />
+    <ClInclude Include="Include\GateGenerator.h" />
+    <ClInclude Include="Include\Constant.h" />
+    <ClInclude Include="Include\Gain.h" />
+    <ClInclude Include="Include\Lfo.h" />
+    <ClInclude Include="Include\Source.h" />
+    <ClInclude Include="Include\WaveformGeneratorModule.h" />
+    <ClInclude Include="Include\WaveWriter.h" />
+    <ClInclude Include="Include\WaveformGenerator.h" />
+    <ClInclude Include="Include\Sequencer.h" />
+    <ClInclude Include="Include\Waveforms.h" />
+    <ClInclude Include="Include\ZeroCrossingDetector.h" />
+    <ClInclude Include="Include\Multiply.h" />
+    <ClInclude Include="Include\Psg.h" />
+    <ClInclude Include="Include\Repeater.h" />
   </ItemGroup>
 </Project>

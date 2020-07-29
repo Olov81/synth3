@@ -2,7 +2,18 @@
 #include "Source.h"
 #include "FlankDetector.h"
 
-class Lfo : public Source
+class ILfoControl
+{
+public:
+	virtual ~ILfoControl() = default;
+
+	virtual IInputPort* FrequencyInput() const = 0;
+	virtual IInputPort* AmplitudeInput() const = 0;
+	virtual IInputPort* OffsetInput() const = 0;
+	virtual IInputPort* DelayInput() const = 0;
+};
+
+class Lfo : public Source, public ILfoControl
 {
 public:
 
@@ -10,13 +21,13 @@ public:
 
 	void Update() override;
 
-	IInputPort* FrequencyInput() const;
+	IInputPort* FrequencyInput() const override;
 
-	IInputPort* AmplitudeInput() const;
+	IInputPort* AmplitudeInput() const override;
 
-	IInputPort* OffsetInput() const;
+	IInputPort* OffsetInput() const override;
 
-	IInputPort* DelayInput() const;
+	IInputPort* DelayInput() const override;
 
 	IInputPort* GateInput() const;
 

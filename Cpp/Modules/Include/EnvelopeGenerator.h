@@ -2,7 +2,19 @@
 #include "Source.h"
 #include "FlankDetector.h"
 
-class EnvelopeGenerator : public Source
+class IEnvelopeGeneratorControl
+{
+public:
+	
+	virtual ~IEnvelopeGeneratorControl() = default;
+
+	virtual IInputPort* AttackInput() const = 0;
+	virtual IInputPort* DecayInput() const = 0;
+	virtual IInputPort* SustainInput() const = 0;
+	virtual IInputPort* ReleaseInput() const = 0;
+};
+
+class EnvelopeGenerator : public Source, public IEnvelopeGeneratorControl
 {
 public:
 
@@ -12,13 +24,13 @@ public:
 
 	IInputPort* GateInput() const;
 
-	IInputPort* AttackInput() const;
+	IInputPort* AttackInput() const override;
 
-	IInputPort* DecayInput() const;
+	IInputPort* DecayInput() const override;
 
-	IInputPort* SustainInput() const;
+	IInputPort* SustainInput() const override;
 
-	IInputPort* ReleaseInput() const;
+	IInputPort* ReleaseInput() const override;
 
 private:
 

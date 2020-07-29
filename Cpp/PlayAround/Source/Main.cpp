@@ -11,6 +11,8 @@
 #include "Sum.h"
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
+#include "Multiply.h"
+#include "Psg.h"
 #include "PulseGenerator.h"
 #include "SyncFunctionProvider.h"
 
@@ -148,41 +150,28 @@ void TestMidiFilePlayer()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 40;
+	static const double duration = 54;
 
-	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts, 1);
 	auto* pModulationOutput = midiFilePlayer.CreateMidiControlOutput(1);
+
+	PsgToneChannel channel(fs);
+
+	channel.PitchInput()->Connect(midiFilePlayer.PitchOutput());
+	channel.GateInput()->Connect(midiFilePlayer.GateOutput());
+	channel.Vibrato().AmplitudeInput()->Connect(pModulationOutput);
+	channel.Vibrato().FrequencyInput()->Set(7.0);
+	channel.Envelope().AttackInput()->Set(0.01);
+	channel.Envelope().DecayInput()->Set(0.06);
+	channel.Envelope().SustainInput()->Set(0.4);
+	channel.Envelope().ReleaseInput()->Set(0.02);
 	
-	MultiOscillator oscillator(1, Waveforms::Square(), 0);
-	EnvelopeGenerator envelope(ts);
-	Gain amplifier;
-	Lfo vibrato(fs);
-	Gain vibratoGain;
-	Sum pitch(2);
-	WaveWriter waveWriter("Greenhill.wav");
+	WaveWriter waveWriter("GreenHill.wav");
 	SignalSink logger;
-
-	vibratoGain.GetInput()->Connect(pModulationOutput);
-	vibratoGain.GetGainInput()->Set(0.5);
-	vibrato.AmplitudeInput()->Connect(vibratoGain.GetOutput());
-	vibrato.FrequencyInput()->Set(7.0);
-
-	pitch.GetInputPort(0)->Connect(midiFilePlayer.PitchOutput());
-	pitch.GetInputPort(1)->Connect(vibrato.Output());
-	oscillator.PitchInput()->Connect(pitch.Output());
-
-	amplifier.GetInput()->Connect(oscillator.Output());
-	amplifier.GetGainInput()->Connect(envelope.Output());
 	
-	envelope.GateInput()->Connect(midiFilePlayer.GateOutput());
-	envelope.AttackInput()->Set(0.01);
-	envelope.DecayInput()->Set(0.08);
-	envelope.SustainInput()->Set(0.3);
-	envelope.ReleaseInput()->Set(0.08);
-	
-	waveWriter.LeftInput()->Connect(amplifier.GetOutput());
-	waveWriter.RightInput()->Connect(amplifier.GetOutput());
-	logger.GetInput()->Connect(pModulationOutput);
+	waveWriter.LeftInput()->Connect(channel.Output());
+	waveWriter.RightInput()->Connect(channel.Output());
+	logger.GetInput()->Connect(channel.Output());
 	
 	ModuleRunner runner(&waveWriter);
 

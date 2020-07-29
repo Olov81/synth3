@@ -8,7 +8,7 @@ class MidiFilePlayer : public Module
 {
 public:
 
-	MidiFilePlayer(const std::string& fileName, double ts);
+	MidiFilePlayer(const std::string& fileName, double ts, int channel);
 
 	IOutputPort* GateOutput();
 
@@ -24,7 +24,8 @@ private:
 	IOutputPort* _pPitchOutput;
 	
 	smf::MidiFile _midiFile;
-
+	int _channel;
+	
 	typedef std::map<int, IOutputPort*> ControllerMap;
 	ControllerMap _controllerMap;
 	
@@ -33,7 +34,6 @@ private:
 	int _eventIndex;
 	smf::MidiEvent _nextEvent;
 	int _numberOfNotesPlaying;
-	double _currentPitch;
 
 	smf::MidiEvent GetNextEvent();
 };
