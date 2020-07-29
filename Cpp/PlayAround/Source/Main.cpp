@@ -148,16 +148,28 @@ void TestMidiFilePlayer()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 10;
+	static const double duration = 40;
 
 	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	auto* pModulationOutput = midiFilePlayer.CreateMidiControlOutput(1);
+	
 	MultiOscillator oscillator(1, Waveforms::Square(), 0);
 	EnvelopeGenerator envelope(ts);
 	Gain amplifier;
+	Lfo vibrato(fs);
+	Gain vibratoGain;
+	Sum pitch(2);
 	WaveWriter waveWriter("Greenhill.wav");
 	SignalSink logger;
 
-	oscillator.PitchInput()->Connect(midiFilePlayer.PitchOutput());
+	vibratoGain.GetInput()->Connect(pModulationOutput);
+	vibratoGain.GetGainInput()->Set(0.5);
+	vibrato.AmplitudeInput()->Connect(vibratoGain.GetOutput());
+	vibrato.FrequencyInput()->Set(7.0);
+
+	pitch.GetInputPort(0)->Connect(midiFilePlayer.PitchOutput());
+	pitch.GetInputPort(1)->Connect(vibrato.Output());
+	oscillator.PitchInput()->Connect(pitch.Output());
 
 	amplifier.GetInput()->Connect(oscillator.Output());
 	amplifier.GetGainInput()->Connect(envelope.Output());
@@ -165,12 +177,12 @@ void TestMidiFilePlayer()
 	envelope.GateInput()->Connect(midiFilePlayer.GateOutput());
 	envelope.AttackInput()->Set(0.01);
 	envelope.DecayInput()->Set(0.08);
-	envelope.SustainInput()->Set(0.4);
+	envelope.SustainInput()->Set(0.3);
 	envelope.ReleaseInput()->Set(0.08);
 	
 	waveWriter.LeftInput()->Connect(amplifier.GetOutput());
 	waveWriter.RightInput()->Connect(amplifier.GetOutput());
-	logger.GetInput()->Connect(envelope.Output());
+	logger.GetInput()->Connect(pModulationOutput);
 	
 	ModuleRunner runner(&waveWriter);
 

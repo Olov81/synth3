@@ -24,9 +24,16 @@ IOutputPort* MidiFilePlayer::PitchOutput()
 	return _pPitchOutput;
 }
 
+IOutputPort* MidiFilePlayer::CreateMidiControlOutput(int controlNumber)
+{
+	auto* pOutputPort = CreateOutputPort();
+	_controllerMap.insert(ControllerMap::value_type(controlNumber, pOutputPort));
+	return pOutputPort;
+}
+
 void MidiFilePlayer::Update()
 {
-	if (_midiFile.getEventCount(1) > _eventIndex)
+	if (_midiFile.getEventCount(3) > _eventIndex)
 	{
 		if (_t >= _nextEvent.seconds)
 		{
@@ -39,7 +46,16 @@ void MidiFilePlayer::Update()
 			{
 				--_numberOfNotesPlaying;
 			}
+			else if(_nextEvent.isController())
+			{
+				auto output = _controllerMap.find(_nextEvent.getControllerNumber());
 
+				if(output != _controllerMap.end())
+				{
+					output->second->Write(_nextEvent.getControllerValue() / 127.0);
+				}
+			}
+			
 			_nextEvent = GetNextEvent();
 		}
 	}
@@ -52,5 +68,5 @@ void MidiFilePlayer::Update()
 
 smf::MidiEvent MidiFilePlayer::GetNextEvent()
 {
-	return _midiFile.getEvent(1, _eventIndex++);
+	return _midiFile.getEvent(3, _eventIndex++);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 #include "MidiFile.h"
 #include "Framework/Module.h"
 
@@ -12,6 +13,8 @@ public:
 	IOutputPort* GateOutput();
 
 	IOutputPort* PitchOutput();
+
+	IOutputPort* CreateMidiControlOutput(int controlNumber);
 	
     void Update() override;
 
@@ -22,6 +25,9 @@ private:
 	
 	smf::MidiFile _midiFile;
 
+	typedef std::map<int, IOutputPort*> ControllerMap;
+	ControllerMap _controllerMap;
+	
 	double _ts;
 	double _t;
 	int _eventIndex;
