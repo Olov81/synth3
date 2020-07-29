@@ -5,13 +5,13 @@ MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts)
 	, _ts(ts)
 	, _t(0)
 	, _eventIndex(0)
-	, _currentEventTime(0)
 	, _numberOfNotesPlaying(0)
 	, _currentPitch(0.0)
 {
 	_pGateOutput = CreateOutputPort();
 	_pPitchOutput = CreateOutputPort();
 	_midiFile.doTimeAnalysis();
+	_nextEvent = GetNextEvent();
 }
 
 IOutputPort* MidiFilePlayer::GateOutput()
@@ -28,21 +28,19 @@ void MidiFilePlayer::Update()
 {
 	if (_midiFile.getEventCount(1) > _eventIndex)
 	{
-		if (_currentEventTime <= _t)
+		if (_t >= _nextEvent.seconds)
 		{
-			auto event = _midiFile.getEvent(1, _eventIndex++);
-
-			if (event.isNoteOn())
+			if (_nextEvent.isNoteOn())
 			{
 				++_numberOfNotesPlaying;
-				_currentPitch = event.getKeyNumber() - 64.0;
+				_currentPitch = _nextEvent.getKeyNumber() - 69.0;
 			}
-			else if (event.isNoteOff())
+			else if (_nextEvent.isNoteOff())
 			{
 				--_numberOfNotesPlaying;
 			}
 
-			_currentEventTime = event.seconds;
+			_nextEvent = GetNextEvent();
 		}
 	}
 
@@ -50,4 +48,9 @@ void MidiFilePlayer::Update()
 	_pPitchOutput->Write(_currentPitch);
 	
 	_t += _ts;
+}
+
+smf::MidiEvent MidiFilePlayer::GetNextEvent()
+{
+	return _midiFile.getEvent(1, _eventIndex++);
 }

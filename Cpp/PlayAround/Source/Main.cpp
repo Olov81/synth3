@@ -7,6 +7,7 @@
 #include "Sequencer.h"
 #include "SignalSink.h"
 #include "EnvelopeGenerator.h"
+#include "MidiFilePlayer.h"
 #include "Sum.h"
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
@@ -143,8 +144,48 @@ Sequencer::EventList Metronome()
 	return eventList;
 }
 
+void TestMidiFilePlayer()
+{
+	static const double fs = 44100;
+	static const double ts = 1 / fs;
+	static const double duration = 10;
+
+	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	MultiOscillator oscillator(1, Waveforms::Square(), 0);
+	EnvelopeGenerator envelope(ts);
+	Gain amplifier;
+	WaveWriter waveWriter("Greenhill.wav");
+	SignalSink logger;
+
+	oscillator.PitchInput()->Connect(midiFilePlayer.PitchOutput());
+
+	amplifier.GetInput()->Connect(oscillator.Output());
+	amplifier.GetGainInput()->Connect(envelope.Output());
+	
+	envelope.GateInput()->Connect(midiFilePlayer.GateOutput());
+	envelope.AttackInput()->Set(0.01);
+	envelope.DecayInput()->Set(0.08);
+	envelope.SustainInput()->Set(0.4);
+	envelope.ReleaseInput()->Set(0.08);
+	
+	waveWriter.LeftInput()->Connect(amplifier.GetOutput());
+	waveWriter.RightInput()->Connect(amplifier.GetOutput());
+	logger.GetInput()->Connect(envelope.Output());
+	
+	ModuleRunner runner(&waveWriter);
+
+	runner.Run(static_cast<int>(duration * fs));
+
+	logger.WriteCsv("MidiLog.csv");
+	waveWriter.Close();
+}
+
 int main()
 {
+	TestMidiFilePlayer();
+
+	return 0;
+	
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
 	static const double duration = 3;

@@ -25,7 +25,9 @@ private:
 	double _ts;
 	double _t;
 	int _eventIndex;
-	double _currentEventTime;
+	smf::MidiEvent _nextEvent;
 	int _numberOfNotesPlaying;
 	double _currentPitch;
+
+	smf::MidiEvent GetNextEvent();
 };
