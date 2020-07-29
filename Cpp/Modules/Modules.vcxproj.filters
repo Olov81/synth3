@@ -93,6 +93,9 @@
     <ClInclude Include="Include\PulseFunctionProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\MidiFilePlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Include\SyncFunctionProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -164,6 +167,9 @@
     <ClCompile Include="Source\PulseFunctionProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MidiFilePlayer.cpp">
     <ClCompile Include="Source\SyncFunctionProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

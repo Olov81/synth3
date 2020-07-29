@@ -31,7 +31,7 @@ static double GetPitch(const char noteBase, const int octave, const int noteOffs
 {
 	const auto noteBaseSemiTonesFromA = GetSemiTonesFromA(noteBase);
 
-	return noteBaseSemiTonesFromA + noteOffset + (octave - 4) * 12;;
+	return noteBaseSemiTonesFromA + noteOffset + 12 * (octave - 4);
 }
 
 double Sequencer::GetPitch(std::string note) const

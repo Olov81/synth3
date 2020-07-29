@@ -25,6 +25,7 @@
     <ClInclude Include="Include\ILinearFunctionProvider.h" />
     <ClInclude Include="Include\IWaveformGenerator.h" />
     <ClInclude Include="Include\LinearTableFunctionProvider.h" />
+    <ClInclude Include="Include\MidiFilePlayer.h" />
     <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\MulltiOscillator.h" />
     <ClInclude Include="Include\PitchToFrequencyConverter.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
+    <ClCompile Include="Source\MidiFilePlayer.cpp" />
     <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +156,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;$(SolutionDir)midifile\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -174,7 +176,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;$(SolutionDir)midifile\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,7 +194,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;$(SolutionDir)midifile\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -212,7 +214,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)Synth3;$(SolutionDir)soundfile-2.2\Include;$(SolutionDir)midifile\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
