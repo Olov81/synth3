@@ -27,6 +27,7 @@
     <ClCompile Include="Source\Multiply.cpp" />
     <ClCompile Include="Source\Psg.cpp" />
     <ClCompile Include="Source\Repeater.cpp" />
+    <ClCompile Include="Source\NoiseGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\WaveWriter.h">
@@ -217,5 +218,6 @@
     <ClInclude Include="Include\Multiply.h" />
     <ClInclude Include="Include\Psg.h" />
     <ClInclude Include="Include\Repeater.h" />
+    <ClInclude Include="Include\NoiseGeneratorh.h" />
   </ItemGroup>
 </Project>

@@ -61,11 +61,13 @@ IOutputPort* MidiTrack::PitchOutput() const
 	return _pPitchPort;
 }
 
-IOutputPort* MidiTrack::GetMidiControlOutput(int controlNumber)
+IOutputPort* MidiTrack::GetMidiControlOutput(int controlNumber, double initialValue)
 {
 	if(_controllerMap.find(controlNumber) == _controllerMap.end())
-	{	
-		_controllerMap.insert(ControllerMap::value_type(controlNumber, CreateOutputPort()));
+	{
+		auto* pOutput = CreateOutputPort();
+		pOutput->Write(initialValue);
+		_controllerMap.insert(ControllerMap::value_type(controlNumber, pOutput));
 	}
 
 	return _controllerMap[controlNumber];

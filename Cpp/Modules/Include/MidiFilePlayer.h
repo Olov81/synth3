@@ -15,7 +15,7 @@ public:
 		
 	IOutputPort* GateOutput() const;
 	IOutputPort* PitchOutput() const;
-	IOutputPort* GetMidiControlOutput(int controlNumber);
+	IOutputPort* GetMidiControlOutput(int controlNumber, double initialValue = 0.0);
 
 private:
 

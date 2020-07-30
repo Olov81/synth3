@@ -29,6 +29,7 @@
     <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\MulltiOscillator.h" />
     <ClInclude Include="Include\Multiply.h" />
+    <ClInclude Include="Include\NoiseGeneratorh.h" />
     <ClInclude Include="Include\PitchToFrequencyConverter.h" />
     <ClInclude Include="Include\Psg.h" />
     <ClInclude Include="Include\PulseFunctionProvider.h" />
@@ -54,6 +55,7 @@
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
     <ClCompile Include="Source\MidiFilePlayer.cpp" />
     <ClCompile Include="Source\Multiply.cpp" />
+    <ClCompile Include="Source\NoiseGenerator.cpp" />
     <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
   </ItemGroup>
   <ItemGroup>

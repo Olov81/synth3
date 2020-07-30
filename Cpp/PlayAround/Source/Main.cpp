@@ -152,45 +152,58 @@ void TestMidiFilePlayer()
 	static const double ts = 1 / fs;
 	static const double duration = 54;
 
-	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	MidiFilePlayer midiFilePlayer("ScrapBrain.mid", ts);
 	auto trackOne = midiFilePlayer.CreateTrack(1);
 	auto trackTwo = midiFilePlayer.CreateTrack(2);
-	auto trackThree = midiFilePlayer.CreateTrack(3);
-
+	auto trackThree = midiFilePlayer.CreateTrack(10);
+	auto trackFour = midiFilePlayer.CreateTrack(5);
+	
 	Psg psg(fs);
 	
 	psg.ChannelOne().PitchInput()->Connect(trackOne.PitchOutput());
 	psg.ChannelOne().GateInput()->Connect(trackOne.GateOutput());
+	//psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
+	psg.ChannelOne().VolumeInput()->Set(1.0);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
 	psg.ChannelOne().Vibrato().FrequencyInput()->Set(7.0);
-	psg.ChannelOne().Envelope().AttackInput()->Set(0.01);
-	psg.ChannelOne().Envelope().DecayInput()->Set(0.06);
+	psg.ChannelOne().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelOne().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
 
 	psg.ChannelTwo().PitchInput()->Connect(trackTwo.PitchOutput());
 	psg.ChannelTwo().GateInput()->Connect(trackTwo.GateOutput());
+	//psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
+	psg.ChannelTwo().VolumeInput()->Set(1.0);
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
-	psg.ChannelTwo().Envelope().AttackInput()->Set(0.01);
-	psg.ChannelTwo().Envelope().DecayInput()->Set(0.06);
+	psg.ChannelTwo().Envelope().AttackInput()->Set(0.003);
+	psg.ChannelTwo().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.02);
 
 	psg.ChannelThree().PitchInput()->Connect(trackThree.PitchOutput());
 	psg.ChannelThree().GateInput()->Connect(trackThree.GateOutput());
-	psg.ChannelThree().DetuneInput()->Set(0.1);
+	//psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
+	psg.ChannelThree().VolumeInput()->Set(0.9);
+	psg.ChannelThree().DetuneInput()->Set(0.15);
 	psg.ChannelThree().Vibrato().FrequencyInput()->Set(7.0);
-	psg.ChannelThree().Envelope().AttackInput()->Set(0.01);
-	psg.ChannelThree().Envelope().DecayInput()->Set(0.06);
-	psg.ChannelThree().Envelope().SustainInput()->Set(0.4);
+	psg.ChannelThree().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelThree().Envelope().DecayInput()->Set(0.1);
+	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
+
+	psg.ChannelFour().GateInput()->Connect(trackFour.GateOutput());
+	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelFour().Envelope().DecayInput()->Set(0.1);
+	psg.ChannelFour().Envelope().SustainInput()->Set(0.2);
+	psg.ChannelFour().Envelope().ReleaseInput()->Set(0.02);
 	
-	WaveWriter waveWriter("GreenHill.wav");
+	WaveWriter waveWriter("ScrapBrain.wav");
 	SignalSink logger;
 	
 	waveWriter.LeftInput()->Connect(psg.Output());
 	waveWriter.RightInput()->Connect(psg.Output());
-	logger.GetInput()->Connect(psg.Output());
+	logger.GetInput()->Connect(trackThree.GetMidiControlOutput(7));
 	
 	ModuleRunner runner(&waveWriter);
 
