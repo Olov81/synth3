@@ -14,7 +14,7 @@ public:
 	IInputPort* PitchInput();
 	IInputPort* GateInput();
 	IInputPort* DetuneInput();
-	const IEnvelopeGeneratorControl& Envelope();
+	IEnvelopeGeneratorControl& Envelope();
 	ILfoControl& Vibrato();
 
 	IOutputPort* Output();
@@ -33,7 +33,22 @@ private:
 	Repeater _gate;
 };
 
-class Psg : public Module
+class Psg
 {
+public:
+
+	Psg(double fs);
 	
+	PsgToneChannel& ChannelOne();
+	PsgToneChannel& ChannelTwo();
+	PsgToneChannel& ChannelThree();
+
+	IOutputPort* Output();
+	
+private:
+
+	PsgToneChannel _channelOne;
+	PsgToneChannel _channelTwo;
+	PsgToneChannel _channelThree;
+	Sum _mixer;
 };

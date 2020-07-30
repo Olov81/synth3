@@ -37,7 +37,7 @@ IInputPort* PsgToneChannel::DetuneInput()
 	return _pitch.GetInputPort(1);
 }
 
-const IEnvelopeGeneratorControl& PsgToneChannel::Envelope()
+IEnvelopeGeneratorControl& PsgToneChannel::Envelope()
 {
 	return _envelope;
 }
@@ -55,4 +55,35 @@ IOutputPort* PsgToneChannel::Output()
 void PsgToneChannel::Update()
 {
 	
+}
+
+Psg::Psg(double fs)
+	: _channelOne(fs)
+	,_channelTwo(fs)
+	,_channelThree(fs)
+	,_mixer(3)
+{
+	_mixer.GetInputPort(0)->Connect(_channelOne.Output());
+	_mixer.GetInputPort(1)->Connect(_channelTwo.Output());
+	_mixer.GetInputPort(2)->Connect(_channelThree.Output());
+}
+
+PsgToneChannel& Psg::ChannelOne()
+{
+	return _channelOne;
+}
+
+PsgToneChannel& Psg::ChannelTwo()
+{
+	return _channelTwo;
+}
+
+PsgToneChannel& Psg::ChannelThree()
+{
+	return _channelThree;
+}
+
+IOutputPort* Psg::Output()
+{
+	return _mixer.Output();
 }
