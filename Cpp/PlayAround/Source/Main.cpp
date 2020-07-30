@@ -152,14 +152,14 @@ void TestMidiFilePlayer()
 	static const double ts = 1 / fs;
 	static const double duration = 54;
 
-	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts, 1);
-	auto* pModulationOutput = midiFilePlayer.CreateMidiControlOutput(1);
-
+	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	auto track = midiFilePlayer.CreateTrack(1);
+	
 	PsgToneChannel channel(fs);
 
-	channel.PitchInput()->Connect(midiFilePlayer.PitchOutput());
-	channel.GateInput()->Connect(midiFilePlayer.GateOutput());
-	channel.Vibrato().AmplitudeInput()->Connect(pModulationOutput);
+	channel.PitchInput()->Connect(track.PitchOutput());
+	channel.GateInput()->Connect(track.GateOutput());
+	channel.Vibrato().AmplitudeInput()->Connect(track.GetMidiControlOutput(1));
 	channel.Vibrato().FrequencyInput()->Set(7.0);
 	channel.Envelope().AttackInput()->Set(0.01);
 	channel.Envelope().DecayInput()->Set(0.06);

@@ -1,39 +1,45 @@
 #pragma once
+#include <functional>
 #include <string>
 #include <map>
 #include "MidiFile.h"
 #include "Framework/Module.h"
 
-class MidiFilePlayer : public Module
+class MidiTrack : Module
 {
 public:
 
-	MidiFilePlayer(const std::string& fileName, double ts, int channel);
+	MidiTrack(double ts, smf::MidiEventList eventList);
 
-	IOutputPort* GateOutput();
-
-	IOutputPort* PitchOutput();
-
-	IOutputPort* CreateMidiControlOutput(int controlNumber);
-	
-    void Update() override;
+	void Update() override;
+		
+	IOutputPort* GateOutput() const;
+	IOutputPort* PitchOutput() const;
+	IOutputPort* GetMidiControlOutput(int controlNumber);
 
 private:
 
-	IOutputPort* _pGateOutput;
-	IOutputPort* _pPitchOutput;
-	
-	smf::MidiFile _midiFile;
-	int _channel;
-	
+	double _ts;
+	smf::MidiEventList _eventList;
 	typedef std::map<int, IOutputPort*> ControllerMap;
 	ControllerMap _controllerMap;
-	
-	double _ts;
-	double _t;
-	int _eventIndex;
-	smf::MidiEvent _nextEvent;
-	int _numberOfNotesPlaying;
+	IOutputPort* _pGatePort;
+	IOutputPort* _pPitchPort;
+	int _numberOfNotesPlaying = 0;
+	int _eventNumber = 0;
+	double _t = 0;
+};
 
-	smf::MidiEvent GetNextEvent();
+class MidiFilePlayer
+{
+public:
+
+	MidiFilePlayer(const std::string& fileName, double ts);
+
+	MidiTrack CreateTrack(int track);
+
+private:
+	
+	smf::MidiFile _midiFile;	
+	double _ts;
 };
