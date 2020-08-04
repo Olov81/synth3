@@ -25,9 +25,13 @@
     <ClCompile Include="Source\WaveWriter.cpp" />
     <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
     <ClCompile Include="Source\Multiply.cpp" />
-    <ClCompile Include="Source\Psg.cpp" />
     <ClCompile Include="Source\Repeater.cpp" />
     <ClCompile Include="Source\NoiseGenerator.cpp" />
+    <ClCompile Include="Source\Decimator.cpp" />
+    <ClCompile Include="Source\MasterSystemPsg.cpp" />
+    <ClCompile Include="Source\PsgToneChannel.cpp" />
+    <ClCompile Include="Source\PsgNoiseChannel.cpp" />
+    <ClCompile Include="Source\NesPsg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\WaveWriter.h">
@@ -216,8 +220,12 @@
     <ClInclude Include="Include\Waveforms.h" />
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClInclude Include="Include\Multiply.h" />
-    <ClInclude Include="Include\Psg.h" />
     <ClInclude Include="Include\Repeater.h" />
     <ClInclude Include="Include\NoiseGeneratorh.h" />
+    <ClInclude Include="Include\Decimator.h" />
+    <ClInclude Include="Include\MasterSystemPsg.h" />
+    <ClInclude Include="Include\PsgToneChannel.h" />
+    <ClInclude Include="Include\PsgNoiseChannel.h" />
+    <ClInclude Include="Include\NesPsg.h" />
   </ItemGroup>
 </Project>

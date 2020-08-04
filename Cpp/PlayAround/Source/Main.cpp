@@ -12,7 +12,8 @@
 #include "MoogFilter.h"
 #include "MulltiOscillator.h"
 #include "Multiply.h"
-#include "Psg.h"
+#include "MasterSystemPsg.h"
+#include "NesPsg.h"
 #include "PulseGenerator.h"
 #include "SyncFunctionProvider.h"
 
@@ -146,7 +147,7 @@ Sequencer::EventList Metronome()
 	return eventList;
 }
 
-void TestMidiFilePlayer()
+void ScrapBrain()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
@@ -158,12 +159,12 @@ void TestMidiFilePlayer()
 	auto trackThree = midiFilePlayer.CreateTrack(10);
 	auto trackFour = midiFilePlayer.CreateTrack(5);
 	
-	Psg psg(fs);
+	MasterSystemPsg psg(fs);
 	
 	psg.ChannelOne().PitchInput()->Connect(trackOne.PitchOutput());
 	psg.ChannelOne().GateInput()->Connect(trackOne.GateOutput());
 	//psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
-	psg.ChannelOne().VolumeInput()->Set(1.0);
+	psg.ChannelOne().VolumeInput()->Set(0.9);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
 	psg.ChannelOne().Vibrato().FrequencyInput()->Set(7.0);
 	psg.ChannelOne().Envelope().AttackInput()->Set(0.001);
@@ -178,8 +179,8 @@ void TestMidiFilePlayer()
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
 	psg.ChannelTwo().Envelope().AttackInput()->Set(0.003);
 	psg.ChannelTwo().Envelope().DecayInput()->Set(0.1);
-	psg.ChannelTwo().Envelope().SustainInput()->Set(0.4);
-	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.02);
+	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
+	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
 
 	psg.ChannelThree().PitchInput()->Connect(trackThree.PitchOutput());
 	psg.ChannelThree().GateInput()->Connect(trackThree.GateOutput());
@@ -213,9 +214,145 @@ void TestMidiFilePlayer()
 	waveWriter.Close();
 }
 
+void GreenHill()
+{
+	static const double fs = 44100;
+	static const double ts = 1 / fs;
+	static const double duration = 54;
+
+	MidiFilePlayer midiFilePlayer("GreenHill.mid", ts);
+	auto trackOne = midiFilePlayer.CreateTrack(1);
+	auto trackTwo = midiFilePlayer.CreateTrack(2);
+	auto trackThree = midiFilePlayer.CreateTrack(3);
+	auto trackFour = midiFilePlayer.CreateTrack(4);
+
+	MasterSystemPsg psg(fs);
+
+	psg.ChannelOne().PitchInput()->Connect(trackOne.PitchOutput());
+	psg.ChannelOne().GateInput()->Connect(trackOne.GateOutput());
+	psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
+	//psg.ChannelOne().VolumeInput()->Set(0.9);
+	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
+	psg.ChannelOne().Vibrato().FrequencyInput()->Set(7.0);
+	psg.ChannelOne().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelOne().Envelope().DecayInput()->Set(0.1);
+	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
+	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
+
+	psg.ChannelTwo().PitchInput()->Connect(trackTwo.PitchOutput());
+	psg.ChannelTwo().GateInput()->Connect(trackTwo.GateOutput());
+	psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
+	//psg.ChannelTwo().VolumeInput()->Set(0.0);
+	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
+	psg.ChannelTwo().Envelope().AttackInput()->Set(0.003);
+	psg.ChannelTwo().Envelope().DecayInput()->Set(0.1);
+	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
+	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
+
+	psg.ChannelThree().PitchInput()->Connect(trackThree.PitchOutput());
+	psg.ChannelThree().GateInput()->Connect(trackThree.GateOutput());
+	psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
+	//psg.ChannelThree().VolumeInput()->Set(0.0);
+	psg.ChannelThree().DetuneInput()->Set(0.12);
+	psg.ChannelThree().Vibrato().FrequencyInput()->Set(7.0);
+	psg.ChannelThree().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelThree().Envelope().DecayInput()->Set(0.1);
+	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
+	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
+
+	psg.ChannelFour().GateInput()->Connect(trackFour.GateOutput());
+	//psg.ChannelFour().()->Connect(trackFour.GetMidiControlOutput(7, 0.8));
+	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
+	psg.ChannelFour().Envelope().DecayInput()->Set(0.15);
+	psg.ChannelFour().Envelope().SustainInput()->Set(0.1);
+	psg.ChannelFour().Envelope().ReleaseInput()->Set(0.01);
+
+	WaveWriter waveWriter("GreenHill.wav");
+	SignalSink logger;
+
+	waveWriter.LeftInput()->Connect(psg.Output());
+	waveWriter.RightInput()->Connect(psg.Output());
+	logger.GetInput()->Connect(trackThree.GetMidiControlOutput(7));
+
+	ModuleRunner runner(&waveWriter);
+
+	runner.Run(static_cast<int>(duration * fs));
+
+	logger.WriteCsv("MidiLog.csv");
+	waveWriter.Close();
+}
+
+void Mario()
+{
+	static const double fs = 44100;
+	static const double ts = 1 / fs;
+	static const double duration = 80;
+
+	MidiFilePlayer midiFilePlayer("Overworld.mid", ts);
+	auto trackOne = midiFilePlayer.CreateTrack(1);
+	auto trackTwo = midiFilePlayer.CreateTrack(2);
+	auto trackThree = midiFilePlayer.CreateTrack(3);
+	auto trackFour = midiFilePlayer.CreateTrack(4);
+
+	NesPsg psg(fs);
+
+	psg.SquareOne().PitchInput()->Connect(trackOne.PitchOutput());
+	psg.SquareOne().GateInput()->Connect(trackOne.GateOutput());
+	psg.SquareOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7,0.8));
+	//psg.ChannelOne().VolumeInput()->Set(0.9);
+	psg.SquareOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
+	psg.SquareOne().Vibrato().FrequencyInput()->Set(7.0);
+	psg.SquareOne().Envelope().AttackInput()->Set(0.005);
+	psg.SquareOne().Envelope().DecayInput()->Set(0.1);
+	psg.SquareOne().Envelope().SustainInput()->Set(0.4);
+	psg.SquareOne().Envelope().ReleaseInput()->Set(0.05);
+
+	psg.SquareTwo().PitchInput()->Connect(trackTwo.PitchOutput());
+	psg.SquareTwo().GateInput()->Connect(trackTwo.GateOutput());
+	psg.SquareTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7, 0.8));
+	//psg.ChannelTwo().VolumeInput()->Set(0.0);
+	psg.SquareTwo().Vibrato().FrequencyInput()->Set(7.0);
+	psg.SquareTwo().Envelope().AttackInput()->Set(0.005);
+	psg.SquareTwo().Envelope().DecayInput()->Set(0.1);
+	psg.SquareTwo().Envelope().SustainInput()->Set(0.4);
+	psg.SquareTwo().Envelope().ReleaseInput()->Set(0.05);
+
+	psg.Triangle().PitchInput()->Connect(trackThree.PitchOutput());
+	psg.Triangle().GateInput()->Connect(trackThree.GateOutput());
+	psg.Triangle().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 1.0));
+	//psg.ChannelThree().VolumeInput()->Set(0.0);
+	psg.Triangle().DetuneInput()->Set(0.12);
+	psg.Triangle().Vibrato().FrequencyInput()->Set(7.0);
+	psg.Triangle().Envelope().AttackInput()->Set(0.001);
+	psg.Triangle().Envelope().DecayInput()->Set(0.1);
+	psg.Triangle().Envelope().SustainInput()->Set(1.0);
+	psg.Triangle().Envelope().ReleaseInput()->Set(0.02);
+
+	psg.Noise().GateInput()->Connect(trackFour.GateOutput());
+	//psg.ChannelFour().()->Connect(trackFour.GetMidiControlOutput(7, 0.8));
+	psg.Noise().Envelope().AttackInput()->Set(0.001);
+	psg.Noise().Envelope().DecayInput()->Set(0.1);
+	psg.Noise().Envelope().SustainInput()->Set(0.1);
+	psg.Noise().Envelope().ReleaseInput()->Set(0.01);
+
+	WaveWriter waveWriter("Mario.wav");
+	SignalSink logger;
+
+	waveWriter.LeftInput()->Connect(psg.Output());
+	waveWriter.RightInput()->Connect(psg.Output());
+	logger.GetInput()->Connect(trackThree.GetMidiControlOutput(7));
+
+	ModuleRunner runner(&waveWriter);
+
+	runner.Run(static_cast<int>(duration * fs));
+
+	logger.WriteCsv("MidiLog.csv");
+	waveWriter.Close();
+}
+
 int main()
 {
-	TestMidiFilePlayer();
+	Mario();
 
 	return 0;
 	
