@@ -7,6 +7,7 @@
 #include "Sequencer.h"
 #include "SignalSink.h"
 #include "EnvelopeGenerator.h"
+#include "FmOperator.h"
 #include "MidiFilePlayer.h"
 #include "Sum.h"
 #include "MoogFilter.h"
@@ -15,7 +16,7 @@
 #include "MasterSystemPsg.h"
 #include "NesPsg.h"
 #include "PulseGenerator.h"
-#include "SyncFunctionProvider.h"
+#include "Ym2612Channel.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -121,13 +122,6 @@ Sequencer::EventList Reflex()
 		SequencerEvent("D5", 3.0 / 32, 3.0 / 32, 1.0, 0.05),
 		SequencerEvent("C5", 1.0 / 8, 0.99*1.0 / 8, 1.0, 0.11),
 		SequencerEvent("E4", 1.0, 1.0, 1.0, 0.002),
-	};
-}
-
-Sequencer::EventList SingleNote()
-{
-	return {
-		Event("A4", 1.0)
 	};
 }
 
@@ -350,42 +344,89 @@ void Mario()
 	waveWriter.Close();
 }
 
+void Fm()
+{
+	static const double fs = 44100;
+	static const double ts = 1 / fs;
+	static const double duration = 45;
+
+	MidiFilePlayer midiFilePlayer("spring-yard-zone-6-.mid", ts, 1.0);
+	auto trackOne = midiFilePlayer.CreateTrack(3);
+
+	Ym2612Channel channel(ts, Ym2612Algorithm::AlgorithmOne);
+	
+	Sum transposer(2);
+	transposer.GetInputPort(0)->Connect(trackOne.PitchOutput());
+	transposer.GetInputPort(1)->Set(12);
+
+	channel.GateInput()->Connect(trackOne.GateOutput());
+	channel.PitchInput()->Connect(transposer.Output());
+
+	channel.ModulatorOne().GainInput()->Set(0.08);
+	channel.ModulatorOne().RateInput()->Set(7.0);
+	channel.ModulatorOne().Envelope().DecayInput()->Set(0.2);
+	channel.ModulatorOne().Envelope().SustainInput()->Set(0.05);
+	channel.ModulatorOne().Envelope().AttackInput()->Set(1e-3);
+	
+	channel.CarrierOne().GainInput()->Set(0.27);
+	channel.CarrierOne().RateInput()->Set(0.5);
+	channel.CarrierOne().Envelope().SustainInput()->Set(0.4);
+	channel.CarrierOne().Envelope().DecayInput()->Set(1.0);
+	channel.CarrierOne().Envelope().AttackInput()->Set(5e-4);
+	channel.CarrierOne().Envelope().ReleaseInput()->Set(0.01);
+	
+	channel.ModulatorTwo().GainInput()->Set(0.8);
+	channel.ModulatorTwo().RateInput()->Set(0.5);
+	channel.ModulatorTwo().Envelope().SustainInput()->Set(0.1);
+	channel.ModulatorTwo().Envelope().DecayInput()->Set(3);
+	channel.ModulatorTwo().Envelope().AttackInput()->Set(5e-4);
+	channel.ModulatorTwo().Envelope().ReleaseInput()->Set(0.01);
+	
+	channel.CarrierTwo().GainInput()->Set(0.5);
+	channel.CarrierTwo().RateInput()->Set(1.0);
+	channel.CarrierTwo().Envelope().SustainInput()->Set(0.8);
+	channel.CarrierTwo().Envelope().DecayInput()->Set(0.05);
+	channel.CarrierTwo().Envelope().AttackInput()->Set(5e-4);
+	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.03);
+
+	WaveWriter waveWriter("SpringYard.wav");
+	SignalSink logger;
+
+	waveWriter.LeftInput()->Connect(channel.Output());
+	waveWriter.RightInput()->Connect(channel.Output());
+	//logger.GetInput()->Connect(channel.CarrierTwo().Envelope().Output());
+
+	ModuleRunner runner(&waveWriter);
+
+	runner.Run(static_cast<int>(duration * fs));
+
+	logger.WriteCsv("MidiLog.csv");
+	waveWriter.Close();
+}
+
 int main()
 {
-	Mario();
+	Fm();
 
 	return 0;
 	
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 3;
+	static const double duration = 10;
 
 	WaveWriter waveWriter("Apa.wav");
 
-	//LinearTableFunctionProvider functionProvider(Waveforms::Square());
-	//SyncFunctionProvider syncFunctionProvider(&functionProvider);
-	//WaveformGenerator generator(&syncFunctionProvider);
-	//WaveformGeneratorModule generatorTwo(&generator);
-	//syncFunctionProvider.SetFrequencyMultiplier(1.8);
-	//MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
-	//generatorTwo.DetuneInput()->Set(0.03);
+	MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
+	generatorTwo.DetuneInput()->Set(0.03);
 
-	//MultiOscillator generatorTwo(1, Waveforms::Square(), 12);
-	
 	//PulseGenerator generatorTwo;
-	//generatorTwo.PulseWidthInput()->Set(0.5);
+	//generatorTwo.PulseWidthInput()->Set(0.1);
 
-	//PulseGenerator generatorOne;
-	//generatorTwo.FrequencyMultiplierInput()->Set(5.0 / 3);
-
-	LinearTableFunctionProvider functionProvider(Waveforms::CustomOne());
-	SyncWaveformGenerator generatorTwo(&functionProvider);
-	
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
 	Sequencer metronome(ts, 130, Metronome(), 0);
-	Sequencer sequencer(ts, 112, SingleNote(), -12);
+	Sequencer sequencer(ts, 112, Reflex(), 0);
 
 	Gain vcoGain;
 	Gain vca;
@@ -399,17 +440,15 @@ int main()
 	EnvelopeGenerator amplitudeEnvelope(ts);
 	Lfo lfo(fs);
 	Lfo pwm(fs);
-	Sum generatorTwoPitch(2);
+	Sum generatorTwoFrequency(2);
 
 	vcoGain.GetGainInput()->Set(0.5);
 	vcf.GetResonanceInput()->Set(0.1);
 	vca.GetGainInput()->Connect(amplitudeEnvelope.Output());
 
-	//generatorOne.PitchInput()->Connect(sequencer.PitchOutput());
-
 	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
-	filterFrequencyMixer.GetInputPort(1)->Set(1.0);
+	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
 
 	filterEnvelopeAmount.GetGainInput()->Set(0.2);
 	pitchEnvelopeAmount.GetGainInput()->Set(0);
@@ -420,15 +459,11 @@ int main()
 	lfo.DelayInput()->Set(0.4);
 	lfo.GateInput()->Connect(sequencer.GateOutput());
 
-	pwm.AmplitudeInput()->Set(2.4);
-	pwm.OffsetInput()->Set(4);
-	pwm.FrequencyInput()->Set(0.3);
+	pwm.AmplitudeInput()->Set(0.45);
+	pwm.OffsetInput()->Set(0.5);
+	pwm.FrequencyInput()->Set(0.2);
 
-	//pwm.AmplitudeInput()->Set(11);
-	//pwm.OffsetInput()->Set(12);
-	//pwm.FrequencyInput()->Set(1.0);
-
-	amplitudeEnvelope.SustainInput()->Set(1.0);
+	amplitudeEnvelope.SustainInput()->Set(0.0);
 	amplitudeEnvelope.ReleaseInput()->Set(0.1);
 	amplitudeEnvelope.DecayInput()->Set(2.0);
 	amplitudeEnvelope.AttackInput()->Set(0.01);
@@ -442,15 +477,12 @@ int main()
 
 	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
 
-	generatorTwoPitch.GetInputPort(0)->Connect(sequencer.PitchOutput());
-	//generatorTwoPitch.GetInputPort(1)->Connect(pwm.Output());
+	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
+	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.Output());
 
-	//generatorTwo.PhaseResetInput()->Connect(generatorOne.Output());
-	generatorTwo.PitchInput()->Connect(sequencer.PitchOutput());
-
-	generatorTwo.FrequencyMultiplierInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Set(0.9);
+	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
 	vcoGain.GetInput()->Connect(generatorTwo.Output());
 
 	vcf.GetInput()->Connect(vcoGain.GetOutput());

@@ -9,7 +9,7 @@ class MidiTrack : Module
 {
 public:
 
-	MidiTrack(double ts, smf::MidiEventList eventList);
+	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale);
 
 	void Update() override;
 		
@@ -21,6 +21,7 @@ private:
 
 	double _ts;
 	smf::MidiEventList _eventList;
+	double _tempoScale;
 	typedef std::map<int, IOutputPort*> ControllerMap;
 	ControllerMap _controllerMap;
 	IOutputPort* _pGatePort;
@@ -34,7 +35,7 @@ class MidiFilePlayer
 {
 public:
 
-	MidiFilePlayer(const std::string& fileName, double ts);
+	MidiFilePlayer(const std::string& fileName, double ts, double tempoScale = 1.0);
 
 	MidiTrack CreateTrack(int track);
 
@@ -42,4 +43,5 @@ private:
 	
 	smf::MidiFile _midiFile;	
 	double _ts;
+	double _tempoScale = 1.0;
 };

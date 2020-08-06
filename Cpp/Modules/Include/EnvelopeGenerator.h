@@ -18,7 +18,7 @@ class EnvelopeGenerator : public Source, public IEnvelopeGeneratorControl
 {
 public:
 
-	EnvelopeGenerator(double ts);
+	EnvelopeGenerator(double ts, double velocitySensitivity = 0.0);
 
 	void Update() override;
 
@@ -41,10 +41,12 @@ private:
 	IInputPort* _pSustainInput;
 	IInputPort* _pReleaseInput;
 	double _ts;
+	double _velocitySensitivity;
+	double _velocity = 0.0;
 	double _output;
 	typedef double(EnvelopeGenerator::* Phase)();
 	Phase _currentPhase;
-
+	
 	double AttackPhase();
 	double DecayPhase();
 	double SustainPhase();

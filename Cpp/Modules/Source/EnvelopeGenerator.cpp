@@ -1,11 +1,12 @@
 #include "EnvelopeGenerator.h"
 
-EnvelopeGenerator::EnvelopeGenerator(double ts)
+EnvelopeGenerator::EnvelopeGenerator(double ts, double velocitySensitivity)
 	: _flankDetector(
 		1e-3,
 		std::bind(&EnvelopeGenerator::BeginAttackPhase, this),
 		std::bind(&EnvelopeGenerator::BeginReleasePhase, this))
 	, _ts(ts)
+	, _velocitySensitivity(velocitySensitivity)
 	, _output(0)
 	, _currentPhase(&EnvelopeGenerator::SilencePhase)
 {
@@ -104,6 +105,7 @@ double EnvelopeGenerator::SilencePhase()
 
 void EnvelopeGenerator::BeginAttackPhase()
 {
+	_velocity = _pGateInput->Read();
 	_currentPhase = &EnvelopeGenerator::AttackPhase;
 }
 
@@ -116,6 +118,7 @@ void EnvelopeGenerator::Update()
 {
 	auto gate = _pGateInput->Read();
 	_flankDetector.Update(gate);
-	auto output = (this->*_currentPhase)();
+	const auto gain = _velocitySensitivity * _velocity + (1 - _velocitySensitivity);
+	const auto output = gain*(this->*_currentPhase)();
 	Write(output);
 }

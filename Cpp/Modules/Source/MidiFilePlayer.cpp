@@ -4,9 +4,11 @@
 
 MidiTrack::MidiTrack(
 	const double ts,
-	smf::MidiEventList eventList)
+	smf::MidiEventList eventList,
+	double tempoScale)
 :_ts(ts)
 , _eventList(std::move(eventList))
+, _tempoScale(tempoScale)
 {
 	_pGatePort = CreateOutputPort();
 	_pPitchPort = CreateOutputPort();
@@ -21,7 +23,7 @@ void MidiTrack::Update()
 	
 	const auto nextEvent = _eventList[_eventNumber];
 	
-	if (_t >= nextEvent.seconds)
+	if (_t >= nextEvent.seconds/_tempoScale)
 	{
 		if (nextEvent.isNoteOn())
 		{
@@ -33,7 +35,7 @@ void MidiTrack::Update()
 		{
 			--_numberOfNotesPlaying;
 
-			if(_numberOfNotesPlaying == 0)
+			if (_numberOfNotesPlaying == 0)
 			{
 				_pGatePort->Write(0);
 			}
@@ -73,14 +75,15 @@ IOutputPort* MidiTrack::GetMidiControlOutput(int controlNumber, double initialVa
 	return _controllerMap[controlNumber];
 }
 
-MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts)
+MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts, double tempoScale)
 	: _midiFile(fileName)
 	, _ts(ts)
+	,_tempoScale(tempoScale)
 {
 	_midiFile.doTimeAnalysis();
 }
 
 MidiTrack MidiFilePlayer::CreateTrack(int track)
 {
-	return MidiTrack(_ts, _midiFile[track]);
+	return MidiTrack(_ts, _midiFile[track], _tempoScale);
 }

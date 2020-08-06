@@ -32,6 +32,8 @@
     <ClCompile Include="Source\PsgToneChannel.cpp" />
     <ClCompile Include="Source\PsgNoiseChannel.cpp" />
     <ClCompile Include="Source\NesPsg.cpp" />
+    <ClCompile Include="Source\FmOperator.cpp" />
+    <ClCompile Include="Source\Ym2612Channel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\WaveWriter.h">
@@ -227,5 +229,7 @@
     <ClInclude Include="Include\PsgToneChannel.h" />
     <ClInclude Include="Include\PsgNoiseChannel.h" />
     <ClInclude Include="Include\NesPsg.h" />
+    <ClInclude Include="Include\FmOperator.h" />
+    <ClInclude Include="Include\Ym2612Channel.h" />
   </ItemGroup>
 </Project>

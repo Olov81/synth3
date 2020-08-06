@@ -22,6 +22,7 @@
     <ClInclude Include="Include\ContinuousFilterFactory.h" />
     <ClInclude Include="Include\Decimator.h" />
     <ClInclude Include="Include\EnvelopeFollower.h" />
+    <ClInclude Include="Include\FmOperator.h" />
     <ClInclude Include="Include\Globals.h" />
     <ClInclude Include="Include\ILinearFunctionProvider.h" />
     <ClInclude Include="Include\IWaveformGenerator.h" />
@@ -54,9 +55,11 @@
     <ClInclude Include="Include\WaveformGenerator.h" />
     <ClInclude Include="Include\Sequencer.h" />
     <ClInclude Include="Include\Waveforms.h" />
+    <ClInclude Include="Include\Ym2612Channel.h" />
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClCompile Include="Source\Decimator.cpp" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
+    <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
     <ClCompile Include="Source\MidiFilePlayer.cpp" />
     <ClCompile Include="Source\Multiply.cpp" />
@@ -88,6 +91,7 @@
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveformGeneratorModule.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />
+    <ClCompile Include="Source\Ym2612Channel.cpp" />
     <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
