@@ -18,6 +18,8 @@ public:
 	
 	IInputPort* PitchInput();
 
+	IInputPort* GainInput();
+	
 	IOutputPort* Output();
 
 	IFmOperatorControl& CarrierOne();
@@ -34,6 +36,7 @@ private:
 	Repeater _gate;
 	Repeater _pitch;
 	Sum _mixer;
+	Gain _gain;
 	
 	void ConnectInputs(FmOperator& op);
 	void SetAlgorithm(Ym2612Algorithm algorithm);

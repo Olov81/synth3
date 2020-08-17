@@ -12,6 +12,8 @@ Ym2612Channel::Ym2612Channel(double ts, Ym2612Algorithm algorithm)
 	ConnectInputs(_modulatorOne);
 	ConnectInputs(_modulatorTwo);
 	SetAlgorithm(algorithm);
+
+	_gain.GetInput()->Connect(_mixer.Output());
 }
 
 IInputPort* Ym2612Channel::GateInput()
@@ -22,6 +24,11 @@ IInputPort* Ym2612Channel::GateInput()
 IInputPort* Ym2612Channel::PitchInput()
 {
 	return _pitch.GetInput();
+}
+
+IInputPort* Ym2612Channel::GainInput()
+{
+	return _gain.GetGainInput();
 }
 
 IOutputPort* Ym2612Channel::Output()

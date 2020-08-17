@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\BitCrusher.h" />
     <ClInclude Include="Include\ContinuousFilterFactory.h" />
     <ClInclude Include="Include\Decimator.h" />
+    <ClInclude Include="Include\DrumMachine.h" />
     <ClInclude Include="Include\EnvelopeFollower.h" />
     <ClInclude Include="Include\FmOperator.h" />
     <ClInclude Include="Include\Globals.h" />
@@ -49,6 +51,8 @@
     <ClInclude Include="Include\Gain.h" />
     <ClInclude Include="Include\Lfo.h" />
     <ClInclude Include="Include\Source.h" />
+    <ClInclude Include="Include\Voice.h" />
+    <ClInclude Include="Include\VoiceSplitter.h" />
     <ClInclude Include="Include\SyncFunctionProvider.h" />
     <ClInclude Include="Include\WaveformGeneratorModule.h" />
     <ClInclude Include="Include\WaveWriter.h" />
@@ -57,7 +61,9 @@
     <ClInclude Include="Include\Waveforms.h" />
     <ClInclude Include="Include\Ym2612Channel.h" />
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
+    <ClCompile Include="Source\BitCrusher.cpp" />
     <ClCompile Include="Source\Decimator.cpp" />
+    <ClCompile Include="Source\DrumMachine.cpp" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
     <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
@@ -87,6 +93,8 @@
     <ClCompile Include="Source\SignalSplitter.cpp" />
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\Sum.cpp" />
+    <ClCompile Include="Source\Voice.cpp" />
+    <ClCompile Include="Source\VoiceSplitter.cpp" />
     <ClCompile Include="Source\SyncFunctionProvider.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveformGeneratorModule.cpp" />

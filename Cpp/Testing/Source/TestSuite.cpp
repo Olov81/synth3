@@ -17,9 +17,16 @@ bool TestSuite::RunTests()
 	{
 		for (auto& testFunction : _testFunctions)
 		{
-			std::cout << "Running test " << testFunction._name << "... ";
-			testFunction._function();
-			std::cout << "passed!" << std::endl;
+			if(testFunction._ignore)
+			{
+				std::cout << "Ignoring test " << testFunction._name << std::endl;
+			}
+			else
+			{
+				std::cout << "Running test " << testFunction._name << "... ";
+				testFunction._function();
+				std::cout << "passed!" << std::endl;
+			}
 		}
 	}
 	catch (...)
@@ -32,8 +39,15 @@ bool TestSuite::RunTests()
 
 void TestSuite::AddTest(TestFunction testFunction, const char* testName)
 {
-	Test test(testFunction, testName);
+	const Test test(testFunction, testName, false);
 
+	_testFunctions.push_back(test);
+}
+
+void TestSuite::IgnoreTest(const char* testName)
+{
+	const Test test([]() {}, testName, true);
+	
 	_testFunctions.push_back(test);
 }
 

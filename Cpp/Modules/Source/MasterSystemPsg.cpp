@@ -6,7 +6,6 @@ MasterSystemPsg::MasterSystemPsg(double fs)
 	,_channelThree(fs, Waveforms::Square())
 	,_channelFour(1/fs, 8)
 	,_mixer(4)
-	,_decimator(1)
 {
 	_mixer.GetInputPort(0)->Connect(_channelOne.Output());
 	_mixer.GetInputPort(1)->Connect(_channelTwo.Output());
@@ -16,7 +15,8 @@ MasterSystemPsg::MasterSystemPsg(double fs)
 	_outputGain.GetGainInput()->Set(0.35);
 	_outputGain.GetInput()->Connect(_mixer.Output());
 
-	_decimator.GetInput()->Connect(_outputGain.GetOutput());
+	_bitCrusher.ResolutionInput()->Set(128);
+	_bitCrusher.GetInput()->Connect(_outputGain.GetOutput());
 }
 
 PsgToneChannel& MasterSystemPsg::ChannelOne()
@@ -41,5 +41,5 @@ PsgNoiseChannel& MasterSystemPsg::ChannelFour()
 
 IOutputPort* MasterSystemPsg::Output()
 {
-	return _decimator.GetOutput();
+	return _bitCrusher.GetOutput();
 }

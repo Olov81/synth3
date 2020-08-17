@@ -1,6 +1,36 @@
 #include "SignalSink.h"
 #include <fstream>
 
+IInputPort* ArraySink::GetInput(const char* name)
+{
+	if (_sinks.find(name) == _sinks.end())
+	{
+		_sinks.insert(std::make_pair(name, std::make_shared<Sink>(name, CreateInputPort())));
+	}
+
+	return _sinks[name]->_pInputPort;
+}
+
+double ArraySink::GetSample(const char* inputName, unsigned sampleIndex)
+{
+	return _sinks[inputName]->_samples[sampleIndex];
+}
+
+void ArraySink::Update()
+{
+	for (auto sink : _sinks)
+	{
+		auto sample = sink.second->_pInputPort->Read();
+		sink.second->_samples.push_back(sample);
+	}
+}
+
+ArraySink::Sink::Sink(const char* name, IInputPort* pInputPort)
+: _name(name)
+, _pInputPort(pInputPort)
+{
+}
+
 SignalSink::SignalSink()
 {
 	_pInput = CreateInputPort();

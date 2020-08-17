@@ -160,6 +160,7 @@
     <ClCompile Include="Source\SequencerTests.cpp" />
     <ClCompile Include="Source\SyncFunctionProviderTests.cpp" />
     <ClCompile Include="Source\Test.cpp" />
+    <ClCompile Include="Source\VoiceSplitterTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

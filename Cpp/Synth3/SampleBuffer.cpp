@@ -16,6 +16,11 @@ double SampleBuffer::GetNextSample()
 	return (this->*_getNextSample)();
 }
 
+void SampleBuffer::Reset()
+{
+	_currentPosition = 0;
+}
+
 void SampleBuffer::SetLoopEnabled(bool enabled)
 {
 	_getNextSample = enabled ? &SampleBuffer::GetNextSampleLoopEnabled : &SampleBuffer::GetNextSampleLoopDisabled;

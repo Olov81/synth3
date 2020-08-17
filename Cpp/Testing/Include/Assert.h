@@ -2,6 +2,15 @@
 #include <iostream>
 #include "TestSuite.h"
 
+#define TEST_IGNORE(name)\
+static bool init##name()\
+{\
+	TestSuite::Instance()->IgnoreTest(#name);\
+	return true;\
+}\
+static bool name##initialized = init##name();\
+void name()
+
 #define TEST(name)\
 static void name();\
 static bool init##name()\

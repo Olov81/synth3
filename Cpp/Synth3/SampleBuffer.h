@@ -8,6 +8,8 @@ public:
 
 	double GetNextSample();
 
+	void Reset();
+	
 	void SetLoopEnabled(bool enabled);
 
 	void SetLoopInterval(unsigned int start, unsigned int end);

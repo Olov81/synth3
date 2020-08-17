@@ -4,6 +4,8 @@
 #include "Lfo.h"
 #include "Gain.h"
 #include <chrono>
+
+#include "DrumMachine.h"
 #include "Sequencer.h"
 #include "SignalSink.h"
 #include "EnvelopeGenerator.h"
@@ -293,7 +295,7 @@ void Mario()
 	psg.SquareOne().PitchInput()->Connect(trackOne.PitchOutput());
 	psg.SquareOne().GateInput()->Connect(trackOne.GateOutput());
 	psg.SquareOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7,0.8));
-	//psg.ChannelOne().VolumeInput()->Set(0.9);
+	psg.SquareOne().VolumeInput()->Set(0.0);
 	psg.SquareOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
 	psg.SquareOne().Vibrato().FrequencyInput()->Set(7.0);
 	psg.SquareOne().Envelope().AttackInput()->Set(0.005);
@@ -304,7 +306,7 @@ void Mario()
 	psg.SquareTwo().PitchInput()->Connect(trackTwo.PitchOutput());
 	psg.SquareTwo().GateInput()->Connect(trackTwo.GateOutput());
 	psg.SquareTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7, 0.8));
-	//psg.ChannelTwo().VolumeInput()->Set(0.0);
+	psg.SquareTwo().VolumeInput()->Set(0.0);
 	psg.SquareTwo().Vibrato().FrequencyInput()->Set(7.0);
 	psg.SquareTwo().Envelope().AttackInput()->Set(0.005);
 	psg.SquareTwo().Envelope().DecayInput()->Set(0.1);
@@ -322,8 +324,7 @@ void Mario()
 	psg.Triangle().Envelope().SustainInput()->Set(1.0);
 	psg.Triangle().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.Noise().GateInput()->Connect(trackFour.GateOutput());
-	//psg.ChannelFour().()->Connect(trackFour.GetMidiControlOutput(7, 0.8));
+	//psg.Noise().GateInput()->Connect(trackFour.GateOutput());
 	psg.Noise().Envelope().AttackInput()->Set(0.001);
 	psg.Noise().Envelope().DecayInput()->Set(0.1);
 	psg.Noise().Envelope().SustainInput()->Set(0.1);
@@ -348,20 +349,43 @@ void Fm()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 45;
+	static const double duration = 45;	
+	
+	MidiFilePlayer midiFilePlayer("spring-yard-zone-4-.mid", ts, 1.0);
+	auto trackOne = midiFilePlayer.CreateTrack(8);
+	auto drumTrack = midiFilePlayer.CreateDrumTrack(9);
+	
+	DrumMachine drumMachine(4);
+	
+	auto& snare = drumMachine.GetChannel(0);
+	snare.LoadSample("Samples/Sonic 1 Snare.wav");
+	snare.GateInput()->Connect(drumTrack.GetGateOutput(38));
 
-	MidiFilePlayer midiFilePlayer("spring-yard-zone-6-.mid", ts, 1.0);
-	auto trackOne = midiFilePlayer.CreateTrack(3);
-
+	auto& kick = drumMachine.GetChannel(1);
+	kick.LoadSample("Samples/Sonic 1 Kick.wav");
+	kick.GateInput()->Connect(drumTrack.GetGateOutput(36));
+	kick.GainInput()->Set(1.5);
+	
+	auto& hihatOne = drumMachine.GetChannel(2);
+	hihatOne.LoadSample("Samples/Sonic 1 Hi-Hat 1.wav");
+	hihatOne.GateInput()->Connect(drumTrack.GetGateOutput(42));
+	hihatOne.GainInput()->Set(0.5);
+	
+	auto& hihatTwo = drumMachine.GetChannel(3);
+	hihatTwo.LoadSample("Samples/Sonic 1 Hi-Hat 2.wav");
+	hihatTwo.GateInput()->Connect(drumTrack.GetGateOutput(46));
+	hihatTwo.GainInput()->Set(0.5);
+	
 	Ym2612Channel channel(ts, Ym2612Algorithm::AlgorithmOne);
 	
 	Sum transposer(2);
 	transposer.GetInputPort(0)->Connect(trackOne.PitchOutput());
-	transposer.GetInputPort(1)->Set(12);
+	transposer.GetInputPort(1)->Set(0);
 
 	channel.GateInput()->Connect(trackOne.GateOutput());
 	channel.PitchInput()->Connect(transposer.Output());
-
+	channel.GainInput()->Set(0.7);
+	
 	channel.ModulatorOne().GainInput()->Set(0.08);
 	channel.ModulatorOne().RateInput()->Set(7.0);
 	channel.ModulatorOne().Envelope().DecayInput()->Set(0.2);
@@ -389,11 +413,16 @@ void Fm()
 	channel.CarrierTwo().Envelope().AttackInput()->Set(5e-4);
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.03);
 
+	Sum mixer(2);
+
+	mixer.GetInputPort(0)->Connect(drumMachine.Output());
+	mixer.GetInputPort(1)->Connect(channel.Output());
+	
 	WaveWriter waveWriter("SpringYard.wav");
 	SignalSink logger;
 
-	waveWriter.LeftInput()->Connect(channel.Output());
-	waveWriter.RightInput()->Connect(channel.Output());
+	waveWriter.LeftInput()->Connect(mixer.Output());
+	waveWriter.RightInput()->Connect(mixer.Output());
 	//logger.GetInput()->Connect(channel.CarrierTwo().Envelope().Output());
 
 	ModuleRunner runner(&waveWriter);

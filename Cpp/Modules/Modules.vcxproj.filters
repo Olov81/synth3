@@ -34,6 +34,10 @@
     <ClCompile Include="Source\NesPsg.cpp" />
     <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\Ym2612Channel.cpp" />
+    <ClCompile Include="Source\BitCrusher.cpp" />
+    <ClCompile Include="Source\DrumMachine.cpp" />
+    <ClCompile Include="Source\Voice.cpp" />
+    <ClCompile Include="Source\VoiceSplitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\WaveWriter.h">
@@ -231,5 +235,9 @@
     <ClInclude Include="Include\NesPsg.h" />
     <ClInclude Include="Include\FmOperator.h" />
     <ClInclude Include="Include\Ym2612Channel.h" />
+    <ClInclude Include="Include\BitCrusher.h" />
+    <ClInclude Include="Include\DrumMachine.h" />
+    <ClInclude Include="Include\VoiceSplitter.h" />
+    <ClInclude Include="Include\Voice.h" />
   </ItemGroup>
 </Project>

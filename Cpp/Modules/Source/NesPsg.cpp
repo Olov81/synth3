@@ -1,9 +1,9 @@
 #include "NesPsg.h"
 
 NesPsg::NesPsg(double fs)
-: _squareOne(fs, Waveforms::Square(), 2)
-, _squareTwo(fs, Waveforms::Square(), 2)
-, _triangle(fs, Waveforms::Triangle(), 8)
+: _squareOne(fs, Waveforms::Square())
+, _squareTwo(fs, Waveforms::Square())
+, _triangle(fs, Waveforms::Triangle())
 , _noise(fs, 4)
 , _mixer(4)
 {	
@@ -14,6 +14,9 @@ NesPsg::NesPsg(double fs)
 
 	_outputGain.GetInput()->Connect(_mixer.Output());
 	_outputGain.GetGainInput()->Set(0.35);
+
+	_bitCrusher.GetInput()->Connect(_outputGain.GetOutput());
+	_bitCrusher.ResolutionInput()->Set(128);
 }
 
 PsgToneChannel& NesPsg::SquareOne()
@@ -38,5 +41,5 @@ PsgNoiseChannel& NesPsg::Noise()
 
 IOutputPort* NesPsg::Output()
 {
-	return _outputGain.GetOutput();
+	return _bitCrusher.GetOutput();
 }

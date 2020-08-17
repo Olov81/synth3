@@ -1,5 +1,5 @@
 #pragma once
-#include "Decimator.h"
+#include "BitCrusher.h"
 #include "Gain.h"
 #include "PsgNoiseChannel.h"
 #include "PsgToneChannel.h"
@@ -26,4 +26,5 @@ private:
 	PsgNoiseChannel _noise;
 	Sum _mixer;
 	Gain _outputGain;
+	BitCrusher _bitCrusher;
 };
