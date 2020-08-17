@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include "MidiFile.h"
+#include "VoiceSplitter.h"
 #include "Framework/Module.h"
 
 class MidiTrackBase : public Module
@@ -31,18 +32,14 @@ class MidiTrack : public MidiTrackBase
 {
 public:
 
-	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale);
+	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale, size_t polyphony);
 
-	
-	IOutputPort* GateOutput() const;
-	IOutputPort* PitchOutput() const;
+	Voice& Voice(size_t index);
 
 private:
 
-	IOutputPort* _pGatePort;
-	IOutputPort* _pPitchPort;
-	int _numberOfNotesPlaying = 0;
-
+	VoiceSplitter _voiceSplitter;
+	
 	void OnEvent(const smf::MidiEvent& midiEvent) override;
 };
 
@@ -68,7 +65,7 @@ public:
 
 	MidiFilePlayer(const std::string& fileName, double ts, double tempoScale = 1.0);
 
-	MidiTrack CreateTrack(int track);
+	MidiTrack CreateTrack(int track, size_t polyphony = 1);
 
 	MidiDrumTrack CreateDrumTrack(int track);
 

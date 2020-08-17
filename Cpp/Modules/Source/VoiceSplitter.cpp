@@ -1,10 +1,10 @@
 #include "VoiceSplitter.h"
 
-VoiceSplitter::VoiceSplitter(size_t numberOfVoices)
+VoiceSplitter::VoiceSplitter(size_t numberOfVoices, const std::function<IOutputPort*()>& createOutput)
 {
 	for (size_t n = 0; n < numberOfVoices; ++n)
 	{
-		auto voice = std::make_shared<Voice>();
+		auto voice = std::make_shared<Voice>(createOutput(), createOutput());
 		_voices.push_back(voice);
 		_freeVoices.push(voice);
 	}
@@ -43,6 +43,7 @@ void VoiceSplitter::NoteOff(int key)
 
 		if (voice.first == key)
 		{
+			voice.second->NoteOff();
 			_freeVoices.push(voice.second);
 		}
 		else

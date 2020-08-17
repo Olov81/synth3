@@ -55,40 +55,28 @@ IOutputPort* MidiTrackBase::GetMidiControlOutput(int controlNumber, double initi
 MidiTrack::MidiTrack(
 	const double ts,
 	smf::MidiEventList eventList,
-	double tempoScale)
-:MidiTrackBase(ts, eventList, tempoScale)
+	double tempoScale,
+	size_t polyphony)
+: MidiTrackBase(ts, eventList, tempoScale)
+, _voiceSplitter(polyphony, [this]() {return this->CreateOutputPort(); })
 {
-	_pGatePort = CreateOutputPort();
-	_pPitchPort = CreateOutputPort();
+}
+
+Voice& MidiTrack::Voice(size_t index)
+{
+	return _voiceSplitter.GetVoice(index);
 }
 
 void MidiTrack::OnEvent(const smf::MidiEvent& midiEvent)
 {
 	if (midiEvent.isNoteOn())
 	{
-		_pPitchPort->Write(midiEvent.getKeyNumber() - 69.0);
-		_pGatePort->Write(midiEvent.getVelocity() / 127.0);
-		++_numberOfNotesPlaying;
+		_voiceSplitter.NoteOn(midiEvent.getKeyNumber(), midiEvent.getVelocity());
 	}
 	else if (midiEvent.isNoteOff())
 	{
-		--_numberOfNotesPlaying;
-
-		if (_numberOfNotesPlaying == 0)
-		{
-			_pGatePort->Write(0);
-		}
+		_voiceSplitter.NoteOff(midiEvent.getKeyNumber());
 	}
-}
-
-IOutputPort* MidiTrack::GateOutput() const
-{
-	return _pGatePort;
-}
-
-IOutputPort* MidiTrack::PitchOutput() const
-{
-	return _pPitchPort;
 }
 
 MidiDrumTrack::MidiDrumTrack(
@@ -129,9 +117,9 @@ MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts, double te
 	_midiFile.doTimeAnalysis();
 }
 
-MidiTrack MidiFilePlayer::CreateTrack(int track)
+MidiTrack MidiFilePlayer::CreateTrack(int track, size_t polyphony)
 {
-	return MidiTrack(_ts, _midiFile[track], _tempoScale);
+	return MidiTrack(_ts, _midiFile[track], _tempoScale, polyphony);
 }
 
 MidiDrumTrack MidiFilePlayer::CreateDrumTrack(int track)

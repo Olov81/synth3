@@ -2,11 +2,11 @@
 #include "Framework/IOutputPort.h"
 #include "Framework/Module.h"
 
-class Voice : public Module
+class Voice
 {
 public:
 
-	Voice();
+	Voice(IOutputPort* pPitchOutput, IOutputPort* pGateOutput);
 
 	IOutputPort* PitchOutput();
 	IOutputPort* GateOutput();
@@ -14,8 +14,6 @@ public:
 	void NoteOn(int key, int velocity);
 
 	void NoteOff();
-
-	void Update() override;
 	
 private: 
 

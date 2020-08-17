@@ -1,9 +1,10 @@
 #include "Voice.h"
 
-Voice::Voice()
+
+Voice::Voice(IOutputPort* pPitchOutput, IOutputPort* pGateOutput)
+	:_pPitchOutput(pPitchOutput)
+	,_pGateOutput(pGateOutput)
 {
-	_pPitchOutput = CreateOutputPort();
-	_pGateOutput = CreateOutputPort();
 }
 
 IOutputPort* Voice::PitchOutput()
@@ -25,8 +26,4 @@ void Voice::NoteOn(int key, int velocity)
 void Voice::NoteOff()
 {
 	_pGateOutput->Write(0.0);
-}
-
-void Voice::Update()
-{
 }

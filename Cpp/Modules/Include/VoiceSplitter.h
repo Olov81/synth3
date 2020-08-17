@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <memory>
 #include <queue>
 #include <vector>
@@ -8,7 +9,7 @@ class VoiceSplitter
 {
 public:
 
-	VoiceSplitter(size_t numberOfVoices);
+	VoiceSplitter(size_t numberOfVoices, const std::function<IOutputPort* ()>& createOutput);
 
 	Voice& GetVoice(size_t index);
 

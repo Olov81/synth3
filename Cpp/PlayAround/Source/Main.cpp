@@ -157,8 +157,8 @@ void ScrapBrain()
 	
 	MasterSystemPsg psg(fs);
 	
-	psg.ChannelOne().PitchInput()->Connect(trackOne.PitchOutput());
-	psg.ChannelOne().GateInput()->Connect(trackOne.GateOutput());
+	psg.ChannelOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
+	psg.ChannelOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
 	//psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
 	psg.ChannelOne().VolumeInput()->Set(0.9);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -168,8 +168,8 @@ void ScrapBrain()
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelTwo().PitchInput()->Connect(trackTwo.PitchOutput());
-	psg.ChannelTwo().GateInput()->Connect(trackTwo.GateOutput());
+	psg.ChannelTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
+	psg.ChannelTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
 	//psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
 	psg.ChannelTwo().VolumeInput()->Set(1.0);
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -178,8 +178,8 @@ void ScrapBrain()
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
 
-	psg.ChannelThree().PitchInput()->Connect(trackThree.PitchOutput());
-	psg.ChannelThree().GateInput()->Connect(trackThree.GateOutput());
+	psg.ChannelThree().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
+	psg.ChannelThree().GateInput()->Connect(trackThree.Voice(0).GateOutput());
 	//psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
 	psg.ChannelThree().VolumeInput()->Set(0.9);
 	psg.ChannelThree().DetuneInput()->Set(0.15);
@@ -189,7 +189,7 @@ void ScrapBrain()
 	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelFour().GateInput()->Connect(trackFour.GateOutput());
+	psg.ChannelFour().GateInput()->Connect(trackFour.Voice(0).GateOutput());
 	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
 	psg.ChannelFour().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelFour().Envelope().SustainInput()->Set(0.2);
@@ -224,8 +224,8 @@ void GreenHill()
 
 	MasterSystemPsg psg(fs);
 
-	psg.ChannelOne().PitchInput()->Connect(trackOne.PitchOutput());
-	psg.ChannelOne().GateInput()->Connect(trackOne.GateOutput());
+	psg.ChannelOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
+	psg.ChannelOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
 	psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
 	//psg.ChannelOne().VolumeInput()->Set(0.9);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -235,8 +235,8 @@ void GreenHill()
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelTwo().PitchInput()->Connect(trackTwo.PitchOutput());
-	psg.ChannelTwo().GateInput()->Connect(trackTwo.GateOutput());
+	psg.ChannelTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
+	psg.ChannelTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
 	psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
 	//psg.ChannelTwo().VolumeInput()->Set(0.0);
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -245,8 +245,8 @@ void GreenHill()
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
 
-	psg.ChannelThree().PitchInput()->Connect(trackThree.PitchOutput());
-	psg.ChannelThree().GateInput()->Connect(trackThree.GateOutput());
+	psg.ChannelThree().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
+	psg.ChannelThree().GateInput()->Connect(trackThree.Voice(0).GateOutput());
 	psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
 	//psg.ChannelThree().VolumeInput()->Set(0.0);
 	psg.ChannelThree().DetuneInput()->Set(0.12);
@@ -256,7 +256,7 @@ void GreenHill()
 	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelFour().GateInput()->Connect(trackFour.GateOutput());
+	psg.ChannelFour().GateInput()->Connect(trackFour.Voice(0).GateOutput());
 	//psg.ChannelFour().()->Connect(trackFour.GetMidiControlOutput(7, 0.8));
 	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
 	psg.ChannelFour().Envelope().DecayInput()->Set(0.15);
@@ -292,8 +292,8 @@ void Mario()
 
 	NesPsg psg(fs);
 
-	psg.SquareOne().PitchInput()->Connect(trackOne.PitchOutput());
-	psg.SquareOne().GateInput()->Connect(trackOne.GateOutput());
+	psg.SquareOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
+	psg.SquareOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
 	psg.SquareOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7,0.8));
 	psg.SquareOne().VolumeInput()->Set(0.0);
 	psg.SquareOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -303,8 +303,8 @@ void Mario()
 	psg.SquareOne().Envelope().SustainInput()->Set(0.4);
 	psg.SquareOne().Envelope().ReleaseInput()->Set(0.05);
 
-	psg.SquareTwo().PitchInput()->Connect(trackTwo.PitchOutput());
-	psg.SquareTwo().GateInput()->Connect(trackTwo.GateOutput());
+	psg.SquareTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
+	psg.SquareTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
 	psg.SquareTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7, 0.8));
 	psg.SquareTwo().VolumeInput()->Set(0.0);
 	psg.SquareTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -313,8 +313,8 @@ void Mario()
 	psg.SquareTwo().Envelope().SustainInput()->Set(0.4);
 	psg.SquareTwo().Envelope().ReleaseInput()->Set(0.05);
 
-	psg.Triangle().PitchInput()->Connect(trackThree.PitchOutput());
-	psg.Triangle().GateInput()->Connect(trackThree.GateOutput());
+	psg.Triangle().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
+	psg.Triangle().GateInput()->Connect(trackThree.Voice(0).GateOutput());
 	psg.Triangle().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 1.0));
 	//psg.ChannelThree().VolumeInput()->Set(0.0);
 	psg.Triangle().DetuneInput()->Set(0.12);
@@ -379,10 +379,10 @@ void Fm()
 	Ym2612Channel channel(ts, Ym2612Algorithm::AlgorithmOne);
 	
 	Sum transposer(2);
-	transposer.GetInputPort(0)->Connect(trackOne.PitchOutput());
+	transposer.GetInputPort(0)->Connect(trackOne.Voice(0).PitchOutput());
 	transposer.GetInputPort(1)->Set(0);
 
-	channel.GateInput()->Connect(trackOne.GateOutput());
+	channel.GateInput()->Connect(trackOne.Voice(0).GateOutput());
 	channel.PitchInput()->Connect(transposer.Output());
 	channel.GainInput()->Set(0.7);
 	
