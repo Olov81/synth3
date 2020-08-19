@@ -1,8 +1,0 @@
-regex:
-.*\.asv
-.*\/\.vs\/.*
-.*\.obj
-.*\.lib
-.*\Debug\/.*
-.*\Release\/.*
-.*\.vcxproj\.user
