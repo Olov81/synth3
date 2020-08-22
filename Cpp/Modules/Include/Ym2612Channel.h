@@ -7,6 +7,7 @@
 enum class Ym2612Algorithm
 {
 	AlgorithmZero,
+	AlgorithmFour,
 	AlgorithmFive
 };
 
@@ -56,6 +57,7 @@ private:
 	void ConnectInputs(FmOperator& op);
 	void ResetAlgorithmConnections();
 	void SetAlgorithmOne();
+	void SetAlgorithmFour();
 	void SetAlgorithmSix();
 };
 

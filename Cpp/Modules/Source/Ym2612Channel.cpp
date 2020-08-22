@@ -107,6 +107,9 @@ void Ym2612Channel::SetAlgorithm(Ym2612Algorithm algorithm)
 	case Ym2612Algorithm::AlgorithmZero:
 		SetAlgorithmOne();
 		break;
+	case Ym2612Algorithm::AlgorithmFour:
+		SetAlgorithmFour();
+		break;
 	case Ym2612Algorithm::AlgorithmFive:
 		SetAlgorithmSix();
 		break;
@@ -120,6 +123,15 @@ void Ym2612Channel::SetAlgorithmOne()
 	_modulatorTwo.ModulationInput()->Connect(_carrierOne.Output());
 	_carrierTwo.ModulationInput()->Connect(_modulatorTwo.Output());
 	_mixer.GetInputPort(0)->Connect(_carrierTwo.Output());
+}
+
+void Ym2612Channel::SetAlgorithmFour()
+{
+	_carrierOne.ModulationInput()->Connect(_modulatorOne.Output());
+	_carrierTwo.ModulationInput()->Connect(_modulatorTwo.Output());
+
+	_mixer.GetInputPort(0)->Connect(_carrierOne.Output());
+	_mixer.GetInputPort(1)->Connect(_carrierTwo.Output());
 }
 
 void Ym2612Channel::SetAlgorithmSix()
