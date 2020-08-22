@@ -29,6 +29,7 @@
     <ClInclude Include="Include\ILinearFunctionProvider.h" />
     <ClInclude Include="Include\IWaveformGenerator.h" />
     <ClInclude Include="Include\LinearTableFunctionProvider.h" />
+    <ClInclude Include="Include\Megadrive.h" />
     <ClInclude Include="Include\MidiFilePlayer.h" />
     <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\MulltiOscillator.h" />
@@ -52,7 +53,7 @@
     <ClInclude Include="Include\Lfo.h" />
     <ClInclude Include="Include\Source.h" />
     <ClInclude Include="Include\Voice.h" />
-    <ClInclude Include="Include\VoiceSplitter.h" />
+    <ClInclude Include="Include\VoiceManager.h" />
     <ClInclude Include="Include\SyncFunctionProvider.h" />
     <ClInclude Include="Include\WaveformGeneratorModule.h" />
     <ClInclude Include="Include\WaveWriter.h" />
@@ -67,6 +68,7 @@
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
     <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
+    <ClCompile Include="Source\Megadrive.cpp" />
     <ClCompile Include="Source\MidiFilePlayer.cpp" />
     <ClCompile Include="Source\Multiply.cpp" />
     <ClCompile Include="Source\NesPsg.cpp" />
@@ -94,7 +96,7 @@
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\Sum.cpp" />
     <ClCompile Include="Source\Voice.cpp" />
-    <ClCompile Include="Source\VoiceSplitter.cpp" />
+    <ClCompile Include="Source\VoiceManager.cpp" />
     <ClCompile Include="Source\SyncFunctionProvider.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveformGeneratorModule.cpp" />

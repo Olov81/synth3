@@ -1,6 +1,5 @@
 #pragma once
 #include "Framework/IOutputPort.h"
-#include "Framework/Module.h"
 
 class Voice
 {

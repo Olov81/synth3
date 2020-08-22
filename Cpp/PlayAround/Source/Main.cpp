@@ -18,6 +18,7 @@
 #include "MasterSystemPsg.h"
 #include "NesPsg.h"
 #include "PulseGenerator.h"
+#include "SpringYard.h"
 #include "Ym2612Channel.h"
 
 template<class F>
@@ -157,8 +158,8 @@ void ScrapBrain()
 	
 	MasterSystemPsg psg(fs);
 	
-	psg.ChannelOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
-	psg.ChannelOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
+	psg.ChannelOne().PitchInput()->Connect(trackOne.GetVoice(0).PitchOutput());
+	psg.ChannelOne().GateInput()->Connect(trackOne.GetVoice(0).GateOutput());
 	//psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
 	psg.ChannelOne().VolumeInput()->Set(0.9);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -168,8 +169,8 @@ void ScrapBrain()
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
-	psg.ChannelTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
+	psg.ChannelTwo().PitchInput()->Connect(trackTwo.GetVoice(0).PitchOutput());
+	psg.ChannelTwo().GateInput()->Connect(trackTwo.GetVoice(0).GateOutput());
 	//psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
 	psg.ChannelTwo().VolumeInput()->Set(1.0);
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -178,8 +179,8 @@ void ScrapBrain()
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
 
-	psg.ChannelThree().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
-	psg.ChannelThree().GateInput()->Connect(trackThree.Voice(0).GateOutput());
+	psg.ChannelThree().PitchInput()->Connect(trackThree.GetVoice(0).PitchOutput());
+	psg.ChannelThree().GateInput()->Connect(trackThree.GetVoice(0).GateOutput());
 	//psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
 	psg.ChannelThree().VolumeInput()->Set(0.9);
 	psg.ChannelThree().DetuneInput()->Set(0.15);
@@ -189,7 +190,7 @@ void ScrapBrain()
 	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelFour().GateInput()->Connect(trackFour.Voice(0).GateOutput());
+	psg.ChannelFour().GateInput()->Connect(trackFour.GetVoice(0).GateOutput());
 	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
 	psg.ChannelFour().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelFour().Envelope().SustainInput()->Set(0.2);
@@ -224,8 +225,8 @@ void GreenHill()
 
 	MasterSystemPsg psg(fs);
 
-	psg.ChannelOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
-	psg.ChannelOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
+	psg.ChannelOne().PitchInput()->Connect(trackOne.GetVoice(0).PitchOutput());
+	psg.ChannelOne().GateInput()->Connect(trackOne.GetVoice(0).GateOutput());
 	psg.ChannelOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7));
 	//psg.ChannelOne().VolumeInput()->Set(0.9);
 	psg.ChannelOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -235,8 +236,8 @@ void GreenHill()
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
-	psg.ChannelTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
+	psg.ChannelTwo().PitchInput()->Connect(trackTwo.GetVoice(0).PitchOutput());
+	psg.ChannelTwo().GateInput()->Connect(trackTwo.GetVoice(0).GateOutput());
 	psg.ChannelTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7));
 	//psg.ChannelTwo().VolumeInput()->Set(0.0);
 	psg.ChannelTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -245,8 +246,8 @@ void GreenHill()
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
 
-	psg.ChannelThree().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
-	psg.ChannelThree().GateInput()->Connect(trackThree.Voice(0).GateOutput());
+	psg.ChannelThree().PitchInput()->Connect(trackThree.GetVoice(0).PitchOutput());
+	psg.ChannelThree().GateInput()->Connect(trackThree.GetVoice(0).GateOutput());
 	psg.ChannelThree().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 0.8));
 	//psg.ChannelThree().VolumeInput()->Set(0.0);
 	psg.ChannelThree().DetuneInput()->Set(0.12);
@@ -256,7 +257,7 @@ void GreenHill()
 	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
 
-	psg.ChannelFour().GateInput()->Connect(trackFour.Voice(0).GateOutput());
+	psg.ChannelFour().GateInput()->Connect(trackFour.GetVoice(0).GateOutput());
 	//psg.ChannelFour().()->Connect(trackFour.GetMidiControlOutput(7, 0.8));
 	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
 	psg.ChannelFour().Envelope().DecayInput()->Set(0.15);
@@ -292,8 +293,8 @@ void Mario()
 
 	NesPsg psg(fs);
 
-	psg.SquareOne().PitchInput()->Connect(trackOne.Voice(0).PitchOutput());
-	psg.SquareOne().GateInput()->Connect(trackOne.Voice(0).GateOutput());
+	psg.SquareOne().PitchInput()->Connect(trackOne.GetVoice(0).PitchOutput());
+	psg.SquareOne().GateInput()->Connect(trackOne.GetVoice(0).GateOutput());
 	psg.SquareOne().VolumeInput()->Connect(trackOne.GetMidiControlOutput(7,0.8));
 	psg.SquareOne().VolumeInput()->Set(0.0);
 	psg.SquareOne().Vibrato().AmplitudeInput()->Connect(trackOne.GetMidiControlOutput(1));
@@ -303,8 +304,8 @@ void Mario()
 	psg.SquareOne().Envelope().SustainInput()->Set(0.4);
 	psg.SquareOne().Envelope().ReleaseInput()->Set(0.05);
 
-	psg.SquareTwo().PitchInput()->Connect(trackTwo.Voice(0).PitchOutput());
-	psg.SquareTwo().GateInput()->Connect(trackTwo.Voice(0).GateOutput());
+	psg.SquareTwo().PitchInput()->Connect(trackTwo.GetVoice(0).PitchOutput());
+	psg.SquareTwo().GateInput()->Connect(trackTwo.GetVoice(0).GateOutput());
 	psg.SquareTwo().VolumeInput()->Connect(trackTwo.GetMidiControlOutput(7, 0.8));
 	psg.SquareTwo().VolumeInput()->Set(0.0);
 	psg.SquareTwo().Vibrato().FrequencyInput()->Set(7.0);
@@ -313,8 +314,8 @@ void Mario()
 	psg.SquareTwo().Envelope().SustainInput()->Set(0.4);
 	psg.SquareTwo().Envelope().ReleaseInput()->Set(0.05);
 
-	psg.Triangle().PitchInput()->Connect(trackThree.Voice(0).PitchOutput());
-	psg.Triangle().GateInput()->Connect(trackThree.Voice(0).GateOutput());
+	psg.Triangle().PitchInput()->Connect(trackThree.GetVoice(0).PitchOutput());
+	psg.Triangle().GateInput()->Connect(trackThree.GetVoice(0).GateOutput());
 	psg.Triangle().VolumeInput()->Connect(trackThree.GetMidiControlOutput(7, 1.0));
 	//psg.ChannelThree().VolumeInput()->Set(0.0);
 	psg.Triangle().DetuneInput()->Set(0.12);
@@ -345,97 +346,9 @@ void Mario()
 	waveWriter.Close();
 }
 
-void Fm()
-{
-	static const double fs = 44100;
-	static const double ts = 1 / fs;
-	static const double duration = 45;	
-	
-	MidiFilePlayer midiFilePlayer("spring-yard-zone-4-.mid", ts, 1.0);
-	auto trackOne = midiFilePlayer.CreateTrack(8);
-	auto drumTrack = midiFilePlayer.CreateDrumTrack(9);
-	
-	DrumMachine drumMachine(4);
-	
-	auto& snare = drumMachine.GetChannel(0);
-	snare.LoadSample("Samples/Sonic 1 Snare.wav");
-	snare.GateInput()->Connect(drumTrack.GetGateOutput(38));
-
-	auto& kick = drumMachine.GetChannel(1);
-	kick.LoadSample("Samples/Sonic 1 Kick.wav");
-	kick.GateInput()->Connect(drumTrack.GetGateOutput(36));
-	kick.GainInput()->Set(1.5);
-	
-	auto& hihatOne = drumMachine.GetChannel(2);
-	hihatOne.LoadSample("Samples/Sonic 1 Hi-Hat 1.wav");
-	hihatOne.GateInput()->Connect(drumTrack.GetGateOutput(42));
-	hihatOne.GainInput()->Set(0.5);
-	
-	auto& hihatTwo = drumMachine.GetChannel(3);
-	hihatTwo.LoadSample("Samples/Sonic 1 Hi-Hat 2.wav");
-	hihatTwo.GateInput()->Connect(drumTrack.GetGateOutput(46));
-	hihatTwo.GainInput()->Set(0.5);
-	
-	Ym2612Channel channel(ts, Ym2612Algorithm::AlgorithmOne);
-	
-	Sum transposer(2);
-	transposer.GetInputPort(0)->Connect(trackOne.Voice(0).PitchOutput());
-	transposer.GetInputPort(1)->Set(0);
-
-	channel.GateInput()->Connect(trackOne.Voice(0).GateOutput());
-	channel.PitchInput()->Connect(transposer.Output());
-	channel.GainInput()->Set(0.7);
-	
-	channel.ModulatorOne().GainInput()->Set(0.08);
-	channel.ModulatorOne().RateInput()->Set(7.0);
-	channel.ModulatorOne().Envelope().DecayInput()->Set(0.2);
-	channel.ModulatorOne().Envelope().SustainInput()->Set(0.05);
-	channel.ModulatorOne().Envelope().AttackInput()->Set(1e-3);
-	
-	channel.CarrierOne().GainInput()->Set(0.27);
-	channel.CarrierOne().RateInput()->Set(0.5);
-	channel.CarrierOne().Envelope().SustainInput()->Set(0.4);
-	channel.CarrierOne().Envelope().DecayInput()->Set(1.0);
-	channel.CarrierOne().Envelope().AttackInput()->Set(5e-4);
-	channel.CarrierOne().Envelope().ReleaseInput()->Set(0.01);
-	
-	channel.ModulatorTwo().GainInput()->Set(0.8);
-	channel.ModulatorTwo().RateInput()->Set(0.5);
-	channel.ModulatorTwo().Envelope().SustainInput()->Set(0.1);
-	channel.ModulatorTwo().Envelope().DecayInput()->Set(3);
-	channel.ModulatorTwo().Envelope().AttackInput()->Set(5e-4);
-	channel.ModulatorTwo().Envelope().ReleaseInput()->Set(0.01);
-	
-	channel.CarrierTwo().GainInput()->Set(0.5);
-	channel.CarrierTwo().RateInput()->Set(1.0);
-	channel.CarrierTwo().Envelope().SustainInput()->Set(0.8);
-	channel.CarrierTwo().Envelope().DecayInput()->Set(0.05);
-	channel.CarrierTwo().Envelope().AttackInput()->Set(5e-4);
-	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.03);
-
-	Sum mixer(2);
-
-	mixer.GetInputPort(0)->Connect(drumMachine.Output());
-	mixer.GetInputPort(1)->Connect(channel.Output());
-	
-	WaveWriter waveWriter("SpringYard.wav");
-	SignalSink logger;
-
-	waveWriter.LeftInput()->Connect(mixer.Output());
-	waveWriter.RightInput()->Connect(mixer.Output());
-	//logger.GetInput()->Connect(channel.CarrierTwo().Envelope().Output());
-
-	ModuleRunner runner(&waveWriter);
-
-	runner.Run(static_cast<int>(duration * fs));
-
-	logger.WriteCsv("MidiLog.csv");
-	waveWriter.Close();
-}
-
 int main()
 {
-	Fm();
+	SpringYard();
 
 	return 0;
 	

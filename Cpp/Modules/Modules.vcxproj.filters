@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Source\BitCrusher.cpp" />
+    <ClCompile Include="Source\Decimator.cpp" />
+    <ClCompile Include="Source\DrumMachine.cpp" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
+    <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\LinearTableFunctionProvider.cpp" />
     <ClCompile Include="Source\MidiFilePlayer.cpp" />
+    <ClCompile Include="Source\Multiply.cpp" />
+    <ClCompile Include="Source\NesPsg.cpp" />
+    <ClCompile Include="Source\NoiseGenerator.cpp" />
     <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
     <ClCompile Include="Source\MoogFilter.cpp" />
     <ClCompile Include="Source\ContinuousFilterFactory.cpp" />
@@ -14,192 +21,33 @@
     <ClCompile Include="Source\Gain.cpp" />
     <ClCompile Include="Source\Lfo.cpp" />
     <ClCompile Include="Source\MultiOscillator.cpp" />
+    <ClCompile Include="Source\MasterSystemPsg.cpp" />
+    <ClCompile Include="Source\PsgNoiseChannel.cpp" />
+    <ClCompile Include="Source\PsgToneChannel.cpp" />
     <ClCompile Include="Source\PulseFunctionProvider.cpp" />
     <ClCompile Include="Source\PulseGenerator.cpp" />
+    <ClCompile Include="Source\Repeater.cpp" />
     <ClCompile Include="Source\Sequencer.cpp" />
     <ClCompile Include="Source\SignalSplitter.cpp" />
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\Sum.cpp" />
+    <ClCompile Include="Source\Voice.cpp" />
+    <ClCompile Include="Source\SyncFunctionProvider.cpp" />
     <ClCompile Include="Source\WaveformGenerator.cpp" />
     <ClCompile Include="Source\WaveformGeneratorModule.cpp" />
     <ClCompile Include="Source\WaveWriter.cpp" />
-    <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
-    <ClCompile Include="Source\Multiply.cpp" />
-    <ClCompile Include="Source\Repeater.cpp" />
-    <ClCompile Include="Source\NoiseGenerator.cpp" />
-    <ClCompile Include="Source\Decimator.cpp" />
-    <ClCompile Include="Source\MasterSystemPsg.cpp" />
-    <ClCompile Include="Source\PsgToneChannel.cpp" />
-    <ClCompile Include="Source\PsgNoiseChannel.cpp" />
-    <ClCompile Include="Source\NesPsg.cpp" />
-    <ClCompile Include="Source\FmOperator.cpp" />
     <ClCompile Include="Source\Ym2612Channel.cpp" />
-    <ClCompile Include="Source\BitCrusher.cpp" />
-    <ClCompile Include="Source\DrumMachine.cpp" />
-    <ClCompile Include="Source\Voice.cpp" />
-    <ClCompile Include="Source\VoiceSplitter.cpp" />
+    <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
+    <ClCompile Include="Source\VoiceManager.cpp" />
+    <ClCompile Include="Source\Megadrive.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\WaveWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Constant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Source.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Lfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Gain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GateGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Sequencer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Waveforms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EnvelopeGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\FlankDetector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Sum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ContinuousFilterFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ZeroCrossingDetector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\MoogFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\MulltiOscillator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SignalSplitter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\PitchToFrequencyConverter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EnvelopeFollower.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\WaveformGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\WaveformGeneratorModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\IWaveformGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ILinearFunctionProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\LinearTableFunctionProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\PulseGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\PulseFunctionProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\MidiFilePlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SyncFunctionProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\WaveWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Constant.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Lfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Gain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GateGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sequencer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FlankDetector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EnvelopeGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ContinuousFilterFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ZeroCrossingDetector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MoogFilter.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MultiOscillator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SignalSplitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PitchToFrequencyConverter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EnvelopeFollower.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WaveformGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WaveformGeneratorModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\LinearTableFunctionProvider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PulseGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PulseFunctionProvider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MidiFilePlayer.cpp">
-    <ClCompile Include="Source\SyncFunctionProvider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="Include\BitCrusher.h" />
     <ClInclude Include="Include\ContinuousFilterFactory.h" />
+    <ClInclude Include="Include\Decimator.h" />
+    <ClInclude Include="Include\DrumMachine.h" />
     <ClInclude Include="Include\EnvelopeFollower.h" />
+    <ClInclude Include="Include\FmOperator.h" />
     <ClInclude Include="Include\Globals.h" />
     <ClInclude Include="Include\ILinearFunctionProvider.h" />
     <ClInclude Include="Include\IWaveformGenerator.h" />
@@ -207,9 +55,16 @@
     <ClInclude Include="Include\MidiFilePlayer.h" />
     <ClInclude Include="Include\MoogFilter.h" />
     <ClInclude Include="Include\MulltiOscillator.h" />
+    <ClInclude Include="Include\Multiply.h" />
+    <ClInclude Include="Include\NesPsg.h" />
+    <ClInclude Include="Include\NoiseGeneratorh.h" />
     <ClInclude Include="Include\PitchToFrequencyConverter.h" />
+    <ClInclude Include="Include\MasterSystemPsg.h" />
+    <ClInclude Include="Include\PsgNoiseChannel.h" />
+    <ClInclude Include="Include\PsgToneChannel.h" />
     <ClInclude Include="Include\PulseFunctionProvider.h" />
     <ClInclude Include="Include\PulseGenerator.h" />
+    <ClInclude Include="Include\Repeater.h" />
     <ClInclude Include="Include\SignalSplitter.h" />
     <ClInclude Include="Include\Sum.h" />
     <ClInclude Include="Include\EnvelopeGenerator.h" />
@@ -219,25 +74,16 @@
     <ClInclude Include="Include\Gain.h" />
     <ClInclude Include="Include\Lfo.h" />
     <ClInclude Include="Include\Source.h" />
+    <ClInclude Include="Include\Voice.h" />
+    <ClInclude Include="Include\SyncFunctionProvider.h" />
     <ClInclude Include="Include\WaveformGeneratorModule.h" />
     <ClInclude Include="Include\WaveWriter.h" />
     <ClInclude Include="Include\WaveformGenerator.h" />
     <ClInclude Include="Include\Sequencer.h" />
     <ClInclude Include="Include\Waveforms.h" />
-    <ClInclude Include="Include\ZeroCrossingDetector.h" />
-    <ClInclude Include="Include\Multiply.h" />
-    <ClInclude Include="Include\Repeater.h" />
-    <ClInclude Include="Include\NoiseGeneratorh.h" />
-    <ClInclude Include="Include\Decimator.h" />
-    <ClInclude Include="Include\MasterSystemPsg.h" />
-    <ClInclude Include="Include\PsgToneChannel.h" />
-    <ClInclude Include="Include\PsgNoiseChannel.h" />
-    <ClInclude Include="Include\NesPsg.h" />
-    <ClInclude Include="Include\FmOperator.h" />
     <ClInclude Include="Include\Ym2612Channel.h" />
-    <ClInclude Include="Include\BitCrusher.h" />
-    <ClInclude Include="Include\DrumMachine.h" />
-    <ClInclude Include="Include\VoiceSplitter.h" />
-    <ClInclude Include="Include\Voice.h" />
+    <ClInclude Include="Include\ZeroCrossingDetector.h" />
+    <ClInclude Include="Include\VoiceManager.h" />
+    <ClInclude Include="Include\Megadrive.h" />
   </ItemGroup>
 </Project>

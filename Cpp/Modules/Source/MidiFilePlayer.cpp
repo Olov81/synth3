@@ -53,29 +53,47 @@ IOutputPort* MidiTrackBase::GetMidiControlOutput(int controlNumber, double initi
 }
 
 MidiTrack::MidiTrack(
-	const double ts,
+	double ts,
 	smf::MidiEventList eventList,
 	double tempoScale,
 	size_t polyphony)
 : MidiTrackBase(ts, eventList, tempoScale)
-, _voiceSplitter(polyphony, [this]() {return this->CreateOutputPort(); })
+, _voices(CreateVoices(polyphony))
+, _voiceManager(_voices)
 {
 }
 
-Voice& MidiTrack::Voice(size_t index)
+Voice& MidiTrack::GetVoice(size_t index)
 {
-	return _voiceSplitter.GetVoice(index);
+	return *_voices[index];
+}
+
+void MidiTrack::SetTranspose(int notes)
+{
+	_transpose = notes;
+}
+
+std::vector<std::shared_ptr<Voice>> MidiTrack::CreateVoices(size_t polyphony)
+{
+	std::vector<std::shared_ptr<Voice>> voices;
+	
+	for(size_t n = 0; n < polyphony; ++n)
+	{
+		voices.push_back(std::make_shared<Voice>(CreateOutputPort(), CreateOutputPort()));
+	}
+
+	return voices;
 }
 
 void MidiTrack::OnEvent(const smf::MidiEvent& midiEvent)
 {
 	if (midiEvent.isNoteOn())
 	{
-		_voiceSplitter.NoteOn(midiEvent.getKeyNumber(), midiEvent.getVelocity());
+		_voiceManager.NoteOn(midiEvent.getKeyNumber() + _transpose, midiEvent.getVelocity());
 	}
 	else if (midiEvent.isNoteOff())
 	{
-		_voiceSplitter.NoteOff(midiEvent.getKeyNumber());
+		_voiceManager.NoteOff(midiEvent.getKeyNumber() + _transpose);
 	}
 }
 

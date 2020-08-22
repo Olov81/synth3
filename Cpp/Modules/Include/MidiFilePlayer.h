@@ -2,7 +2,7 @@
 #include <string>
 #include <map>
 #include "MidiFile.h"
-#include "VoiceSplitter.h"
+#include "VoiceManager.h"
 #include "Framework/Module.h"
 
 class MidiTrackBase : public Module
@@ -32,13 +32,22 @@ class MidiTrack : public MidiTrackBase
 {
 public:
 
+
 	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale, size_t polyphony);
 
-	Voice& Voice(size_t index);
+	Voice& GetVoice(size_t index);
 
+	void SetTranspose(int notes);
+	
 private:
 
-	VoiceSplitter _voiceSplitter;
+	std::vector<std::shared_ptr<Voice>> CreateVoices(size_t polyphony);
+	
+	std::vector<std::shared_ptr<Voice>> _voices;
+	
+	VoiceManager _voiceManager;
+
+	int _transpose = 0;
 	
 	void OnEvent(const smf::MidiEvent& midiEvent) override;
 };

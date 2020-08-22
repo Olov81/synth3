@@ -5,7 +5,8 @@
 
 enum class Ym2612Algorithm
 {
-	AlgorithmOne
+	AlgorithmZero,
+	AlgorithmFive
 };
 
 class Ym2612Channel
@@ -18,7 +19,11 @@ public:
 	
 	IInputPort* PitchInput();
 
+	IInputPort* DetuneInput();
+	
 	IInputPort* GainInput();
+
+	IInputPort* ModulatorOneFeedbackInput();
 	
 	IOutputPort* Output();
 
@@ -26,6 +31,8 @@ public:
 	IFmOperatorControl& CarrierTwo();
 	IFmOperatorControl& ModulatorOne();
 	IFmOperatorControl& ModulatorTwo();
+
+	void SetAlgorithm(Ym2612Algorithm algorithm);
 	
 private:
 
@@ -34,12 +41,13 @@ private:
 	FmOperator _modulatorOne;
 	FmOperator _modulatorTwo;
 	Repeater _gate;
-	Repeater _pitch;
+	Sum _pitch;
 	Sum _mixer;
 	Gain _gain;
 	
 	void ConnectInputs(FmOperator& op);
-	void SetAlgorithm(Ym2612Algorithm algorithm);
+	void ResetAlgorithmConnections();
 	void SetAlgorithmOne();
+	void SetAlgorithmSix();
 };
 

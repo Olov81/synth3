@@ -1,11 +1,11 @@
-#include "VoiceSplitter.h"
+#include "VoiceManager.h"
 #include "Assert.h"
 #include "SignalSink.h"
 #include "Framework/ModuleRunner.h"
 
 TEST(VoiceSplitter_should_write_output_to_the_allocated_voice)
 {
-	VoiceSplitter sut(1);
+	VoiceManager sut(1);
 	ArraySink outputs;	
 	auto& voice = sut.GetVoice(0);
 	outputs.GetInput("Pitch")->Connect(voice.PitchOutput());
@@ -21,7 +21,7 @@ TEST(VoiceSplitter_should_write_output_to_the_allocated_voice)
 
 TEST(VoiceSplitter_should_write_output_to_free_voice)
 {
-	VoiceSplitter sut(2);
+	VoiceManager sut(2);
 	ArraySink outputs;
 	auto& voice = sut.GetVoice(1);
 	outputs.GetInput("Pitch")->Connect(voice.PitchOutput());
@@ -38,7 +38,7 @@ TEST(VoiceSplitter_should_write_output_to_free_voice)
 
 TEST(VoiceSplitter_should_steel_voice_if_there_are_none_free)
 {
-	VoiceSplitter sut(1);
+	VoiceManager sut(1);
 	ArraySink outputs;
 	auto& voice = sut.GetVoice(0);
 	outputs.GetInput("Pitch")->Connect(voice.PitchOutput());
@@ -55,7 +55,7 @@ TEST(VoiceSplitter_should_steel_voice_if_there_are_none_free)
 
 TEST(VoiceSplitter_should_use_freed_voice)
 {
-	VoiceSplitter sut(2);
+	VoiceManager sut(2);
 	ArraySink outputs;
 	auto& voice = sut.GetVoice(1);
 	outputs.GetInput("Pitch")->Connect(voice.PitchOutput());
