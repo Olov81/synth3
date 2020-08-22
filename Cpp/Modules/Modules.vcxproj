@@ -36,6 +36,7 @@
     <ClInclude Include="Include\Multiply.h" />
     <ClInclude Include="Include\NesPsg.h" />
     <ClInclude Include="Include\NoiseGeneratorh.h" />
+    <ClInclude Include="Include\Panning.h" />
     <ClInclude Include="Include\PitchToFrequencyConverter.h" />
     <ClInclude Include="Include\MasterSystemPsg.h" />
     <ClInclude Include="Include\PsgNoiseChannel.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="Source\Multiply.cpp" />
     <ClCompile Include="Source\NesPsg.cpp" />
     <ClCompile Include="Source\NoiseGenerator.cpp" />
+    <ClCompile Include="Source\Panning.cpp" />
     <ClCompile Include="Source\PitchToFrequencyConverter.cpp" />
   </ItemGroup>
   <ItemGroup>

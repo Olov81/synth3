@@ -1,5 +1,6 @@
 #pragma once
 #include "FmOperator.h"
+#include "Panning.h"
 #include "Repeater.h"
 #include "Sum.h"
 
@@ -8,6 +9,8 @@ enum class Ym2612Algorithm
 	AlgorithmZero,
 	AlgorithmFive
 };
+
+
 
 class Ym2612Channel
 {
@@ -23,9 +26,13 @@ public:
 	
 	IInputPort* GainInput();
 
+	IInputPort* PanInput();
+	
 	IInputPort* ModulatorOneFeedbackInput();
 	
-	IOutputPort* Output();
+	IOutputPort* LeftOutput();
+	
+	IOutputPort* RightOutput();
 
 	IFmOperatorControl& CarrierOne();
 	IFmOperatorControl& CarrierTwo();
@@ -43,6 +50,7 @@ private:
 	Repeater _gate;
 	Sum _pitch;
 	Sum _mixer;
+	Panning _panning;
 	Gain _gain;
 	
 	void ConnectInputs(FmOperator& op);

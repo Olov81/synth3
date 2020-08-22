@@ -40,6 +40,7 @@
     <ClCompile Include="Source\ZeroCrossingDetector.cpp" />
     <ClCompile Include="Source\VoiceManager.cpp" />
     <ClCompile Include="Source\Megadrive.cpp" />
+    <ClCompile Include="Source\Panning.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\BitCrusher.h" />
@@ -85,5 +86,6 @@
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClInclude Include="Include\VoiceManager.h" />
     <ClInclude Include="Include\Megadrive.h" />
+    <ClInclude Include="Include\Panning.h" />
   </ItemGroup>
 </Project>

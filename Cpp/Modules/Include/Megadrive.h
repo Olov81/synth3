@@ -14,12 +14,17 @@ public:
 
 	IInputPort* GainInput();
 	
-	IOutputPort* Output();
+	IOutputPort* LeftOutput();
+	
+	IOutputPort* RightOutput();
 	
 private:
 
 	std::vector<shared_ptr<Ym2612Channel>> _fmChannels;
 	DrumMachine _dac;
-	Sum _mixer;
-	Gain _outputGain;
+	Sum _leftMixer;
+	Sum _rightMixer;
+	Gain _leftOutputGain;
+	Gain _rightOutputGain;
+	Repeater _gainInput;
 };

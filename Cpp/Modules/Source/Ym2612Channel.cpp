@@ -15,6 +15,8 @@ Ym2612Channel::Ym2612Channel(double ts, Ym2612Algorithm algorithm)
 	SetAlgorithm(algorithm);
 
 	_gain.GetInput()->Connect(_mixer.Output());
+
+	_panning.Input()->Connect(_gain.GetOutput());
 }
 
 IInputPort* Ym2612Channel::GateInput()
@@ -37,14 +39,24 @@ IInputPort* Ym2612Channel::GainInput()
 	return _gain.GetGainInput();
 }
 
+IInputPort* Ym2612Channel::PanInput()
+{
+	return _panning.PanInput();
+}
+
 IInputPort* Ym2612Channel::ModulatorOneFeedbackInput()
 {
 	return _modulatorOne.FeedbackAmountInput();
 }
 
-IOutputPort* Ym2612Channel::Output()
+IOutputPort* Ym2612Channel::LeftOutput()
 {
-	return _gain.GetOutput();
+	return _panning.LeftOutput();
+}
+
+IOutputPort* Ym2612Channel::RightOutput()
+{
+	return _panning.RightOutput();
 }
 
 IFmOperatorControl& Ym2612Channel::CarrierOne()
