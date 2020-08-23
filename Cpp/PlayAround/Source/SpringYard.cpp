@@ -74,7 +74,7 @@ void ConfigureBrass(Ym2612Channel& channel, MidiTrack& track, double detune, dou
 	channel.SetAlgorithm(Ym2612Algorithm::AlgorithmFive);
 	channel.GateInput()->Connect(track.GetVoice(0).GateOutput());
 	channel.PitchInput()->Connect(track.GetVoice(0).PitchOutput());
-	channel.GainInput()->Set(0.3);
+	channel.GainInput()->Set(0.25);
 
 	channel.ModulatorOneFeedbackInput()->Set(1.0);
 	channel.ModulatorOne().GainInput()->Set(1.0);
@@ -230,6 +230,45 @@ void ConfigureBell(Ym2612Channel& channel, MidiTrack& track)
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.2);
 }
 
+void ConfigureStabs(Ym2612Channel& channel, MidiTrack& track)
+{
+	track.SetTranspose(0);
+
+	channel.SetAlgorithm(Ym2612Algorithm::AlgorithmTwo);
+	channel.GateInput()->Connect(track.GetVoice(0).GateOutput());
+	channel.PitchInput()->Connect(track.GetVoice(0).PitchOutput());
+	channel.GainInput()->Set(0.25);
+
+	channel.ModulatorOneFeedbackInput()->Set(0.7);
+	channel.ModulatorOne().GainInput()->Set(0.7);
+	channel.ModulatorOne().RateInput()->Set(1.0);
+	channel.ModulatorOne().Envelope().DecayInput()->Set(0.01);
+	channel.ModulatorOne().Envelope().SustainInput()->Set(0.7);
+	channel.ModulatorOne().Envelope().AttackInput()->Set(2e-2);
+	channel.ModulatorOne().Envelope().ReleaseInput()->Set(1e-2);
+
+	channel.CarrierOne().GainInput()->Set(0.5);
+	channel.CarrierOne().RateInput()->Set(1.0);
+	channel.CarrierOne().Envelope().SustainInput()->Set(0.5);
+	channel.CarrierOne().Envelope().DecayInput()->Set(0.3);
+	channel.CarrierOne().Envelope().AttackInput()->Set(1e-2);
+	channel.CarrierOne().Envelope().ReleaseInput()->Set(1e-2);
+
+	channel.ModulatorTwo().GainInput()->Set(0.6);
+	channel.ModulatorTwo().RateInput()->Set(1.0);
+	channel.ModulatorTwo().Envelope().SustainInput()->Set(0.5);
+	channel.ModulatorTwo().Envelope().DecayInput()->Set(0.3);
+	channel.ModulatorTwo().Envelope().AttackInput()->Set(1e-2);
+	channel.ModulatorTwo().Envelope().ReleaseInput()->Set(1e-2);
+
+	channel.CarrierTwo().GainInput()->Set(1.0);
+	channel.CarrierTwo().RateInput()->Set(2.0);
+	channel.CarrierTwo().Envelope().SustainInput()->Set(0.9);
+	channel.CarrierTwo().Envelope().DecayInput()->Set(1.0);
+	channel.CarrierTwo().Envelope().AttackInput()->Set(1e-3);
+	channel.CarrierTwo().Envelope().ReleaseInput()->Set(1e-2);
+}
+
 void SpringYard()
 {
 	static const double fs = 44100;
@@ -242,9 +281,10 @@ void SpringYard()
 	auto melodyTrack = midiFilePlayer.CreateTrack(2);
 	auto introTrack = midiFilePlayer.CreateTrack(7);
 	auto bellTrack = midiFilePlayer.CreateTrack(10);
+	auto stabsTrack = midiFilePlayer.CreateTrack(3);
 	auto drumTrack = midiFilePlayer.CreateDrumTrack(9);
 	
-	Megadrive megadrive(ts, 7, 4);
+	Megadrive megadrive(ts, 8, 4);
 
 	ConfigureDrums(megadrive.Dac(), drumTrack);
 	ConfigureBass(megadrive.FmChannel(0), bassTrack);
@@ -254,6 +294,7 @@ void SpringYard()
 	ConfigureIntro(megadrive.FmChannel(4), introTrack, 0, -1);
 	ConfigureIntro(megadrive.FmChannel(5), introTrack, 0.1, 1);
 	ConfigureBell(megadrive.FmChannel(6), bellTrack);
+	ConfigureStabs(megadrive.FmChannel(7), stabsTrack);
 	
 	WaveWriter waveWriter("SpringYard.wav");
 	SignalSink logger;
