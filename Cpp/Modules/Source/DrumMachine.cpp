@@ -37,6 +37,8 @@ void Channel::Update()
 void Channel::LoadSample(const char* sampleFileName)
 {
 	_soundFileRead.setFile(sampleFileName);
+	const auto numberOfSamples = _soundFileRead.getSamples();
+	_soundFileRead.gotoSample(numberOfSamples - 1);
 }
 
 void Channel::OnTrigger()

@@ -6,7 +6,7 @@ class Megadrive
 {
 public:
 
-	Megadrive(double ts, size_t numberOfDrumChannels);
+	Megadrive(double ts, size_t numberOfFmChannels, size_t numberOfDrumChannels);
 
 	Ym2612Channel& FmChannel(size_t n);
 

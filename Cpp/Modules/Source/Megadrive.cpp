@@ -1,11 +1,11 @@
 #include "Megadrive.h"
 
-Megadrive::Megadrive(double ts, size_t numberOfDrumChannels)
+Megadrive::Megadrive(double ts, size_t numberOfFmChannels, size_t numberOfDrumChannels)
 	:_dac(numberOfDrumChannels)
-	,_leftMixer(7)
-	,_rightMixer(7)
+	,_leftMixer(numberOfFmChannels + 1)
+	,_rightMixer(numberOfFmChannels + 1)
 {
-	for(auto n = 0; n < 6; ++n)
+	for(size_t n = 0; n < numberOfFmChannels; ++n)
 	{
 		auto fmChannel = make_shared<Ym2612Channel>(ts, Ym2612Algorithm::AlgorithmZero);
 		_leftMixer.GetInputPort(n)->Connect(fmChannel->LeftOutput());
@@ -13,8 +13,8 @@ Megadrive::Megadrive(double ts, size_t numberOfDrumChannels)
 		_fmChannels.push_back(fmChannel);
 	}
 	
-	_leftMixer.GetInputPort(6)->Connect(_dac.Output());
-	_rightMixer.GetInputPort(6)->Connect(_dac.Output());
+	_leftMixer.GetInputPort(numberOfFmChannels)->Connect(_dac.Output());
+	_rightMixer.GetInputPort(numberOfFmChannels)->Connect(_dac.Output());
 
 	_leftOutputGain.GetInput()->Connect(_leftMixer.Output());
 	_leftOutputGain.GetGainInput()->Connect(_gainInput.GetOutput());
