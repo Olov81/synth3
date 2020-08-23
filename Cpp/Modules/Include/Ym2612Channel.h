@@ -1,5 +1,6 @@
 #pragma once
 #include "FmOperator.h"
+#include "Lfo.h"
 #include "Panning.h"
 #include "Repeater.h"
 #include "Sum.h"
@@ -39,7 +40,9 @@ public:
 	IFmOperatorControl& CarrierTwo();
 	IFmOperatorControl& ModulatorOne();
 	IFmOperatorControl& ModulatorTwo();
-
+	ILfoControl& Vibrato();
+	IEnvelopeGeneratorControl& PitchEnvelope();
+	
 	void SetAlgorithm(Ym2612Algorithm algorithm);
 	
 private:
@@ -49,6 +52,8 @@ private:
 	FmOperator _modulatorOne;
 	FmOperator _modulatorTwo;
 	Repeater _gate;
+	Lfo _vibrato;
+	EnvelopeGenerator _pitchEnvelope;
 	Sum _pitch;
 	Sum _mixer;
 	Panning _panning;

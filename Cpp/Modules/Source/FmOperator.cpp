@@ -92,11 +92,11 @@ IOutputPort* FmOperator::ToneGenerator::Output()
 
 void FmOperator::ToneGenerator::Update()
 {
-	const auto f = _pFrequencyInput->Read();
+	_f += _pFrequencyInput->Read();
 	const auto modulation = _pModulationInput->Read();
 	const auto fb = _pFeedbackAmountInput->Read();
 	
-	_output = sin(2 * M_PI * f * _t + 5*modulation + fb * _output);
+	_output = sin(2 * M_PI * _f * _ts + 5*modulation + fb * _output);
 
 	_pOutput->Write(_output);
 

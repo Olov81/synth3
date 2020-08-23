@@ -12,6 +12,7 @@ public:
 	virtual IInputPort* DecayInput() const = 0;
 	virtual IInputPort* SustainInput() const = 0;
 	virtual IInputPort* ReleaseInput() const = 0;
+	virtual IInputPort* GainInput() const = 0;
 };
 
 class EnvelopeGenerator : public Source, public IEnvelopeGeneratorControl
@@ -32,6 +33,8 @@ public:
 
 	IInputPort* ReleaseInput() const override;
 
+	IInputPort* GainInput()  const override;
+	
 private:
 
 	FlankDetector _flankDetector;
@@ -40,6 +43,7 @@ private:
 	IInputPort* _pDecayInput;
 	IInputPort* _pSustainInput;
 	IInputPort* _pReleaseInput;
+	IInputPort* _pGainInput;
 	double _ts;
 	double _velocitySensitivity;
 	double _velocity = 0.0;

@@ -61,6 +61,7 @@ private:
 
 		double _ts;
 		double _t = 0;
+		double _f = 0;
 		double _output = 0;
 		IInputPort* _pFrequencyInput;
 		IInputPort* _pModulationInput;

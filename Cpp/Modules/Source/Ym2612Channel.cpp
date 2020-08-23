@@ -5,8 +5,10 @@ Ym2612Channel::Ym2612Channel(double ts, Ym2612Algorithm algorithm)
 	,_carrierTwo(ts)
 	,_modulatorOne(ts)
 	,_modulatorTwo(ts)
-	, _pitch(2)
-	,_mixer(4)
+	,_vibrato(1/ts)
+	,_pitchEnvelope(ts)
+	, _pitch(4)
+	, _mixer(4)
 {
 	ConnectInputs(_carrierOne);
 	ConnectInputs(_carrierTwo);
@@ -14,6 +16,13 @@ Ym2612Channel::Ym2612Channel(double ts, Ym2612Algorithm algorithm)
 	ConnectInputs(_modulatorTwo);
 	SetAlgorithm(algorithm);
 
+	_vibrato.GateInput()->Connect(_gate.GetOutput());
+	_pitchEnvelope.GateInput()->Connect(_gate.GetOutput());
+	_pitchEnvelope.GainInput()->Set(0);
+	
+	_pitch.GetInputPort(2)->Connect(_vibrato.Output());
+	_pitch.GetInputPort(3)->Connect(_pitchEnvelope.Output());
+	
 	_gain.GetInput()->Connect(_mixer.Output());
 
 	_panning.Input()->Connect(_gain.GetOutput());
@@ -77,6 +86,16 @@ IFmOperatorControl& Ym2612Channel::ModulatorOne()
 IFmOperatorControl& Ym2612Channel::ModulatorTwo()
 {
 	return _modulatorTwo;
+}
+
+ILfoControl& Ym2612Channel::Vibrato()
+{
+	return _vibrato;
+}
+
+IEnvelopeGeneratorControl& Ym2612Channel::PitchEnvelope()
+{
+	return _pitchEnvelope;
 }
 
 void Ym2612Channel::ConnectInputs(FmOperator& op)

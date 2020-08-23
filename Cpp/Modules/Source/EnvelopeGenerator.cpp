@@ -15,11 +15,13 @@ EnvelopeGenerator::EnvelopeGenerator(double ts, double velocitySensitivity)
 	_pDecayInput = CreateInputPort();
 	_pSustainInput = CreateInputPort();
 	_pReleaseInput = CreateInputPort();
-
+	_pGainInput = CreateInputPort();
+	
 	_pAttackInput->Set(1e-2);
 	_pDecayInput->Set(0.5);
 	_pSustainInput->Set(0.0);
 	_pReleaseInput->Set(0.1);
+	_pGainInput->Set(1.0);
 }
 
 IInputPort* EnvelopeGenerator::GateInput() const
@@ -45,6 +47,11 @@ IInputPort* EnvelopeGenerator::SustainInput() const
 IInputPort* EnvelopeGenerator::ReleaseInput() const
 {
 	return _pReleaseInput;
+}
+
+IInputPort* EnvelopeGenerator::GainInput() const
+{
+	return _pGainInput;
 }
 
 double EnvelopeGenerator::AttackPhase()
@@ -116,9 +123,11 @@ void EnvelopeGenerator::BeginReleasePhase()
 
 void EnvelopeGenerator::Update()
 {
-	auto gate = _pGateInput->Read();
+	const auto gate = _pGateInput->Read();
+	const auto gain = _pGainInput->Read();
+	
 	_flankDetector.Update(gate);
-	const auto gain = _velocitySensitivity * _velocity + (1 - _velocitySensitivity);
-	const auto output = gain*(this->*_currentPhase)();
+	const auto velocity = _velocitySensitivity * _velocity + (1 - _velocitySensitivity);
+	const auto output = gain * velocity * (this->*_currentPhase)();
 	Write(output);
 }
