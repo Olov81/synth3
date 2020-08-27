@@ -2,8 +2,9 @@
 
 Megadrive::Megadrive(double ts, size_t numberOfFmChannels, size_t numberOfDrumChannels)
 	:_dac(numberOfDrumChannels)
-	,_leftMixer(numberOfFmChannels + 1)
-	,_rightMixer(numberOfFmChannels + 1)
+	,_psg(1/ts)
+	,_leftMixer(numberOfFmChannels + 2)
+	,_rightMixer(numberOfFmChannels + 2)
 {
 	for(size_t n = 0; n < numberOfFmChannels; ++n)
 	{
@@ -15,7 +16,10 @@ Megadrive::Megadrive(double ts, size_t numberOfFmChannels, size_t numberOfDrumCh
 	
 	_leftMixer.GetInputPort(numberOfFmChannels)->Connect(_dac.Output());
 	_rightMixer.GetInputPort(numberOfFmChannels)->Connect(_dac.Output());
-
+	
+	_leftMixer.GetInputPort(numberOfFmChannels + 1)->Connect(_psg.Output());
+	_rightMixer.GetInputPort(numberOfFmChannels + 1)->Connect(_psg.Output());
+	
 	_leftOutputGain.GetInput()->Connect(_leftMixer.Output());
 	_leftOutputGain.GetGainInput()->Connect(_gainInput.GetOutput());
 
@@ -33,6 +37,11 @@ Ym2612Channel& Megadrive::FmChannel(size_t n)
 DrumMachine& Megadrive::Dac()
 {
 	return _dac;
+}
+
+MasterSystemPsg& Megadrive::Psg()
+{
+	return _psg;
 }
 
 IInputPort* Megadrive::GainInput()

@@ -153,39 +153,50 @@ static void ConfigureEP(Ym2612Channel& channel, MidiTrack& track, IInputPort* pP
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.01);
 }
 
+void ConfigureSquare(PsgToneChannel& channel, Voice& voice, double detune)
+{
+	channel.GateInput()->Connect(voice.GateOutput());
+	channel.PitchInput()->Connect(voice.PitchOutput());
+	channel.DetuneInput()->Set(detune);
+}
+
 void GreenHill()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 55;
+	static const double duration = 10;
 
 	MidiFilePlayer midiFilePlayer("GreenHillMegadrive.mid", ts, 1.0);
 	auto drumTrack = midiFilePlayer.CreateDrumTrack(10);
 	auto brassTrack = midiFilePlayer.CreateTrack(1, 3);
 	auto bassTrack = midiFilePlayer.CreateTrack(4);
 	auto epTrack = midiFilePlayer.CreateTrack(5);
+	auto squareTrack = midiFilePlayer.CreateTrack(2, 2);
 
 	Megadrive megadrive(ts, 8, 4);
 	megadrive.GainInput()->Set(0.3);
 	ControlSignalGenerator pitchEnvelopeControl(ts, { Node(0, 2.0), Node(14, 0.0) });
 	
-	ConfigureDrums(megadrive.Dac(), drumTrack);
+	//ConfigureDrums(megadrive.Dac(), drumTrack);
 
-	ConfigureBrass(megadrive.FmChannel(0), brassTrack, 0, 0);
-	ConfigureBrass(megadrive.FmChannel(1), brassTrack, 1, 0);
-	ConfigureBrass(megadrive.FmChannel(2), brassTrack, 2, 0);
-	megadrive.FmChannel(0).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
-	megadrive.FmChannel(1).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
-	megadrive.FmChannel(2).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
+	//ConfigureBrass(megadrive.FmChannel(0), brassTrack, 0, 0);
+	//ConfigureBrass(megadrive.FmChannel(1), brassTrack, 1, 0);
+	//ConfigureBrass(megadrive.FmChannel(2), brassTrack, 2, 0);
+	//megadrive.FmChannel(0).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
+	//megadrive.FmChannel(1).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
+	//megadrive.FmChannel(2).PitchEnvelope().GainInput()->Connect(pitchEnvelopeControl.Output());
 
-	ConfigureBass(megadrive.FmChannel(3), bassTrack);
+	//ConfigureBass(megadrive.FmChannel(3), bassTrack);
 
-	Gain panGain;
-	Sum panOffset(2);
-	panGain.GetGainInput()->Set(2);
-	panOffset.GetInputPort(0)->Connect(panGain.GetOutput());
-	panOffset.GetInputPort(1)->Set(-1);
-	ConfigureEP(megadrive.FmChannel(4), epTrack, panGain.GetInput(), panOffset.Output());
+	//Gain panGain;
+	//Sum panOffset(2);
+	//panGain.GetGainInput()->Set(2);
+	//panOffset.GetInputPort(0)->Connect(panGain.GetOutput());
+	//panOffset.GetInputPort(1)->Set(-1);
+	//ConfigureEP(megadrive.FmChannel(4), epTrack, panGain.GetInput(), panOffset.Output());
+
+	ConfigureSquare(megadrive.Psg().ChannelOne(), squareTrack.GetVoice(0), 0);
+	ConfigureSquare(megadrive.Psg().ChannelTwo(), squareTrack.GetVoice(1), 0);
 	
 	WaveWriter waveWriter("GreenHillMegadrive.wav");
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "DrumMachine.h"
+#include "MasterSystemPsg.h"
 #include "Ym2612Channel.h"
 
 class Megadrive
@@ -12,6 +13,8 @@ public:
 
 	DrumMachine& Dac();
 
+	MasterSystemPsg& Psg();
+	
 	IInputPort* GainInput();
 	
 	IOutputPort* LeftOutput();
@@ -22,6 +25,7 @@ private:
 
 	std::vector<shared_ptr<Ym2612Channel>> _fmChannels;
 	DrumMachine _dac;
+	MasterSystemPsg _psg;
 	Sum _leftMixer;
 	Sum _rightMixer;
 	Gain _leftOutputGain;
