@@ -16,10 +16,12 @@
 #include "MulltiOscillator.h"
 #include "Multiply.h"
 #include "MasterSystemPsg.h"
+#include "Megadrive.h"
 #include "NesPsg.h"
 #include "PulseGenerator.h"
 #include "SpringYard.h"
 #include "Ym2612Channel.h"
+#include "../GreenHill.h"
 
 template<class F>
 double MeasureRunTimeInSeconds(const F& f)
@@ -211,7 +213,7 @@ void ScrapBrain()
 	waveWriter.Close();
 }
 
-void GreenHill()
+void GreenHillMasterSystem()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
@@ -346,9 +348,47 @@ void Mario()
 	waveWriter.Close();
 }
 
+void TestFm()
+{
+	const double fs = 44100;
+	const double ts = 1 / fs;
+	const double duration = 5;
+	
+	Megadrive megadrive(ts, 1, 1);
+	megadrive.GainInput()->Set(0.5);
+
+	auto& channel = megadrive.FmChannel(0);
+
+	channel.GateInput()->Set(1.0);
+	channel.PitchInput()->Set(0);
+	channel.GainInput()->Set(1.0);
+	
+	channel.SetAlgorithm(Ym2612Algorithm::AlgorithmFour);
+	channel.CarrierTwo().GainInput()->Set(0.0);
+
+	channel.CarrierOne().GainInput()->Set(1.0);
+	channel.CarrierOne().RateInput()->Set(1.0);
+	channel.CarrierOne().Envelope().SustainInput()->Set(1.0);
+	
+	channel.ModulatorOne().GainInput()->Set(1.0);
+	channel.ModulatorOne().RateInput()->Set(4.0);
+	channel.ModulatorOne().Envelope().SustainInput()->Set(1.0);
+
+	WaveWriter waveWriter("FmTest.wav");
+
+	waveWriter.LeftInput()->Connect(megadrive.LeftOutput());
+	waveWriter.RightInput()->Connect(megadrive.RightOutput());
+	
+	ModuleRunner runner(&waveWriter);
+
+	runner.Run(static_cast<int>(duration * fs));
+	
+	waveWriter.Close();
+}
+
 int main()
 {
-	SpringYard();
+	GreenHill();
 
 	return 0;
 	

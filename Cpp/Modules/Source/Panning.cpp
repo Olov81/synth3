@@ -33,7 +33,9 @@ void Panning::Update()
 	auto input = _pInput->Read();
 	auto pan = std::max(std::min(_pPanInput->Read(), 1.0), -1.0);
 	auto adjustedPan = (pan + 1) / 2;
+	auto left = adjustedPan < 1 ? 1 : 1 - adjustedPan;
+	auto right = adjustedPan > 1 ? 1 : 1 + adjustedPan;
 	
-	_pLeftOutput->Write((1 - adjustedPan) * input);
-	_pRightOutput->Write(adjustedPan * input);
+	_pLeftOutput->Write(left * input);
+	_pRightOutput->Write(right * input);
 }

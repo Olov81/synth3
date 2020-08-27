@@ -54,11 +54,19 @@ DrumMachine::DrumMachine(size_t channels)
 		_channels.push_back(std::make_shared<Channel>());
 		_mixer.GetInputPort(n)->Connect(_channels.back()->Output());
 	}
+
+	_outputGain.GetInput()->Connect(_mixer.Output());
+	_outputGain.GetGainInput()->Set(1.0);
 }
 
 IOutputPort* DrumMachine::Output()
 {
-	return _mixer.Output();
+	return _outputGain.GetOutput();
+}
+
+IInputPort* DrumMachine::GainInput()
+{
+	return _outputGain.GetGainInput();
 }
 
 Channel& DrumMachine::GetChannel(size_t channel)

@@ -150,10 +150,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GreenHill.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\SpringYard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GreenHill.h" />
     <ClInclude Include="Source\SpringYard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

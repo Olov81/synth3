@@ -41,6 +41,7 @@
     <ClCompile Include="Source\VoiceManager.cpp" />
     <ClCompile Include="Source\Megadrive.cpp" />
     <ClCompile Include="Source\Panning.cpp" />
+    <ClCompile Include="Source\ControlSignalGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\BitCrusher.h" />
@@ -87,5 +88,6 @@
     <ClInclude Include="Include\VoiceManager.h" />
     <ClInclude Include="Include\Megadrive.h" />
     <ClInclude Include="Include\Panning.h" />
+    <ClInclude Include="Include\ControlSignalGenerator.h" />
   </ItemGroup>
 </Project>

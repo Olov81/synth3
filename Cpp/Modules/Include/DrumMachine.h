@@ -1,5 +1,6 @@
 #pragma once
 #include "FlankDetector.h"
+#include "Gain.h"
 #include "SoundFileRead.h"
 #include "Sum.h"
 #include "Framework/Module.h"
@@ -43,6 +44,8 @@ public:
 	
 	IOutputPort* Output();
 
+	IInputPort* GainInput();
+	
 	Channel& GetChannel(size_t channel);
 
 private:
@@ -50,4 +53,6 @@ private:
 	std::vector<std::shared_ptr<Channel>> _channels;
 
 	Sum _mixer;
+
+	Gain _outputGain;
 };

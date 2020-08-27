@@ -7,7 +7,7 @@
 #include "Ym2612Channel.h"
 #include "Framework/ModuleRunner.h"
 
-void ConfigureDrums(DrumMachine& dac, MidiDrumTrack& drumTrack)
+static void ConfigureDrums(DrumMachine& dac, MidiDrumTrack& drumTrack)
 {
 	auto& snare = dac.GetChannel(0);
 	snare.LoadSample("Samples/Sonic 1 Snare.wav");
@@ -29,7 +29,7 @@ void ConfigureDrums(DrumMachine& dac, MidiDrumTrack& drumTrack)
 	hihatTwo.GainInput()->Set(0.5);
 }
 
-void ConfigureBass(Ym2612Channel& channel, MidiTrack& track)
+static void ConfigureBass(Ym2612Channel& channel, MidiTrack& track)
 {
 	channel.SetAlgorithm(Ym2612Algorithm::AlgorithmZero);
 	
@@ -65,7 +65,7 @@ void ConfigureBass(Ym2612Channel& channel, MidiTrack& track)
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.03);
 }
 
-void ConfigureBrass(Ym2612Channel& channel, MidiTrack& track, double detune, double pan)
+static void ConfigureBrass(Ym2612Channel& channel, MidiTrack& track, double detune, double pan)
 {
 	track.SetTranspose(0);
 
@@ -105,7 +105,7 @@ void ConfigureBrass(Ym2612Channel& channel, MidiTrack& track, double detune, dou
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.1);
 }
 
-void ConfigureMelody(Ym2612Channel& channel, MidiTrack& track)
+static void ConfigureMelody(Ym2612Channel& channel, MidiTrack& track)
 {
 	track.SetTranspose(0);
 
@@ -147,7 +147,7 @@ void ConfigureMelody(Ym2612Channel& channel, MidiTrack& track)
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.05);
 }
 
-void ConfigureIntro(Ym2612Channel& channel, MidiTrack& track, double detune, double pan)
+static void ConfigureIntro(Ym2612Channel& channel, MidiTrack& track, double detune, double pan)
 {
 	track.SetTranspose(12);
 
@@ -191,7 +191,7 @@ void ConfigureIntro(Ym2612Channel& channel, MidiTrack& track, double detune, dou
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(1e-3);
 }
 
-void ConfigureBell(Ym2612Channel& channel, MidiTrack& track)
+static void ConfigureBell(Ym2612Channel& channel, MidiTrack& track)
 {
 	track.SetTranspose(0);
 
@@ -230,7 +230,7 @@ void ConfigureBell(Ym2612Channel& channel, MidiTrack& track)
 	channel.CarrierTwo().Envelope().ReleaseInput()->Set(0.2);
 }
 
-void ConfigureStabs(Ym2612Channel& channel, MidiTrack& track)
+static void ConfigureStabs(Ym2612Channel& channel, MidiTrack& track)
 {
 	track.SetTranspose(0);
 

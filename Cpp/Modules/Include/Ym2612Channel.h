@@ -10,7 +10,8 @@ enum class Ym2612Algorithm
 	AlgorithmZero,
 	AlgorithmTwo,
 	AlgorithmFour,
-	AlgorithmFive
+	AlgorithmFive,
+	AlgorithmSix
 };
 
 
@@ -43,7 +44,7 @@ public:
 	IFmOperatorControl& ModulatorTwo();
 	ILfoControl& Vibrato();
 	IEnvelopeGeneratorControl& PitchEnvelope();
-	
+
 	void SetAlgorithm(Ym2612Algorithm algorithm);
 	
 private:
@@ -65,6 +66,7 @@ private:
 	void SetAlgorithmOne();
 	void SetAlgorithmTwo();
 	void SetAlgorithmFour();
+	void SetAlgorithmFive();
 	void SetAlgorithmSix();
 };
 

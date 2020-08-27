@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Include\BitCrusher.h" />
     <ClInclude Include="Include\ContinuousFilterFactory.h" />
+    <ClInclude Include="Include\ControlSignalGenerator.h" />
     <ClInclude Include="Include\Decimator.h" />
     <ClInclude Include="Include\DrumMachine.h" />
     <ClInclude Include="Include\EnvelopeFollower.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Include\Ym2612Channel.h" />
     <ClInclude Include="Include\ZeroCrossingDetector.h" />
     <ClCompile Include="Source\BitCrusher.cpp" />
+    <ClCompile Include="Source\ControlSignalGenerator.cpp" />
     <ClCompile Include="Source\Decimator.cpp" />
     <ClCompile Include="Source\DrumMachine.cpp" />
     <ClCompile Include="Source\EnvelopeFollower.cpp" />
