@@ -14,8 +14,6 @@ TEST_IGNORE(GenerateFrequencies)
 		SequencerEvent("A4", 1.0 / 4, 1.0 / 4, 1.0),
 		SequencerEvent("Fb4", 1.0, 1.0 / 2, 0.7)
 		});
-	sequencer.EnablePortamento(false);
-
 	SignalSink frequencies;
 
 	frequencies.GetInput()->Connect(sequencer.PitchOutput());

@@ -7,7 +7,7 @@ public:
 
 	LinearTableFunctionProvider(std::vector<LinearFunction> table);
 
-	LinearFunction GetFunction(const double& omega) const override;
+	const LinearFunction& GetFunction(const double& omega) const override;
 
 private:
 

@@ -6,7 +6,7 @@ LinearTableFunctionProvider::LinearTableFunctionProvider(std::vector<LinearFunct
 {
 }
 
-LinearFunction LinearTableFunctionProvider::GetFunction(const double& omega) const
+const LinearFunction& LinearTableFunctionProvider::GetFunction(const double& omega) const
 {
 	for (size_t index = 0; index < _table.size() - 1; ++index)
 	{

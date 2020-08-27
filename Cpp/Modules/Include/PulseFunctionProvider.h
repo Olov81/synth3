@@ -7,7 +7,7 @@ public:
 
 	explicit PulseFunctionProvider();
 
-	LinearFunction GetFunction(const double& omega) const override;
+	const LinearFunction& GetFunction(const double& omega) const override;
 
 	void SetPulseWidth(const double& pulseWidth);
 

@@ -150,7 +150,7 @@ void ScrapBrain()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 54;
+	static const double duration = 10;
 
 	MidiFilePlayer midiFilePlayer("ScrapBrain.mid", ts);
 	auto trackOne = midiFilePlayer.CreateTrack(1);
@@ -388,7 +388,7 @@ void TestFm()
 
 int main()
 {
-	ScrapBrain();
+	GreenHill();
 
 	return 0;
 	
@@ -398,12 +398,25 @@ int main()
 
 	WaveWriter waveWriter("Apa.wav");
 
-	MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
-	generatorTwo.DetuneInput()->Set(0.03);
+	//LinearTableFunctionProvider functionProvider(Waveforms::Square());
+	//SyncFunctionProvider syncFunctionProvider(&functionProvider);
+	//WaveformGenerator generator(&syncFunctionProvider);
+	//WaveformGeneratorModule generatorTwo(&generator);
+	//syncFunctionProvider.SetFrequencyMultiplier(1.8);
+	//MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
+	//generatorTwo.DetuneInput()->Set(0.03);
 
+	//MultiOscillator generatorTwo(1, Waveforms::Square(), 12);
+	
 	//PulseGenerator generatorTwo;
-	//generatorTwo.PulseWidthInput()->Set(0.1);
+	//generatorTwo.PulseWidthInput()->Set(0.5);
 
+	//PulseGenerator generatorOne;
+	//generatorTwo.FrequencyMultiplierInput()->Set(5.0 / 3);
+
+	LinearTableFunctionProvider functionProvider(Waveforms::CustomOne());
+	//SyncWaveformGenerator generatorTwo(&functionProvider);
+	
 	Gain outputLevel;
 	outputLevel.GetGainInput()->Set(0.2);
 
@@ -464,8 +477,8 @@ int main()
 
 	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
 	//generatorTwo.PulseWidthInput()->Set(0.9);
-	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
-	vcoGain.GetInput()->Connect(generatorTwo.Output());
+	//generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
+	//vcoGain.GetInput()->Connect(generatorTwo.Output());
 
 	vcf.GetInput()->Connect(vcoGain.GetOutput());
 	vcf.GetFrequencyInput()->Connect(filterFrequencyMixer.Output());

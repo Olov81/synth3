@@ -6,7 +6,7 @@ PulseFunctionProvider::PulseFunctionProvider()
 {
 }
 
-LinearFunction PulseFunctionProvider::GetFunction(const double& omega) const
+const LinearFunction& PulseFunctionProvider::GetFunction(const double& omega) const
 {
 	return omega < _low.omega ? _high : _low;
 }
