@@ -5,10 +5,12 @@
 MidiTrackBase::MidiTrackBase(
 	const double ts,
 	smf::MidiEventList eventList,
-	double tempoScale)
+	double tempoScale,
+	double startTime)
 	:_ts(ts)
 	, _eventList(std::move(eventList))
 	, _tempoScale(tempoScale)
+	,_t(startTime)
 {
 }
 
@@ -56,8 +58,9 @@ MidiTrack::MidiTrack(
 	double ts,
 	smf::MidiEventList eventList,
 	double tempoScale,
+	double startTime,
 	size_t polyphony)
-: MidiTrackBase(ts, eventList, tempoScale)
+: MidiTrackBase(ts, eventList, tempoScale, startTime)
 , _voices(CreateVoices(polyphony))
 , _voiceManager(_voices)
 {
@@ -100,8 +103,9 @@ void MidiTrack::OnEvent(const smf::MidiEvent& midiEvent)
 MidiDrumTrack::MidiDrumTrack(
 	const double ts,
 	smf::MidiEventList eventList,
-	double tempoScale)
-	: MidiTrackBase(ts, eventList, tempoScale)
+	double tempoScale,
+	double startTime)
+	: MidiTrackBase(ts, eventList, tempoScale, startTime)
 {
 }
 
@@ -127,20 +131,21 @@ IOutputPort* MidiDrumTrack::GetGateOutput(int note)
 	return _noteMap[note];
 }
 
-MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts, double tempoScale)
+MidiFilePlayer::MidiFilePlayer(const std::string& fileName, double ts, double tempoScale, double startTime)
 	: _midiFile(fileName)
 	, _ts(ts)
 	,_tempoScale(tempoScale)
+	,_startTime(startTime)
 {
 	_midiFile.doTimeAnalysis();
 }
 
 MidiTrack MidiFilePlayer::CreateTrack(int track, size_t polyphony)
 {
-	return MidiTrack(_ts, _midiFile[track], _tempoScale, polyphony);
+	return MidiTrack(_ts, _midiFile[track], _tempoScale, _startTime, polyphony);
 }
 
 MidiDrumTrack MidiFilePlayer::CreateDrumTrack(int track)
 {
-	return MidiDrumTrack(_ts, _midiFile[track], _tempoScale);
+	return MidiDrumTrack(_ts, _midiFile[track], _tempoScale, _startTime);
 }

@@ -9,7 +9,7 @@ class MidiTrackBase : public Module
 {
 public:
 
-	MidiTrackBase(double ts, smf::MidiEventList eventList, double tempoScale);
+	MidiTrackBase(double ts, smf::MidiEventList eventList, double tempoScale, double startTime);
 	
 	void Update() override;
 	
@@ -33,7 +33,7 @@ class MidiTrack : public MidiTrackBase
 public:
 
 
-	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale, size_t polyphony);
+	MidiTrack(double ts, smf::MidiEventList eventList, double tempoScale, double startTime, size_t polyphony);
 
 	Voice& GetVoice(size_t index);
 
@@ -56,7 +56,7 @@ class MidiDrumTrack : public MidiTrackBase
 {
 public:
 
-	MidiDrumTrack(double ts, smf::MidiEventList eventList, double tempoScale);
+	MidiDrumTrack(double ts, smf::MidiEventList eventList, double tempoScale, double startTime);
 
 	IOutputPort* GetGateOutput(int note);
 	
@@ -72,7 +72,7 @@ class MidiFilePlayer
 {
 public:
 
-	MidiFilePlayer(const std::string& fileName, double ts, double tempoScale = 1.0);
+	MidiFilePlayer(const std::string& fileName, double ts, double tempoScale = 1.0, double startTime = 0.0);
 
 	MidiTrack CreateTrack(int track, size_t polyphony = 1);
 
@@ -82,5 +82,6 @@ private:
 	
 	smf::MidiFile _midiFile;	
 	double _ts;
-	double _tempoScale = 1.0;
+	double _tempoScale;
+	double _startTime;
 };

@@ -6,7 +6,7 @@ class WaveWriter : public Module
 {
 public:
 
-	WaveWriter(const char* fileName);
+	WaveWriter(const char* fileName, int rate = 44100);
 
 	void Update() override;
 

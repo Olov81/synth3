@@ -1,16 +1,17 @@
 #include "WaveWriter.h"
 
 
-SoundHeader& SetupHeader(SoundHeader& header)
+SoundHeader& SetupHeader(SoundHeader& header, int rate)
 {
 	header.setHighStereo();
+	header.setSrate(rate);
 	return header;
 }
 
-WaveWriter::WaveWriter(const char* fileName)
+WaveWriter::WaveWriter(const char* fileName, int rate)
 	: _pLeftInput(CreateInputPort())
 	,_pRightInput(CreateInputPort())
-	,_soundFileWrite(fileName, SetupHeader(_header))
+	,_soundFileWrite(fileName, SetupHeader(_header, rate))
 {
 }
 
