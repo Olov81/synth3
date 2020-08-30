@@ -388,7 +388,7 @@ void TestFm()
 
 int main()
 {
-	GreenHill();
+	SpringYard();
 
 	return 0;
 	
