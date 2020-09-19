@@ -10,6 +10,7 @@
 #include "SignalSink.h"
 #include "EnvelopeGenerator.h"
 #include "FmOperator.h"
+#include "HydroCity.h"
 #include "MidiFilePlayer.h"
 #include "Sum.h"
 #include "MoogFilter.h"
@@ -150,7 +151,7 @@ void ScrapBrain()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 10;
+	static const double duration = 55;
 
 	MidiFilePlayer midiFilePlayer("ScrapBrain.mid", ts);
 	auto trackOne = midiFilePlayer.CreateTrack(1);
@@ -170,6 +171,7 @@ void ScrapBrain()
 	psg.ChannelOne().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelOne().Envelope().SustainInput()->Set(0.4);
 	psg.ChannelOne().Envelope().ReleaseInput()->Set(0.02);
+	psg.ChannelOne().Envelope().VelocitySensitivity()->Set(1.0);
 
 	psg.ChannelTwo().PitchInput()->Connect(trackTwo.GetVoice(0).PitchOutput());
 	psg.ChannelTwo().GateInput()->Connect(trackTwo.GetVoice(0).GateOutput());
@@ -180,6 +182,7 @@ void ScrapBrain()
 	psg.ChannelTwo().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelTwo().Envelope().SustainInput()->Set(0.3);
 	psg.ChannelTwo().Envelope().ReleaseInput()->Set(0.04);
+	psg.ChannelTwo().Envelope().VelocitySensitivity()->Set(1.0);
 
 	psg.ChannelThree().PitchInput()->Connect(trackThree.GetVoice(0).PitchOutput());
 	psg.ChannelThree().GateInput()->Connect(trackThree.GetVoice(0).GateOutput());
@@ -191,6 +194,7 @@ void ScrapBrain()
 	psg.ChannelThree().Envelope().DecayInput()->Set(0.1);
 	psg.ChannelThree().Envelope().SustainInput()->Set(0.5);
 	psg.ChannelThree().Envelope().ReleaseInput()->Set(0.02);
+	psg.ChannelThree().Envelope().VelocitySensitivity()->Set(0.9);
 
 	psg.ChannelFour().GateInput()->Connect(trackFour.GetVoice(0).GateOutput());
 	psg.ChannelFour().Envelope().AttackInput()->Set(0.001);
@@ -388,7 +392,7 @@ void TestFm()
 
 int main()
 {
-	SpringYard();
+	HydroCity();
 
 	return 0;
 	

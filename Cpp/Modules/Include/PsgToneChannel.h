@@ -29,7 +29,6 @@ private:
 	EnvelopeGenerator _envelope;
 	Lfo _vibrato;
 	MultiOscillator _oscillator;
-	Gain _velocity;
 	Gain _amplifier;
 	Gain _volume;
 	Gain _vibratoGain;

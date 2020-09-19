@@ -19,10 +19,7 @@ PsgToneChannel::PsgToneChannel(double fs, std::vector<LinearFunction> waveform, 
 	_amplifier.GetInput()->Connect(_oscillator.Output());
 	_amplifier.GetGainInput()->Connect(_envelope.Output());
 
-	_velocity.GetInput()->Connect(_amplifier.GetOutput());
-	_velocity.GetGainInput()->Connect(_gate.GetOutput());
-
-	_volume.GetInput()->Connect(_velocity.GetOutput());
+	_volume.GetInput()->Connect(_amplifier.GetOutput());
 	_volume.GetGainInput()->Set(1.0);
 
 	_decimator.GetInput()->Connect(_volume.GetOutput());

@@ -13,6 +13,7 @@ public:
 	virtual IInputPort* SustainInput() const = 0;
 	virtual IInputPort* ReleaseInput() const = 0;
 	virtual IInputPort* GainInput() const = 0;
+	virtual IInputPort* VelocitySensitivity() const = 0;
 };
 
 class EnvelopeGenerator : public Source, public IEnvelopeGeneratorControl
@@ -34,6 +35,8 @@ public:
 	IInputPort* ReleaseInput() const override;
 
 	IInputPort* GainInput()  const override;
+
+	IInputPort* VelocitySensitivity() const override;
 	
 private:
 
@@ -44,8 +47,9 @@ private:
 	IInputPort* _pSustainInput;
 	IInputPort* _pReleaseInput;
 	IInputPort* _pGainInput;
+	IInputPort* _pVelocitySensitivityInput;
+	
 	double _ts;
-	double _velocitySensitivity;
 	double _velocity = 0.0;
 	double _output;
 	typedef double(EnvelopeGenerator::* Phase)();

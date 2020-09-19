@@ -36,12 +36,12 @@ static void ConfigureBass(Ym2612Channel& channel, MidiTrack& track)
 	
 	channel.GateInput()->Connect(track.GetVoice(0).GateOutput());
 	channel.PitchInput()->Connect(track.GetVoice(0).PitchOutput());
-	channel.GainInput()->Set(1.0);
+	channel.GainInput()->Set(1.1);
 
 	channel.ModulatorOne().GainInput()->Set(0.08);
 	channel.ModulatorOne().RateInput()->Set(7.0);
 	channel.ModulatorOne().Envelope().DecayInput()->Set(0.2);
-	channel.ModulatorOne().Envelope().SustainInput()->Set(0.05);
+	channel.ModulatorOne().Envelope().SustainInput()->Set(0.2);
 	channel.ModulatorOne().Envelope().AttackInput()->Set(1e-3);
 
 	channel.CarrierOne().GainInput()->Set(0.35);
@@ -203,14 +203,14 @@ static void ConfigureBell(Ym2612Channel& channel, MidiTrack& track)
 
 	channel.ModulatorOneFeedbackInput()->Set(0.0);
 	channel.ModulatorOne().GainInput()->Set(0.5);
-	channel.ModulatorOne().RateInput()->Set(7.0);
+	channel.ModulatorOne().RateInput()->Set(7.0 * 1.003);
 	channel.ModulatorOne().Envelope().DecayInput()->Set(0.3);
 	channel.ModulatorOne().Envelope().SustainInput()->Set(0.3);
 	channel.ModulatorOne().Envelope().AttackInput()->Set(1e-3);
 	channel.ModulatorOne().Envelope().ReleaseInput()->Set(1.0);
 
 	channel.CarrierOne().GainInput()->Set(1.0);
-	channel.CarrierOne().RateInput()->Set(2.005);
+	channel.CarrierOne().RateInput()->Set(2 * 1.003);
 	channel.CarrierOne().Envelope().SustainInput()->Set(1.0);
 	channel.CarrierOne().Envelope().DecayInput()->Set(1.0);
 	channel.CarrierOne().Envelope().AttackInput()->Set(1e-3);
@@ -286,7 +286,7 @@ void SpringYard()
 	static const double ts = 1.0 / fs;
 	static const double duration = 45;
 
-	MidiFilePlayer midiFilePlayer("SpringYard.mid", ts, 1.0, 2.0);
+	MidiFilePlayer midiFilePlayer("SpringYard.mid", ts, 1.0, 2);
 	auto bassTrack = midiFilePlayer.CreateTrack(8);
 	auto brassTrack = midiFilePlayer.CreateTrack(5);
 	auto melodyTrack = midiFilePlayer.CreateTrack(2);
