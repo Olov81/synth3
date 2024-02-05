@@ -119,6 +119,13 @@ Sequencer::EventList Reflex()
 	};
 }
 
+Sequencer::EventList SingleNote()
+{
+	return {
+		Event("A4", 1.0)
+	};
+}
+
 Sequencer::EventList Metronome()
 {
 	static const size_t BEATS = 30;
@@ -139,90 +146,122 @@ int main()
 {
 	static const double fs = 44100;
 	static const double ts = 1 / fs;
-	static const double duration = 10;
+	static const double duration = 1;
 
 	WaveWriter waveWriter("Apa.wav");
 
-	MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
-	generatorTwo.DetuneInput()->Set(0.03);
+	//LinearTableFunctionProvider functionProvider(Waveforms::Square());
+	//SyncFunctionProvider syncFunctionProvider(&functionProvider);
+	//WaveformGenerator generator(&syncFunctionProvider);
+	//WaveformGeneratorModule generatorTwo(&generator);
+	//syncFunctionProvider.SetFrequencyMultiplier(1.8);
+	//MultiOscillator generatorTwo(2, Waveforms::CustomOne(),12);
+	//generatorTwo.DetuneInput()->Set(0.03);
 
-	//PulseGenerator generatorTwo;
-	//generatorTwo.PulseWidthInput()->Set(0.1);
-
-	Gain outputLevel;
-	outputLevel.GetGainInput()->Set(0.2);
-
-	Sequencer metronome(ts, 130, Metronome(), 0);
-	Sequencer sequencer(ts, 112, Reflex(), 0);
-
-	Gain vcoGain;
+	//MultiOscillator generatorTwo(1, Waveforms::Sawtooth(), 12);
+	
+	// PulseGenerator generatorTwo;
+	// //generatorTwo.PulseWidthInput()->Set(0.5);
+	//
+	// //PulseGenerator generatorOne;
+	// //generatorTwo.FrequencyMultiplierInput()->Set(5.0 / 3);
+	//
+	// LinearTableFunctionProvider functionProvider(Waveforms::CustomOne());
+	// //SyncWaveformGenerator generatorTwo(&functionProvider);
+	//
+	// Gain outputLevel;
+	// outputLevel.GetGainInput()->Set(0.2);
+	//
+	// Sequencer metronome(ts, 130, Metronome(), 0);
+	// Sequencer sequencer(ts, 112, LarsJansson(), -12);
+	//
+	// Gain vcoGain;
 	Gain vca;
-	Gain metronomeGain;
-	MoogFilter vcf;
-	Gain filterEnvelopeAmount;
-	Gain pitchEnvelopeAmount;
-	Sum filterFrequencyMixer(2);
-	Sum mixer(2);
-	EnvelopeGenerator filterEnvelope(ts);
-	EnvelopeGenerator amplitudeEnvelope(ts);
-	Lfo lfo(fs);
-	Lfo pwm(fs);
-	Sum generatorTwoFrequency(2);
+	// Gain metronomeGain;
+	// MoogFilter vcf;
+	// Gain filterEnvelopeAmount;
+	// Gain pitchEnvelopeAmount;
+	// Sum filterFrequencyMixer(2);
+	// Sum mixer(2);
+	// EnvelopeGenerator filterEnvelope(ts);
+	// EnvelopeGenerator amplitudeEnvelope(ts);
+	// Lfo lfo(fs);
+	// Lfo pwm(fs);
+	// Sum generatorTwoPitch(2);
+	//
+	// vcoGain.GetGainInput()->Set(0.5);
+	// vcf.GetResonanceInput()->Set(0.1);
+	// vca.GetGainInput()->Connect(amplitudeEnvelope.Output());
+	//
+	// //generatorOne.PitchInput()->Connect(sequencer.PitchOutput());
+	//
+	// filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
+	// filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
+	// filterFrequencyMixer.GetInputPort(1)->Set(1.0);
+	//
+	// filterEnvelopeAmount.GetGainInput()->Set(0.2);
+	// pitchEnvelopeAmount.GetGainInput()->Set(0);
+	//
+	// lfo.AmplitudeInput()->Set(0.1);
+	// lfo.OffsetInput()->Set(0);
+	// lfo.FrequencyInput()->Set(8.0);
+	// lfo.DelayInput()->Set(0.4);
+	// lfo.GateInput()->Connect(sequencer.GateOutput());
+	//
+	// pwm.AmplitudeInput()->Set(2.4);
+	// pwm.OffsetInput()->Set(4);
+	// pwm.FrequencyInput()->Set(0.3);
+	//
+	// //pwm.AmplitudeInput()->Set(11);
+	// //pwm.OffsetInput()->Set(12);
+	// //pwm.FrequencyInput()->Set(1.0);
+	//
+	// amplitudeEnvelope.SustainInput()->Set(1.0);
+	// amplitudeEnvelope.ReleaseInput()->Set(0.1);
+	// amplitudeEnvelope.DecayInput()->Set(2.0);
+	// amplitudeEnvelope.AttackInput()->Set(0.01);
+	// amplitudeEnvelope.GateInput()->Connect(sequencer.GateOutput());
+	//
+	// filterEnvelope.SustainInput()->Set(0);
+	// filterEnvelope.ReleaseInput()->Set(5e-2);
+	// filterEnvelope.DecayInput()->Set(0.1);
+	// filterEnvelope.AttackInput()->Set(0.03);
+	// SignalSink logger;
+	//
+	// pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
+	//
+	// generatorTwoPitch.GetInputPort(0)->Connect(sequencer.PitchOutput());
+	// //generatorTwoPitch.GetInputPort(1)->Connect(pwm.Output());
+	//
+	// //generatorTwo.PhaseResetInput()->Connect(generatorOne.Output());
+	// generatorTwo.PitchInput()->Connect(sequencer.PitchOutput());
+	//
+	// //generatorTwo.FrequencyMultiplierInput()->Connect(pwm.Output());
+	// //generatorTwo.PulseWidthInput()->Connect(pwm.Output());
+	// //generatorTwo.PulseWidthInput()->Set(0.9);
+	// vcoGain.GetInput()->Connect(generatorTwo.Output());
+	//
+	// vcf.GetInput()->Connect(vcoGain.GetOutput());
+	// vcf.GetFrequencyInput()->Connect(filterFrequencyMixer.Output());
+	// mixer.GetInputPort(1)->Connect(vcf.GetOutput());
+	// filterEnvelope.GateInput()->Connect(sequencer.GateOutput());
+	//
+	// vca.GetInput()->Connect(mixer.Output());
+	// outputLevel.GetInput()->Connect(vca.GetOutput());
 
-	vcoGain.GetGainInput()->Set(0.5);
-	vcf.GetResonanceInput()->Set(0.1);
-	vca.GetGainInput()->Connect(amplitudeEnvelope.Output());
 
-	filterEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
-	filterFrequencyMixer.GetInputPort(0)->Connect(filterEnvelopeAmount.GetOutput());
-	filterFrequencyMixer.GetInputPort(1)->Set(0.3);
+	LinearTableFunctionProvider sawProvider(Waveforms::Sawtooth());
+	WaveformGenerator sawGenerator(&sawProvider);
+	WaveformGeneratorModule testGenerator(&sawGenerator);
+	testGenerator.FrequencyInput()->Set(880);
 
-	filterEnvelopeAmount.GetGainInput()->Set(0.2);
-	pitchEnvelopeAmount.GetGainInput()->Set(0);
+	vca.GetInput()->Connect(testGenerator.Output());
+	vca.GetGainInput()->Set(0.1);
+	
+	waveWriter.LeftInput()->Connect(vca.GetOutput());
+	waveWriter.RightInput()->Connect(vca.GetOutput());
 
-	lfo.AmplitudeInput()->Set(0.1);
-	lfo.OffsetInput()->Set(0);
-	lfo.FrequencyInput()->Set(8.0);
-	lfo.DelayInput()->Set(0.4);
-	lfo.GateInput()->Connect(sequencer.GateOutput());
-
-	pwm.AmplitudeInput()->Set(0.45);
-	pwm.OffsetInput()->Set(0.5);
-	pwm.FrequencyInput()->Set(0.2);
-
-	amplitudeEnvelope.SustainInput()->Set(0.0);
-	amplitudeEnvelope.ReleaseInput()->Set(0.1);
-	amplitudeEnvelope.DecayInput()->Set(2.0);
-	amplitudeEnvelope.AttackInput()->Set(0.01);
-	amplitudeEnvelope.GateInput()->Connect(sequencer.GateOutput());
-
-	filterEnvelope.SustainInput()->Set(0);
-	filterEnvelope.ReleaseInput()->Set(5e-2);
-	filterEnvelope.DecayInput()->Set(0.1);
-	filterEnvelope.AttackInput()->Set(0.03);
-	SignalSink logger;
-
-	pitchEnvelopeAmount.GetInput()->Connect(filterEnvelope.Output());
-
-	generatorTwoFrequency.GetInputPort(0)->Connect(sequencer.PitchOutput());
-	generatorTwoFrequency.GetInputPort(1)->Connect(lfo.Output());
-
-	//generatorTwo.PulseWidthInput()->Connect(pwm.Output());
-	//generatorTwo.PulseWidthInput()->Set(0.9);
-	generatorTwo.PitchInput()->Connect(generatorTwoFrequency.Output());
-	vcoGain.GetInput()->Connect(generatorTwo.Output());
-
-	vcf.GetInput()->Connect(vcoGain.GetOutput());
-	vcf.GetFrequencyInput()->Connect(filterFrequencyMixer.Output());
-	mixer.GetInputPort(1)->Connect(vcf.GetOutput());
-	filterEnvelope.GateInput()->Connect(sequencer.GateOutput());
-
-	vca.GetInput()->Connect(mixer.Output());
-	outputLevel.GetInput()->Connect(vca.GetOutput());
-	waveWriter.LeftInput()->Connect(outputLevel.GetOutput());
-	waveWriter.RightInput()->Connect(outputLevel.GetOutput());
-
-	logger.GetInput()->Connect(sequencer.GateOutput());
+	//logger.GetInput()->Connect(sequencer.GateOutput());
 
 	ModuleRunner runner(&waveWriter);
 
@@ -232,7 +271,7 @@ int main()
 
 	waveWriter.Close();
 	
-	logger.WriteCsv("Log.csv");
+	//logger.WriteCsv("Log.csv");
 
 	std::cout << "Performance: " << duration/runTime << " x faster than real time" << std::endl;
 }

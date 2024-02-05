@@ -1,0 +1,10 @@
+@@ -0,0 +1,4 @@
+**/Debug
+**/Release
+**/DebugExe
+**/DebugLib
+**/ReleaseLib
+.idea/
+**/.vs
+*.vcxproj\.user
+No newline at end of file
